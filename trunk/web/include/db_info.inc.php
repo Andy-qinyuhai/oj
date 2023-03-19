@@ -3,25 +3,27 @@
 //error_reporting(E_ALL);
 //header('X-Frame-Options:SAMEORIGIN');
 //for people using hustoj out of China , be careful of the last two line of this file !
+
+date_default_timezone_set('Asia/Shanghai');//'Asia/Shanghai' 亚洲/上海
 // 本文件是系统配置文件，全局包含，修改时请慎重保存，千万不要少分号，少引号，出现语法错误可导致全站无法打开。若遇到此种情况，可以备份后删除本文件，用/home/judge/src/install/fixing.sh脚本修复生成。
 // connect db 
 static 	$DB_HOST="localhost";  //数据库服务器ip或域名
 static 	$DB_NAME="jol";   //数据库名
-static 	$DB_USER="root";  //数据库账户
-static 	$DB_PASS="root";  //数据库密码
+static 	$DB_USER="";  //数据库账户
+static 	$DB_PASS="";  //数据库密码
 
-static 	$OJ_NAME="HUSTOJ";  //左上角显示的系统名称
+static 	$OJ_NAME="";  //左上角显示的系统名称
 static 	$OJ_HOME="./";    //主页目录
-static 	$OJ_ADMIN="root@localhost";  //管理员email
+static 	$OJ_ADMIN="";  //管理员email
 static 	$OJ_DATA="/home/judge/data";  //测试数据目录
 static 	$OJ_BBS=false; //设为"discuss3" 启用， "bbs" for phpBB3 bridge or "discuss" for mini-forum or false for close any 
-static  $OJ_ONLINE=false;  //是否记录在线情况
+static  $OJ_ONLINE=true;  //是否记录在线情况
 static  $OJ_LANG="en";  //默认语言
 static  $OJ_SIM=false;  //显示相似度，注意只是显示，启动检测的开关在judge.conf，且自己抄自己不计为抄袭
 static  $OJ_DICT=false; //显示在线翻译
 static  $OJ_LANGMASK=4194224; //TIOBE index top 10, calculator :   https://pigeon-developer.github.io/hustoj-langmask/   -524288 to get matlab(octave)
 static  $OJ_ACE_EDITOR=true;  // 是否启用有高亮提示的提交代码输入框
-static  $OJ_AUTO_SHARE=false; //true: One can view all AC submit if he/she has ACed it once.
+static  $OJ_AUTO_SHARE=true; //true: One can view all AC submit if he/she has ACed it once.
 static  $OJ_CSS="white.css";  // bing.css kawai.css black.css blue.css green.css hznu.css
 static  $OJ_SAE=false; //using sina application engine
 static  $OJ_VCODE=false;  //验证码
@@ -51,25 +53,25 @@ static  $OJ_LOGIN_MOD="hustoj";
 static  $OJ_REGISTER=true; //允许注册新用户
 static  $OJ_REG_NEED_CONFIRM=false; //新注册用户需要审核
 static  $OJ_NEED_LOGIN=false; //需要登录才能访问
-static  $OJ_LONG_LOGIN=false; //启用长时间登录信息保留
-static  $OJ_KEEP_TIME="30";  //登录Cookie有效时间(单位:天(day),仅在上一行为true时生效)
+static  $OJ_LONG_LOGIN=true; //启用长时间登录信息保留
+static  $OJ_KEEP_TIME=3;  //登录Cookie有效时间(单位:天(day),仅在上一行为true时生效)
 static  $OJ_RANK_LOCK_PERCENT=0; //比赛封榜时间比例
 static  $OJ_SHOW_DIFF=true; //是否显示WA的对比说明
 static  $OJ_DOWNLOAD=false; //是否允许下载WA的测试数据
-static  $OJ_TEST_RUN=false; //提交界面是否允许测试运行
+static  $OJ_TEST_RUN=true; //提交界面是否允许测试运行
 static  $OJ_MATHJAX=true;  // 激活mathjax
 static  $OJ_BLOCKLY=false; //是否启用Blockly界面 , remember to execute `wget http://dl.hustoj.com/blockly.tar.gz; tar xzf blockly.tar.gz` in /home/judge/src/web
 static  $OJ_ENCODE_SUBMIT=false; //是否启用base64编码提交的功能，用来回避WAF防火墙误拦截。
 static  $OJ_OI_1_SOLUTION_ONLY=false; //比赛是否采用noip中的仅保留最后一次提交的规则。true则在新提交发生时，将本场比赛该题老的提交删除。
-static  $OJ_OI_MODE=false; //是否开启OI比赛模式，禁用排名、状态、统计、用户信息、内邮、论坛等。
+static  $OJ_OI_MODE=true; //是否开启OI比赛模式，禁用排名、状态、统计、用户信息、内邮、论坛等。
 static  $OJ_SHOW_METAL=true; //榜单上是否按比例显示奖牌
 static  $OJ_RANK_LOCK_DELAY=3600; //赛后封榜持续时间，单位秒。根据实际情况调整，在闭幕式颁奖结束后设为0即可立即解封。
 static  $OJ_BENCHMARK_MODE=false; //此选项将影响代码提交，不再有提交间隔限制，提交后会返回solution id
 static  $OJ_CONTEST_RANK_FIX_HEADER=false; //比赛排名水平滚动时固定名单
-static  $OJ_NOIP_KEYWORD="noip";  // 标题包含此关键词，激活noip模式，赛中不显示结果，仅保留最后一次提交。
-static  $OJ_BEIAN=false;  // 如果有备案号，填写备案号
+static  $OJ_NOIP_KEYWORD="模拟";  // 标题包含此关键词，激活noip模式，赛中不显示结果，仅保留最后一次提交。
+static  $OJ_BEIAN="";  // 如果有备案号，填写备案号,没有填false
 static  $OJ_RANK_HIDDEN="'admin','zhblue'";  // 管理员不显示在排名中
-static  $OJ_FRIENDLY_LEVEL=0; //系统友好级别，暂定0-9级，级别越高越傻瓜，系统易用度高的同时将降低安全性，仅供非专业用途，造成泄题、抄袭概不负责。
+static  $OJ_FRIENDLY_LEVEL=1; //系统友好级别，暂定0-9级，级别越高越傻瓜，系统易用度高的同时将降低安全性，仅供非专业用途，造成泄题、抄袭概不负责。
 static  $OJ_FREE_PRACTICE=false; //自由练习，不受比赛作业用题限制
 static  $OJ_SUBMIT_COOLDOWN_TIME=1; //提交冷却时间，连续两次提交的最小间隔，单位秒。
 static  $OJ_MARKDOWN=false; // 开启MARKDOWN，开启后在后台编辑题目时默认为源码模式，用[md] # Markdown [/md] 格式插入markdown代码, 如果需要用到[]也可以用<div class='md'> </div>。

@@ -12,6 +12,21 @@ if (!isset($_GET['id'])){
 	require("template/".$OJ_TEMPLATE."/error.php");
 	exit(0);
 }
+if(isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD && !isset($_SESSION[$OJ_NAME.'_'.'source_browser']) && !isset($_SESSION[$OJ_NAME.'_'."administrator"])){
+		$now = strftime("%Y-%m-%d %H:%M",time());
+        	$sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
+		$row=pdo_query($sql);
+		$cols=$row[0];
+		//echo $sql;
+		//echo $cols[0];
+		if($cols[0]>0) {
+			
+		      $view_errors =  "<h2> $MSG_NOIP_WARNING </h2>";
+		      require("template/".$OJ_TEMPLATE."/error.php");
+		      exit(0);
+
+		}
+ }
 $ok=false;
 $id=intval($_GET['id']);
 $sql="SELECT * FROM `solution` WHERE `solution_id`=?";
@@ -54,7 +69,7 @@ if(!isset($_SESSION[$OJ_NAME."_source_browser"])){
 	// 检查是否使用中
 	$now = strftime("%Y-%m-%d %H:%M", time());
 	$sql="select contest_id from contest where contest_id in (select contest_id from contest_problem where problem_id=?) 
-								and start_time < '$now' and end_time > '$now' ";   // and title like '%$OJ_NOIP_KEYWORD%' 
+								and start_time < '$now' and end_time > '$now' ";
 	if($need_check_using){
 		//echo $sql;
 		$result=pdo_query($sql,$sproblem_id);

@@ -8,8 +8,8 @@
                 <table class="ui very basic table">
                     <thead>
                         <tr>
-                            <th><?php echo $MSG_TITLE;?></th>
-                            <th><?php echo $MSG_TIME;?></th>
+                            <th width="50%"><?php echo $MSG_TITLE;?></th>
+                            <th width="50%"><?php echo $MSG_TIME;?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,38 +28,20 @@
                     </tbody>
                 </table>
             </div>
-            <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo $OJ_INDEX_NEWS_TITLE;?></h4>
+			
+			<h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
-                <table class="ui very basic left aligned table" style="table-layout: fixed; ">
-                    <tbody>
-
-                        <?php
-                        $sql_news = "select * FROM `news` WHERE `defunct`!='Y' AND `title`='$OJ_INDEX_NEWS_TITLE' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
-                        $result_news = mysql_query_cache( $sql_news );
-                        if ( $result_news ) {
-                            foreach ( $result_news as $row ) {
-                                echo "<tr>"."<td>"
-                                    .bbcode_to_html($row["content"])."</td></tr>";
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="right floated five wide column">
-            <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
-            <div class="ui bottom attached segment">
-                <table class="ui very basic center aligned table">
+                <table class="ui very basic table">
                     <thead>
                         <tr>
-                            <th width="60%"><?php echo $MSG_TITLE;?></th>
-                            <th width="40%"><?php echo $MSG_TIME;?></th>
+                            <th width="50%"><?php echo $MSG_TITLE;?></th>
+                            <th width="50%"><?php echo $MSG_TIME;?></th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
-                        $sql_problems = "select * FROM `problem` where defunct='N' ORDER BY `problem_id` DESC LIMIT 5";
+                        $sql_problems = "select * FROM `problem` ORDER BY `problem_id` DESC LIMIT 5";
+                        //$sql_problems = "select * FROM `problem` where defunct='N' ORDER BY `problem_id` DESC LIMIT 5";
                         $result_problems = mysql_query_cache( $sql_problems );
                         if ( $result_problems ) {
                             $i = 1;
@@ -74,6 +56,65 @@
                     </tbody>
                 </table>
             </div>
+			
+			<h4 class="ui top attached block header"><i class="trophy icon"></i><?php echo $MSG_RECENT_CONTEST ;?></h4>
+            <div class="ui bottom attached center aligned segment">
+                <table class="ui very basic table">
+                    <thead>
+                        <tr>
+                            <th width="50%"><?php echo $MSG_CONTEST_NAME;?></th>
+                            <th width="50%"><?php echo $MSG_TIME;?></th>							
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $sql_contests = "select * FROM `contest` where defunct='N' ORDER BY `contest_id` DESC LIMIT 5";
+                        $result_contests = mysql_query_cache( $sql_contests );
+                        if ( $result_contests ) {
+                            $i = 1;
+                            foreach ( $result_contests as $row ) {
+								$start_time = strtotime($row['start_time']);
+		                        $end_time = strtotime($row['end_time']);
+		                        $now = time();
+								$length = $end_time-$start_time;
+		                        $left = $end_time-$now;
+								
+								if ($end_time<=$now) {
+			                      //past
+			                    echo "<tr>"."<td>"
+                                    ."<a href=\"contest.php?cid=".$row["contest_id"]."\">"
+                                    .$row["title"]."</a></td>"."<td>"
+								    ."<span class=text-muted>$MSG_Ended</span>"." "."<span class=text-muted>".$row['end_time']."</span>"
+									."</td>"."</tr>";
+                                  }
+                                else if ($now<$start_time) {
+			                     //pending
+			                    echo "<tr>"."<td>"
+                                    ."<a href=\"contest.php?cid=".$row["contest_id"]."\">"
+                                    .$row["title"]."</a></td>"."<td>"
+								    ."<span class=text-success>$MSG_Start</span>"." ".$row['start_time']."&nbsp;"
+			                        ."<span class=text-success>$MSG_TotalTime"." ".formatTimeLength($length)."</span>"
+									."</td>"."</tr>";
+		                        }
+		                        else {
+			                    //running
+			                    echo "<tr>"."<td>"
+                                    ."<a href=\"contest.php?cid=".$row["contest_id"]."\">"
+                                    .$row["title"]."</a></td>"."<td>"
+								    ."<span class=text-danger>$MSG_Running</span>"." ".$row['start_time']."&nbsp;"
+			                        ."<span class=text-danger>$MSG_LeftTime"." ".formatTimeLength($left)."</span>"
+									."</td>"."</tr>";
+                                }
+                            }
+                        }
+                    ?>
+                    </tbody>
+                </table>
+            </div>            
+			
+        </div>
+        <div class="right floated five wide column">            
+			
             <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH;?></h4>
             <div class="ui bottom attached segment">
                 <form action="problem.php" method="get">
@@ -86,32 +127,41 @@
                     </div>
                 </form>
             </div>
-            <h4 class="ui top attached block header"><i class="ui calendar icon"></i><?php echo $MSG_RECENT_CONTEST ;?></h4>
-            <div class="ui bottom attached center aligned segment">
-                <table class="ui very basic center aligned table">
+			<h4 class="ui top attached block header"><i class="ui signal icon"></i><?php echo $MSG_RANKLIST;?></h4>
+            <div class="ui bottom attached segment">
+                <table class="ui very basic table" style="table-layout: fixed; ">
                     <thead>
                         <tr>
-                            <th><?php echo $MSG_CONTEST_NAME;?></th>
-                            <th><?php echo $MSG_START_TIME;?></th>
+                            <th style="width: 50px; ">#</th>
+                            <th style="width: 170px; "><?php echo $MSG_USER_ID;?></th>
+                            <th><?php echo $MSG_SOVLED ;?></th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php
-                        $sql_contests = "select * FROM `contest` where defunct='N' ORDER BY `contest_id` DESC LIMIT 5";
-                        $result_contests = mysql_query_cache( $sql_contests );
-                        if ( $result_contests ) {
+
+                        <?php
+						if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
+		                     $now = strftime("%Y-%m-%d %H:%M",time());
+        	                 $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
+		                     $row=pdo_query($sql);
+		                     $cols=$row[0];	
+						}
+                        $sql_users = "select * FROM `users` where user_id not in (".$OJ_RANK_HIDDEN.") and defunct='N' ORDER BY `solved` DESC LIMIT 15";						
+                        if($cols[0]==0) $result_users = mysql_query_cache( $sql_users ); //NOIP赛制比赛时，排名暂时屏蔽
+                        if ( $result_users ) {
                             $i = 1;
-                            foreach ( $result_contests as $row ) {
-                                echo "<tr>"."<td>"
-                                    ."<a href=\"contest.php?cid=".$row["contest_id"]."\">"
-                                    .$row["title"]."</a></td>"
-                                    ."<td>".$row["start_time"]."</td>"."</tr>";
+                            foreach ( $result_users as $row ) {
+                                echo "<tr>"."<td>".$i++."</td>"."<td>"
+                                    ."<a href=\"userinfo.php?user=".$row["user_id"]."\">"
+                                    .$row["user_id"]."</a></td>"
+                                    ."<td>".$row["solved"]."</td>"."</tr>";
                             }
                         }
-                    ?>
+                        ?>
                     </tbody>
                 </table>
             </div>
+			
         </div>
     </div>
 </div>

@@ -5,11 +5,13 @@
         require_once('./include/db_info.inc.php');
 	require_once('./include/setlang.php');
 	require_once("./include/const.inc.php");
-	require_once("./include/my_func.inc.php");
-	if(isset($OJ_OI_MODE)&&$OJ_OI_MODE&&!isset($_SESSION[$OJ_NAME."_administrator"])){
+	require_once("./include/my_func.inc.php");	
+/*
+        if(isset($OJ_OI_MODE)&&$OJ_OI_MODE&&!isset($_SESSION[$OJ_NAME."_administrator"])){
 		header("location:index.php");
 		exit();
 	}
+*/
  // check user
 $user=$_GET['user'];
 if (!is_valid_user_name($user)){
@@ -18,10 +20,14 @@ if (!is_valid_user_name($user)){
 }
 
 //检查用户当前是否在参加NOIP模式比赛，如果是则不显示用户信息以防看到提交结果 2020.7.25
-$now = strftime("%Y-%m-%d %H:%M",time());
-$sql = "select 1 from `solution` where  `user_id`=? and  problem_id>0 and `contest_id` IN (select `contest_id` from `contest` where `start_time` < ? and `end_time` > ? and `title` like ?)";
-$rrs = pdo_query($sql, $user ,$now , $now , "%$OJ_NOIP_KEYWORD%");
-$flag = count($rrs) > 0 ;
+$flag = false;
+if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
+		$now = strftime("%Y-%m-%d %H:%M",time());
+        $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
+		$row=pdo_query($sql);
+		$cols=$row[0];
+}
+$flag = $cols[0]>0 ;
 if($flag&&!isset($_SESSION[$OJ_NAME.'_'.'administrator'])) // administrator need to view userinfo 
 {	
 	$view_errors =  "<h2> $MSG_NOIP_WARNING </h2>";

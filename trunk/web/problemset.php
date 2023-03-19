@@ -48,6 +48,21 @@ if ($page > $cnt+1 && ! isset($_SESSION[$OJ_NAME.'_administrator']) ) $page = $c
 $pstart = $page_cnt*intval($page)-$page_cnt+1; //start 1
 $pend = $pstart+$page_cnt;
 
+//all submit
+$sub_arr = Array(); // all submit
+$acc_arr = Array(); // all ac
+$issue_arr = Array(); //some issue
+if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
+	$sql = "SELECT `problem_id`,`result` FROM `solution` WHERE `user_id`=? ";
+	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
+
+	foreach ($result as $row){
+		$sub_arr[$row['problem_id']] = true;
+		if($row['result'] == 4) $acc_arr[$row['problem_id']] = true;
+		else if($row['result'] >4) $issue_arr[$row['problem_id']] = true;	
+	}
+		
+}
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$search = "%".($_GET['search'])."%";
 	$filter_sql = " ( title like ? or source like ?)";
@@ -66,29 +81,14 @@ if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$pend = 100;
 	//echo $filter_sql ;
 
-}else {
-	//$filter_sql = " `problem_id`>='".strval($pstart)."' AND `problem_id`<'".strval($pend)."' ";
+}else if(isset($_GET['my'])){
+	$pstart = 0;
+	$pend = 100;
 	$filter_sql = "A.ROWNUM >='" . strval($pstart) . "' AND A.ROWNUM < '". strval($pend) . "' ";
 }
-
-//all submit
-$sub_arr = Array();
-if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
-        $sql = "SELECT distinct `problem_id` FROM `solution` WHERE `user_id`=? ";
-        if(isset($pids)&&$pids!="") $sql.=" and problem_id in ($pids)";
-        $result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
-        foreach ($result as $row)
-                $sub_arr[$row[0]] = true;
-}
-
-//all ac
-$acc_arr=Array();
-if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])) {
-        $sql = "SELECT distinct `problem_id` FROM `solution` WHERE `user_id`=? AND `result`=4 ";
-        if(isset($pids)&&$pids!="") $sql.=" and problem_id in ($pids)";
-        $result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
-        foreach ($result as $row)
-                $acc_arr[$row[0]] = true;
+else {
+	//$filter_sql = " `problem_id`>='".strval($pstart)."' AND `problem_id`<'".strval($pend)."' ";
+	$filter_sql = "A.ROWNUM >='" . strval($pstart) . "' AND A.ROWNUM < '". strval($pend) . "' ";
 }
 
 // Problem Page Navigator
@@ -112,23 +112,44 @@ if ($OJ_FREE_PRACTICE){  // open free practice without limit of contest using
 
 	$sql = "SELECT * FROM (SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, `problem_id`,`title`,`source`,`submit`,`accepted`,defunct FROM (select * from `problem` order by problem_id) problem, (SELECT @ROWNUM := 0) TEMP ORDER BY `problem_id`) A WHERE $filter_sql";
 
-}else {  //page problems (not include in contests period)
+}
+else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ // show my unpass problem
 	$now = strftime("%Y-%m-%d %H:%M",time());
 	$sql = "SELECT * FROM (SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, `problem_id`,`title`,`source`,`submit`,`accepted`,defunct " .
 	"FROM (select * from `problem` WHERE `defunct`='N' order by problem_id) problem, (SELECT @ROWNUM := 0) TEMP " .
 	"WHERE `defunct`='N' AND `problem_id` NOT IN (
+		SELECT problem_id
+		FROM (contest c
+		        INNER JOIN `contest_problem` cp ON c.`contest_id` = cp.`contest_id` 
+				      AND (c.`end_time` >  '$now'  OR c.`private` =1))".  // original style , hidden all private contest problems
+        "UNION SELECT problem_id
+        FROM solution
+                    WHERE result = 4 AND user_id =?".	//hidden passed problem	 		
+	") ORDER BY `problem_id` ) A WHERE $filter_sql"; 
+}
+
+else {  //page problems (not include in contests period)
+	$now = strftime("%Y-%m-%d %H:%M",time());
+	$sql = "SELECT * FROM (SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, `problem_id`,`title`,`source`,`submit`,`accepted`,defunct " .
+	"FROM (select * from `problem` order by problem_id) problem, (SELECT @ROWNUM := 0) TEMP " .
+	"WHERE `defunct`='N' AND `problem_id` NOT IN (
 		SELECT  `problem_id`
 		FROM contest c
 			INNER JOIN  `contest_problem` cp ON c.`contest_id` = cp.`contest_id` ".
-			 " AND (c.`defunct` = 'N' AND '$now'<c.`end_time`)" .    // option style show all non-running contest
-			//"and (c.`end_time` >  '$now'  OR c.private =1)" .    // original style , hidden all private contest problems
+			// " AND (c.`defunct` = 'N' AND '$now'<c.`end_time`)" .    // option style show all non-running contest
+			"and (c.`end_time` >  '$now'  OR c.private =1)" .    // original style , hidden all private contest problems
 	") ORDER BY `problem_id` ) A WHERE $filter_sql";
 }
 // End Page Setting
 pdo_query("SET sort_buffer_size = 1024*1024");   // Out of sort memory, consider increasing server sort buffer size
+
+
 //echo htmlentities( $sql);
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$result = pdo_query($sql,$search,$search);
+}
+else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
+	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);	
 }
 else {
 	$result = mysql_query_cache($sql);

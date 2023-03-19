@@ -181,7 +181,7 @@ if (isset($sample_sql)) {
 	$problem_id = $row[2];
 }
 
-  
+$lastlang = 1;  // 默认语言 default language : 0=C  1=C++ 3=Java  6=Python
 if (!$view_src) {
 	if (isset($_COOKIE['lastlang']) && $_COOKIE['lastlang']!="undefined") {
 		$lastlang = intval($_COOKIE['lastlang']);

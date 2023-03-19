@@ -1,7 +1,6 @@
 <?php $show_title="$MSG_PROBLEMS - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="padding">
-
   <div class="ui grid" style="margin-bottom: 10px; ">
     <div class="row" style="white-space: nowrap; ">
       <div class="seven wide column">
@@ -9,25 +8,23 @@
             <div class="ui search" style="width: 280px; height: 28px; margin-top: -5.3px;float:left ">
               <div class="ui left icon input" style="width: 100%; ">
                 <input class="prompt" style="width: 100%; " type="text" value="" placeholder=" <?php echo $MSG_TITLE;?> …" name="search">
-                <i class="search icon"></i>
-              </div>
+                <i class="search icon"></i>               
+              </div>               
               <div class="results" style="width: 100%; "></div>
             </div>
-          </form>
-
+          </form>          
           <form action="problem.php" method="get">
             <div class="ui search" style="width: 120px; height: 28px; margin-top: -5.3px; ">
               <div class="ui icon input" style="width: 100%; ">
                 <input class="prompt" style="width: 100%; " type="text" value="" placeholder="ID" name="id">
-                <i class="search icon"></i>
-              </div>
+                <i class="search icon"></i> 
+              </div>               
               <div class="results" style="width: 100%; "></div>
-            </div>
+               
+            </div>           
           </form>
-
-      </div>
-
-
+        </div>  
+          
       <div class="nine wide right aligned column">
      
         <div class="ui toggle checkbox" id="show_tag">
@@ -59,10 +56,11 @@
           
         </div>
         <div style="margin-left: 10px; display: inline-block; ">
-               <a style="margin-left: 10px; " href="category.php" class="ui labeled icon mini green button"><i class="plus icon"></i> <?php echo $MSG_SHOW_ALL_TAGS;?></a>
-          
+          <a style="margin-left: 10px; " href="category.php" class="ui labeled icon mini green button"><i class="plus icon"></i> <?php echo $MSG_SHOW_ALL_TAGS;?></a>
+          <?php if (isset($_SESSION[$OJ_NAME.'_'.'user_id']))
+            echo "<a style=\"margin-left: 10px; \" href=\"problemset.php?my\" class=\"ui labeled icon mini red button\"><i class=\"plus icon\"></i>".$MSG_VIEW_UNPASS."</a>";
+          ?>
         </div>
-
       </div>
     </div>
   </div>
@@ -123,7 +121,8 @@
               if (isset($sub_arr[$row['problem_id']])){
                 if (isset($acc_arr[$row['problem_id']])) 
                   echo "<td><span class=\"status accepted\"><i class=\"checkmark icon\"></i></span></td>";
-                else 
+			    else if (isset($issue_arr[$row['problem_id']]))
+				  echo "<td><span class=\"status issue\"><i class=\"label label-warning\">?</i></span></td>";                else 
                   echo "<td><span class=\"status wrong_answer\"><i class=\"remove icon\"></i></span></td>";
               }else{
                 echo "<td><span class=\"status\"><i class=\"icon\"></i></span></td>";

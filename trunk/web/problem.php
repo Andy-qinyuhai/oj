@@ -21,6 +21,7 @@ else
 
 $pr_flag = false;
 $co_flag = false;
+$race_flag = false;
 
 if (isset($_GET['id'])) {
 	//practice
@@ -63,9 +64,10 @@ else if (isset($_GET['cid']) && isset($_GET['pid'])) {
 		$view_errors = "<title>$MSG_CONTEST</title><h2>No such Contest!</h2>";
 		require("template/".$OJ_TEMPLATE."/error.php");
 		exit(0);
-	}
-
+	}       
 	$row = ($result[0]);
+        $race_flag = true; //比赛作业时状态
+
 	$contest_ok = true;
 
 	if ($row[1] && !isset($_SESSION[$OJ_NAME.'_'.'c'.$cid]))
@@ -157,7 +159,7 @@ if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD ){
 	if($flag)
 	{	
 		$row[ 'accepted' ] = '<font color="red"> ? </font>';
-		$row[ 'hint' ] = $MSG_NOIP_NOHINT;
+		$row[ 'hint' ] = $MSG_NOIP_NOHINT; //是否在比NOIP比赛中显示提示信息
 	}
 }
 /////////////////////////Template

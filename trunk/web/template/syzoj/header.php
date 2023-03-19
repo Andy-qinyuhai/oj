@@ -128,7 +128,7 @@
                 href="<?php echo $path_fix?>problemset.php"><i class="list icon"></i><?php echo $MSG_PROBLEMS?> </a>
             <a class="item <?php if ($url=="category.php") echo "active";?>"
                 href="<?php echo $path_fix?>category.php"><i class="globe icon"></i><?php echo $MSG_SOURCE?></a>
-            <a class="item <?php if ($url=="contest.php") echo "active";?>" href="<?php echo $path_fix?>contest.php<?php if(isset($_SESSION[$OJ_NAME."_user_id"])) echo "?my" ?>" ><i
+            <a class="item <?php if ($url=="contest.php") echo "active";?>" href="<?php echo $path_fix?>contest.php" ><i
                     class="trophy icon"></i> <?php echo $MSG_CONTEST?></a>
             <a class="item <?php if ($url=="status.php") echo "active";?>" href="<?php echo $path_fix?>status.php"><i
                     class="tasks icon"></i><?php echo $MSG_STATUS?></a>
@@ -136,14 +136,14 @@
                 href="<?php echo $path_fix?>ranklist.php"><i class="signal icon"></i> <?php echo $MSG_RANKLIST?></a>
             <!--<a class="item <?php //if ($url=="contest.php") echo "active";?>" href="/discussion/global"><i class="comments icon"></i> 讨论</a>-->
             <a class="desktop-only item <?php if ($url=="faqs.php") echo "active";?>" href="<?php echo $path_fix?>faqs.php"><i
-                    class="help circle icon"></i> <?php echo $MSG_FAQ?></a>
-
+                    class="help circle icon"></i> <?php echo $MSG_FAQ?></a>           
               <?php if (isset($OJ_BBS)&& $OJ_BBS){ ?>
                   <a class='item' href="discuss.php"><i class="clipboard icon"></i> <?php echo $MSG_BBS?></a>
               <?php }
 
             }
                 ?>
+            <a class="item" href="https://www.mclouds.online/index.php?user-app-login"><i class ="home icon"></i>模拟考试系统</a>
             <?php if(isset($_GET['cid'])){
                 $cid=intval($_GET['cid']);
             ?>

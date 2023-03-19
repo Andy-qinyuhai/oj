@@ -232,11 +232,11 @@ if (isset($_GET['cid'])) {
 			}
 		}
 
-		//$view_problemset[$cnt][3] = $row['source'];
+		//$view_problemset[$cnt][3] = $row['source'];	    
 
-		if (!$noip)
+	    if (!$noip)
 			$view_problemset[$cnt][3] = $row['accepted'];
-		else
+	    else
 			$view_problemset[$cnt][3] = "";
     
     $view_problemset[$cnt][4] = $row['submit'];
@@ -330,12 +330,12 @@ else {
     else if ($now<$start_time) {
 			//pending
 			$view_contest[$i][2] = "<span class=text-success>$MSG_Start</span>"." ".$row['start_time']."&nbsp;";
-			$view_contest[$i][2] .= "<span class=text-success>$MSG_TotalTime</span>"." ".formatTimeLength($length);
+			$view_contest[$i][2] .= "<span class=text-success>$MSG_TotalTime"." ".formatTimeLength($length)."</span>";
 		}
 		else {
 			//running
 			$view_contest[$i][2] = "<span class=text-danger>$MSG_Running</span>"." ".$row['start_time']."&nbsp;";
-			$view_contest[$i][2] .= "<span class=text-danger>$MSG_LeftTime</span>"." ".formatTimeLength($left)."</span>";
+			$view_contest[$i][2] .= "<span class=text-danger>$MSG_LeftTime"." ".formatTimeLength($left)."</span>";
     }
 
     $private = intval($row['private']);

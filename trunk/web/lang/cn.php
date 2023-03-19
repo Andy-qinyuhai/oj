@@ -98,6 +98,7 @@
 	$MSG_SUBMIT_NUM="提交量";
 	$MSG_SUBMIT="提交";
 	$MSG_SHOW_OFF="露一手!";
+        $MSG_VIEW_UNPASS="查看未通过的题";
 	
 	//submit.php
 	$MSG_VCODE_WRONG="验证码错误！";

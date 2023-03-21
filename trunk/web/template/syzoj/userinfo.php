@@ -72,7 +72,7 @@
                                                 <%= syzoj.utils.formatDate(show_user.register_time) %>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="row">
                                         <div class="column">
                                             <h4 class="ui top attached block header">通过的题目</h4>
@@ -90,7 +90,7 @@
                                                 </script>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="eight wide column">

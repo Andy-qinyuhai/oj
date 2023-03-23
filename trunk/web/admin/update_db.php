@@ -199,10 +199,10 @@ $tsql[41]="delete from $DB_NAME.compileinfo where solution_id in (select solutio
 $csql[41]="delete from $DB_NAME.compileinfo where solution_id not in (select solution_id from  $DB_NAME.solution);";
 $tsql[42]="";
 $csql[42]="delete from $DB_NAME.solution where problem_id=0 and result>4;";
-$tsql[43]="alter table problem add column remote_oj varchar(16) default NULL after solved;";
-$csql[43]="alter table problem add column remote_id varchar(16) default NULL after remote_oj;";
-$tsql[44]="alter table solution add column remote_oj char(16) not null default '' after judger;";
-$csql[44]="alter table solution add column remote_id char(16) not null default '' after remote_oj;";
+$tsql[43]="alter table $DB_NAME.problem add column remote_oj varchar(16) default NULL after solved;";
+$csql[43]="alter table $DB_NAME.problem add column remote_id varchar(16) default NULL after remote_oj;";
+$tsql[44]="alter table $DB_NAME.solution add column remote_oj char(16) not null default '' after judger;";
+$csql[44]="alter table $DB_NAME.solution add column remote_id char(16) not null default '' after remote_oj;";
 
 if(isset($_POST['do'])){
 	require_once("../include/check_post_key.php");

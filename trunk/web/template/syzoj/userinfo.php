@@ -53,8 +53,8 @@
                 <tbody>
                     <tr>
                         <th width=15%>等级</th>
-                        <td width=15%><?php echo $calsed;?></td>
-                        <td width=70%>距离 <?php echo $accall[$calledid+1];?> 还需AC <?php echo $acneed[$calledid+1]-$AC;?>题</td>
+                        <td width=20%><?php echo $calsed;?></td>
+                        <td width=65%>距离<?php echo $accall[$calledid+1];?>还需AC:<?php echo $acneed[$calledid+1]-$AC;?>题</td>
                     </tr>
                 </tbody>
               </table>
@@ -136,7 +136,7 @@
                                     }
 
                                     function ptot(len) {
-                                        document.write("<div style='text-align:right;margin-bottom:10px'><div class='ui green small horizontal statistic'><div class='value'>" + len + "</div><div class='value'>AC</div></div></div>")
+                                        document.write("<div style='text-align:right;margin-bottom:10px'><div class='ui green small horizontal statistic'><div class='value'>" + len + "</div><div class='value'> AC</div></div></div>")
                                     }
                                     <?php
                                     $sql = "SELECT `problem_id`,count(1) from solution where `user_id`=? and result=4 and problem_id != 0 group by `problem_id` ORDER BY `problem_id` ASC";

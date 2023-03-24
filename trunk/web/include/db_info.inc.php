@@ -48,7 +48,7 @@ static  $OJ_REDISQNAME="hustoj";
 static  $SAE_STORAGE_ROOT="http://hustoj-web.stor.sinaapp.com/";
 static  $OJ_CDN_URL="";  //  http://cdn.hustoj.com/  https://raw.githubusercontent.com/zhblue/hustoj/master/trunk/web/ 
 static  $OJ_TEMPLATE="syzoj"; //使用的默认模板,template目录下的每个子目录都是一个模板, [bs3 mdui sweet syzoj mario bshark] work with discuss3
-
+static 	$OJ_BG="";  //双引号里面填写背景图片的url，默认不写为默认白色
 static  $OJ_LOGIN_MOD="hustoj";
 static  $OJ_REGISTER=true; //允许注册新用户
 static  $OJ_REG_NEED_CONFIRM=false; //新注册用户需要审核
@@ -74,9 +74,9 @@ static  $OJ_RANK_HIDDEN="'admin','zhblue'";  // 管理员不显示在排名中
 static  $OJ_FRIENDLY_LEVEL=1; //系统友好级别，暂定0-9级，级别越高越傻瓜，系统易用度高的同时将降低安全性，仅供非专业用途，造成泄题、抄袭概不负责。
 static  $OJ_FREE_PRACTICE=false; //自由练习，不受比赛作业用题限制
 static  $OJ_SUBMIT_COOLDOWN_TIME=1; //提交冷却时间，连续两次提交的最小间隔，单位秒。
-static  $OJ_MARKDOWN=false; // 开启MARKDOWN，开启后在后台编辑题目时默认为源码模式，用[md] # Markdown [/md] 格式插入markdown代码, 如果需要用到[]也可以用<div class='md'> </div>。
+static  $OJ_MARKDOWN=true; // 开启MARKDOWN，开启后在后台编辑题目时默认为源码模式，用[md] # Markdown [/md] 格式插入markdown代码, 如果需要用到[]也可以用<div class='md'> </div>。
 static  $OJ_INDEX_NEWS_TITLE='HelloWorld!';   // 在syzoj的首页显示哪一篇标题的文章（可以有多个相同标题）
-static  $OJ_DIV_FILTER=true;   // 过滤题面中的div，修复显示异常，特别是来自其他OJ系统的题面。
+static  $OJ_DIV_FILTER=false;   // 过滤题面中的div，修复显示异常，特别是来自其他OJ系统的题面。
 static  $OJ_LIMIT_TO_1_IP=false;  // 限制用户同一时刻只能在一个IP地址登录
 static  $OJ_REMOTE_JUDGE=false; //是否启用Remote Judge ，启用哪些模块请在remote.php中设置
 

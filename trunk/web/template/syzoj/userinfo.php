@@ -136,7 +136,7 @@
                                     }
 
                                     function ptot(len) {
-                                        document.write("<div style='text-align:right;margin-bottom:10px'><div class='ui green small horizontal statistic'><div class='value'>" + len + "</div><div class='value'> AC</div></div></div>")
+                                        document.write("<div style='text-align:right;margin-bottom:10px'><div class='ui green small horizontal statistic'><div class='value'>" + len + "</div><div class='value'>&nbsp;AC</div></div></div>")
                                     }
                                     <?php
                                     $sql = "SELECT `problem_id`,count(1) from solution where `user_id`=? and result=4 and problem_id != 0 group by `problem_id` ORDER BY `problem_id` ASC";

@@ -10,8 +10,8 @@
 <?php 
     $calsed = '锦鲤';
     $calledid = -1;
-    $acneed = [10,20,30,50,80,100,200,300,500,800,1000];
-    $accall = ["萌新","小小牛","小牛","小犇","中牛","中犇","大牛","大犇","神牛","神犇"];
+    $acneed = [10,30,50,80,100,150,300,500,800,1200,1500];
+    $accall = ["萌新","牛宝","小牛","小犇","中牛","中犇","大牛","大犇","神牛","神犇"];
     for ($i = count($accall);$i > 0; $i--) {
         if ($AC < $acneed[$i]) {$calsed = $accall[$i - 1];$calledid=$i-1;}
     }
@@ -52,9 +52,9 @@
                  <table class="table table-hover" style="width:100%">
                 <tbody>
                     <tr>
-                        <th width=20%>等级</th>
-                        <td width=20%><?php echo $calsed;?></td>
-                        <td width=55%>距离 <?php echo $accall[$calledid+1];?> 还需AC <?php echo $acneed[$calledid+1]-$AC;?>题</td>
+                        <th width=15%>等级</th>
+                        <td width=15%><?php echo $calsed;?></td>
+                        <td width=70%>距离 <?php echo $accall[$calledid+1];?> 还需AC <?php echo $acneed[$calledid+1]-$AC;?>题</td>
                     </tr>
                 </tbody>
               </table>
@@ -136,7 +136,7 @@
                                     }
 
                                     function ptot(len) {
-                                        document.write("<div style='text-align:right;margin-bottom:10px'><div class='ui green small horizontal statistic'><div class='value'>" + len + "</div><div class='label'>AC</div></div></div>")
+                                        document.write("<div style='text-align:right;margin-bottom:10px'><div class='ui green small horizontal statistic'><div class='value'>" + len + "</div><div class='value'>AC</div></div></div>")
                                     }
                                     <?php
                                     $sql = "SELECT `problem_id`,count(1) from solution where `user_id`=? and result=4 and problem_id != 0 group by `problem_id` ORDER BY `problem_id` ASC";

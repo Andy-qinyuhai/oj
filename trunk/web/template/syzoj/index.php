@@ -57,9 +57,7 @@
 
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="right floated five wide column">
+            </div>        
             <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic center aligned table">

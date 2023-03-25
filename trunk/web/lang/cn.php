@@ -249,7 +249,7 @@
   $MSG_SHOW_TAGS="显示分类标签";
   $MSG_SHOW_ALL_TAGS="所有标签";
   $MSG_RESERVED="未启用";	  
-  $MSG_RECENT_SUBMISSION="提交图表";
+  $MSG_RECENT_SUBMISSION="最近提交";
 
   $MSG_HELP_SEEOJ="跳转回到前台";
   $MSG_HELP_ADD_NEWS="添加首页显示的新闻";

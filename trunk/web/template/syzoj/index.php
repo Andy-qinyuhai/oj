@@ -31,7 +31,39 @@
 			
 			<h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
-                <table class="ui very basic table">
+
+                <!--<table class="ui very basic table">-->
+
+                <table class="ui very basic left aligned table" style="table-layout: fixed; ">
+                    <tbody>
+
+                        <?php
+                        $sql_news = "select * FROM `news` WHERE `defunct`!='Y' AND `title`='$OJ_INDEX_NEWS_TITLE' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
+                        $result_news = mysql_query_cache( $sql_news );
+                        if ( $result_news ) {
+                            foreach ( $result_news as $row ) {
+                                echo "<tr>"."<td>"
+                                    .bbcode_to_html($row["content"])."</td></tr>";
+                            }
+                        }
+                        ?>
+                         <tr><td>
+                                <center> Recent submission :
+                                        <?php echo $speed?> .
+                                        <div id=submission style="width:80%;height:300px"></div>
+                                </center>
+
+                        </td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="right floated five wide column">
+            <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
+            <div class="ui bottom attached segment">
+                <table class="ui very basic center aligned table">
+
                     <thead>
                         <tr>
                             <th width="50%"><?php echo $MSG_TITLE;?></th>
@@ -166,3 +198,37 @@
     </div>
 </div>
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
+
+  <script language="javascript" type="text/javascript" src="<?php echo $OJ_CDN_URL?>include/jquery.flot.js"></script>
+        <script type="text/javascript">
+                $( function () {
+                        var d1 = <?php echo json_encode($chart_data_all)?>;
+                        var d2 = <?php echo json_encode($chart_data_ac)?>;
+                        $.plot( $( "#submission" ), [ {
+                                label: "<?php echo $MSG_SUBMIT?>",
+                                data: d1,
+                                lines: {
+                                        show: true
+                                }
+                        }, {
+                                label: "<?php echo $MSG_SOVLED?>",
+                                data: d2,
+                                bars: {
+                                        show: true
+                                }
+                        } ], {
+                                grid: {
+                                        backgroundColor: {
+                                                colors: [ "#fff", "#eee" ]
+                                        }
+                                },
+                                xaxis: {
+                                        mode: "time" //,
+                                                //max:(new Date()).getTime(),
+                                                //min:(new Date()).getTime()-100*24*3600*1000
+                                }
+                        } );
+                } );
+                //alert((new Date()).getTime());
+        </script>
+

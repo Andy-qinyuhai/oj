@@ -68,33 +68,31 @@ function get_extension($file) {
 function import_json($json) {
   global $OJ_DATA,$OJ_SAE,$OJ_REDIS,$OJ_REDISSERVER,$OJ_REDISPORT,$OJ_REDISQNAME,$domain,$DOMAIN;
   $qduoj_problem=json_decode($json);
-  echo( $qduoj_problem->{'title'})."<br>";
-  echo( $qduoj_problem->{'title'})."<br>";
+  echo( $qduoj_problem->{'problem'}->{'title'})."<br>";
 
-    $title = $qduoj_problem->{'title'};
+    $title = $qduoj_problem->{'problem'}->{'title'};
 
-    $time_limit = floatval($qduoj_problem->{'time_limit'});
+    $time_limit = floatval($qduoj_problem->{'problem'}->{'timeLimit'});
     $unit = "ms";
     //echo $unit;
 
     if ($unit=='ms')
       $time_limit /= 1000;
 
-    $memory_limit =  floatval($qduoj_problem->{'memory_limit'});
+    $memory_limit =  floatval($qduoj_problem->{'problem'}->{'memoryLimit'});
     $unit = "M";
 
     if ($unit=='kb')
       $memory_limit /= 1024;
 
-    $description = $qduoj_problem->{'description'}->{'value'};
-    $input = $qduoj_problem->{'input_description'}->{'value'};
-    $output = $qduoj_problem->{'output_description'}->{'value'};
-//    var_dump($qduoj_problem->{'samples'});
-    $sample_input = $qduoj_problem->{'samples'}[0]->{"input"};
-    $sample_output = $qduoj_problem->{'samples'}[0]->{"output"};
+    $description = $qduoj_problem->{'problem'}->{'description'};
+    $input = $qduoj_problem->{'problem'}->{'input'};
+    $output = $qduoj_problem->{'problem'}->{'output'};
+    $sample_input = strip($qduoj_problem->{'problem'}->{'examples'},"input");
+    $sample_output = strip($qduoj_problem->{'problem'}->{'examples'},"output");
 //    echo $sample_input."<br>";
 //    echo $sample_output;
-    $hint = $qduoj_problem->{'hint'}->{'value'};
+    $hint = $qduoj_problem->{'problem'}->{'hint'};
     $source = $qduoj_problem->{'problem'}->{'source'};				
     $spj=0;
     
@@ -108,7 +106,6 @@ if ($_FILES ["fps"] ["error"] > 0) {
 }
 else {
   $tempdir = sys_get_temp_dir()."/import_qduoj";	
-  echo  $tempdir ;
   mkdir($tempdir);
   $tempfile = $_FILES ["fps"] ["tmp_name"];
   if (get_extension( $_FILES ["fps"] ["name"])=="zip") {
@@ -139,7 +136,7 @@ else {
     }
     zip_close($resource);
     $resource = zip_open($tempfile);
-    $cmds=array();
+
     $i = 1;
     while ($dir_resource = zip_read($resource)) {
       if (zip_entry_open($resource,$dir_resource)) {
@@ -151,15 +148,14 @@ else {
 	  if(get_extension($file_name)=="json")
 	  {
 		  $pid=import_json($file_content);
-		 // $dir=$tempdir."/".basename($file_name,".json");
+		  $dir=$tempdir."/".basename($file_name,".json");
 		  mkdir("$OJ_DATA/$pid");
-		  array_push ($cmds,"mv $tempdir/$i/testcase/* $OJ_DATA/$pid/");
-		  array_push ($cmds,"rmdir $tempdir/$i/testcase");
-		  $i++;
+		  system ("mv $dir/* $OJ_DATA/$pid/");
+		  system ("rmdir $dir");
 	  }else{
-	  	//echo "$file_name"."<br>";
-		mkdir($tempdir."/".dirname($file_name),0755,true);
-		file_put_contents($tempdir."/".$file_name,$file_content);
+//	  	echo "$file_name"."<br>";
+//		mkdir($tempdir."/".dirname($file_name));
+//		file_put_contents($tempdir."/".$file_name,$file_content);
 	  }
 	}else{
 	  echo $file_name;
@@ -169,12 +165,7 @@ else {
     }
     zip_close($resource);
     unlink ( $_FILES ["fps"] ["tmp_name"] );
-    foreach($cmds as $cmd){
-//	echo $cmd."<br>";
-    	system($cmd);
-    
-    }
-    //system ("rmdir $tempdir");
+    system ("rmdir $tempdir");
   }
   else {
   echo ($tempfile);

@@ -241,6 +241,7 @@
  $MSG_SHOW_TAGS ="顯示分類標籤";
  $MSG_SHOW_ALL_TAGS ="所有標籤";
  $MSG_RESERVED ="未啟用";
+ $MSG_RECENT_SUBMISSION="提交量";
  
  $MSG_HELP_SEEOJ ="跳轉回到前台";
  $MSG_HELP_ADD_NEWS ="添加首頁顯示的新聞";

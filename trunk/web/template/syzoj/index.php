@@ -29,7 +29,7 @@
                 </table>
             </div>
 			
-			<h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
+			<h4 class="ui top attached block header"><i class="ui calendar icon"></i> <?php echo $MSG_RECENT_SUBMISSION;?> </h4>
             <div class="ui bottom attached segment">
 
                 <!--<table class="ui very basic table">-->
@@ -60,7 +60,7 @@
             </div>        
             <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
-                <table class="ui very basic center aligned table">
+                <table class="ui very basic table">
 
                     <thead>
                         <tr>

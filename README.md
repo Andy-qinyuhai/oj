@@ -141,6 +141,8 @@ Star us, please!
 	
   日期  | 类型 |  更新内容
 ------- | :--: | :-------
+03-27 | 更新 | 优化了查重功能，减少系统资源占用。
+03-25 | 更新 | TK题库所有含洛谷标签的题目，全部免费下载。
 03-24 | 更新 | 毛玻璃特效和更便捷的背景图片，为syzoj皮肤增加首页提交图表。
 03-23 | 更新 | 增加RemoteOJ的开关，默认关闭，修订remote_hdu.php。 宝硕贡献remote-luogu.php。
 03-20 | 补丁 | 修正部分题面因不正确使用大于小于号导致的显示问题。
@@ -495,11 +497,9 @@ docker run -d \
 
 ### LiveCD下载安装
 
-Linux不熟悉的用户推荐使用:
+[家宽下载](http://dl2.hustoj.com:8090/) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时推荐使用。
 
 HUSTOJ_LiveCD(发送"livecd"到微信公众号 `onlinejudge` ，获得百度云下载链接)
-
-HUSTOJ_Windows（仅支持XP,QQ群23361372共享文件）进行安装。
 
 使用说明见iso中README,也可以参考[LiveCD简介](https://github.com/zhblue/hustoj/tree/master/wiki/HUSTOJ_LiveCD.md)  
 

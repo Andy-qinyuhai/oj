@@ -162,8 +162,8 @@
                 <table class="ui very basic table" style="table-layout: fixed; ">
                     <thead>
                         <tr>
-                            <th style="width: 50px; ">#</th>
-                            <th style="width: 170px; "><?php echo $MSG_USER_ID;?></th>
+                            <th style="width:30px">#</th>
+                            <th style="width=70%"><?php echo $MSG_USER_ID;?></th>
                             <th><?php echo $MSG_SOVLED ;?></th>
                         </tr>
                     </thead>

@@ -122,7 +122,7 @@
 	$MSG_MONTH="月排行";
 	$MSG_YEAR="年排行";
 	//registerpage.php
-	$MSG_USER_ID="用户名（学号）";
+	$MSG_USER_ID="用户名";
 	$MSG_PASSWORD="密码";
 	$MSG_REPEAT_PASSWORD="重复密码";
 	$MSG_SCHOOL="学校";

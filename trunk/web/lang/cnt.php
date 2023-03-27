@@ -115,7 +115,7 @@
  $MSG_MONTH ="月排行";
  $MSG_YEAR ="年排行";
  //registerpage.php
- $MSG_USER_ID ="用戶名（學號） ";
+ $MSG_USER_ID ="用戶名";
  $MSG_PASSWORD ="密碼";
  $MSG_REPEAT_PASSWORD ="重複密碼";
  $MSG_SCHOOL ="學校";

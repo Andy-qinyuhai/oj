@@ -27,37 +27,7 @@
                         ?>
                     </tbody>
                 </table>
-            </div>
-			
-			<h4 class="ui top attached block header"><i class="ui calendar icon"></i> <?php echo $MSG_RECENT_SUBMISSION;?> </h4>
-            <div class="ui bottom attached segment">
-
-                <!--<table class="ui very basic table">-->
-
-                <table class="ui very basic left aligned table" style="table-layout: fixed; ">
-                    <tbody>
-
-                        <?php
-                        $sql_news = "select * FROM `news` WHERE `defunct`!='Y' AND `title`='$OJ_INDEX_NEWS_TITLE' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
-                        $result_news = mysql_query_cache( $sql_news );
-                        if ( $result_news ) {
-                            foreach ( $result_news as $row ) {
-                                echo "<tr>"."<td>"
-                                    .bbcode_to_html($row["content"])."</td></tr>";
-                            }
-                        }
-                        ?>
-                         <tr><td>
-                                <center> Recent submission :
-                                        <?php echo $speed?> .
-                                        <div id=submission style="width:80%;height:300px"></div>
-                                </center>
-
-                        </td></tr>
-
-                    </tbody>
-                </table>
-            </div>        
+            </div>			     
             <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic table">
@@ -141,10 +111,32 @@
                     </tbody>
                 </table>
             </div>            
-			
+			<h4 class="ui top attached block header"><i class="ui calendar icon"></i> <?php echo $MSG_RECENT_SUBMISSION;?> </h4>
+            <div class="ui bottom attached segment">
+			<table class="ui very basic left aligned table" style="table-layout: fixed; ">
+                    <tbody>
+                        <?php
+                        $sql_news = "select * FROM `news` WHERE `defunct`!='Y' AND `title`='$OJ_INDEX_NEWS_TITLE' ORDER BY `importance` ASC,`time` DESC LIMIT 10";
+                        $result_news = mysql_query_cache( $sql_news );
+                        if ( $result_news ) {
+                            foreach ( $result_news as $row ) {
+                                echo "<tr>"."<td>"
+                                    .bbcode_to_html($row["content"])."</td></tr>";
+                            }
+                        }
+                        ?>
+                         <tr><td>
+                                <center> Recent submission :
+                                        <?php echo $speed?> .
+                                        <div id=submission style="width:80%;height:300px"></div>
+                                </center>
+
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>        
         </div>
-        <div class="right floated five wide column">            
-			
+        <div class="right floated five wide column">
             <h4 class="ui top attached block header"><i class="ui search icon"></i><?php echo $MSG_SEARCH;?></h4>
             <div class="ui bottom attached segment">
                 <form action="problem.php" method="get">

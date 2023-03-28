@@ -4,6 +4,7 @@
     require_once("../lang/$OJ_LANG.php");
   }
   $path_fix="../";
+  $OJ_TP=$OJ_TEMPLATE;
   $OJ_TEMPLATE="bs3";
 ?>
 <html>
@@ -34,7 +35,9 @@
     </button>
     <div class="dropdown-menu">
 <?php if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){?>
-      <a class="dropdown-item btn-sm" href="setmsg.php" target="main" title="<?php echo $MSG_HELP_SETMESSAGE?>"><b><?php echo $MSG_NEWS."-".$MSG_SETMESSAGE?></b></a>
+      <?php if ($OJ_TP=="bs3"){?>
+        <a class="dropdown-item btn-sm" href="setmsg.php" target="main" title="<?php echo $MSG_HELP_SETMESSAGE?>"><b><?php echo $MSG_NEWS."-".$MSG_SETMESSAGE?></b></a>
+      <?php }?>
       <a class="dropdown-item btn-sm" href="news_list.php" target="main" title="<?php echo $MSG_HELP_NEWS_LIST?>"><b><?php echo $MSG_NEWS."-".$MSG_LIST?></b></a>
       <a class="dropdown-item btn-sm" href="news_add_page.php" target="main" title="<?php echo $MSG_HELP_ADD_NEWS?>"><b><?php echo $MSG_NEWS."-".$MSG_ADD?></b></a>
 <?php }?>
@@ -106,6 +109,8 @@
       <a class="dropdown-item btn-sm" href="../online.php" target="main"><b><?php echo $MSG_SYSTEM."-".$MSG_HELP_ONLINE?></b></a>      
       <a class="dropdown-item btn-sm" href="update_db.php" target="main" title="<?php echo $MSG_HELP_UPDATE_DATABASE?>"><b><?php echo $MSG_SYSTEM."-".$MSG_UPDATE_DATABASE?></b></a>
       <a class="dropdown-item btn-sm" href="backup.php" target="main" title="<?php echo $MSG_HELP_BACKUP_DATABASE?>"><b><?php echo $MSG_SYSTEM."-".$MSG_BACKUP_DATABASE?></b></a>
+      <a class="dropdown-item btn-sm" href="../daochu.php" target="main" title="<?php echo "导出排行榜"?>"><b><?php echo "导出排行榜"?></b></a>
+    
     </div>
   </div>
 <?php }?>

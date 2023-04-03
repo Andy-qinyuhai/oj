@@ -27,6 +27,7 @@ static  $OJ_AUTO_SHARE=true; //true: One can view all AC submit if he/she has AC
 static  $OJ_CSS="white.css";  // bing.css kawai.css black.css blue.css green.css hznu.css
 static  $OJ_SAE=false; //using sina application engine
 static  $OJ_VCODE=false;  //验证码
+static 	$OJ_REG_SPEED = 0 ; //限制每小时同ip注册个数，0不限制
 static  $OJ_APPENDCODE=true;  // 代码预定模板
 if (!$OJ_APPENDCODE) 	ini_set("session.cookie_httponly", 1);   // APPENDCODE模式需要允许javascript操作cookie保存当前语言。
 @session_start();
@@ -79,6 +80,7 @@ static  $OJ_INDEX_NEWS_TITLE='HelloWorld!';   // 在syzoj的首页显示哪一�
 static  $OJ_DIV_FILTER=false;   // 过滤题面中的div，修复显示异常，特别是来自其他OJ系统的题面。
 static  $OJ_LIMIT_TO_1_IP=false;  // 限制用户同一时刻只能在一个IP地址登录
 static  $OJ_REMOTE_JUDGE=false; //是否启用Remote Judge ，启用哪些模块请在remote.php中设置
+static  $OJ_NO_CONTEST_WATCHER=false ; //是否禁止无权限用户观战私有比赛
 
 //static  $OJ_EXAM_CONTEST_ID=1000; // 启用考试状态，填写考试比赛ID
 //static  $OJ_ON_SITE_CONTEST_ID=1000; //启用现场赛状态，填写现场赛比赛ID

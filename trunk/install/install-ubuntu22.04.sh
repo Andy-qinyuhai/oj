@@ -36,7 +36,7 @@ apt-get install -y libmysqlclient-dev
 apt-get install -y libmysql++-dev 
 PHP_VER=`apt-cache search php-fpm|grep -e '[[:digit:]]\.[[:digit:]]' -o`
 if [ "$PHP_VER" = "" ] ; then PHP_VER="8.1"; fi
-for pkg in net-tools make g++ php$PHP_VER-fpm nginx mysql-server php$PHP_VER-mysql php$PHP_VER-common php$PHP_VER-gd php$PHP_VER-zip php$PHP_VER-mbstring php$PHP_VER-xml php$PHP_VER-curl php$PHP_VER-intl php$PHP_VER-xmlrpc php$PHP_VER-soap php-yaml tzdata
+for pkg in libmysqlclient-dev libmysql++-dev net-tools make g++ php$PHP_VER-fpm nginx mysql-server php$PHP_VER-mysql php$PHP_VER-common php$PHP_VER-gd php$PHP_VER-zip php$PHP_VER-mbstring php$PHP_VER-xml php$PHP_VER-curl php$PHP_VER-intl php$PHP_VER-xmlrpc php$PHP_VER-soap php-yaml tzdata
 do
 	while ! apt-get install -y "$pkg" 
 	do
@@ -100,7 +100,7 @@ chown -R root:root src/web/.svn
 chmod 750 -R src/web/.svn
 
 chown www-data:www-data src/web/upload
-chown www-data:www-data data
+chown www-data:judge data
 chmod 750 -R data
 if grep "client_max_body_size" /etc/nginx/nginx.conf ; then 
 	echo "client_max_body_size already added" ;
@@ -131,7 +131,7 @@ sed -i "s/post_max_size = 8M/post_max_size = 180M/g" /etc/php/$PHP_VER/fpm/php.i
 sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 180M/g" /etc/php/$PHP_VER/fpm/php.ini
 WWW_CONF=$(find /etc/php -name www.conf)
 sed -i 's/;request_terminate_timeout = 0/request_terminate_timeout = 128/g' "$WWW_CONF"
-sed -i 's/pm.max_children = 5/pm.max_children = 200/g' "$WWW_CONF"
+sed -i 's/pm.max_children = 5/pm.max_children = 600/g' "$WWW_CONF"
  
 COMPENSATION=$(grep 'mips' /proc/cpuinfo|head -1|awk -F: '{printf("%.2f",$2/3000)}')
 sed -i "s/OJ_CPU_COMPENSATION=1.0/OJ_CPU_COMPENSATION=$COMPENSATION/g" etc/judge.conf

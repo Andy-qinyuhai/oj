@@ -91,9 +91,11 @@ function do_submit($remote_site,$remote_user){
 		if($rid>0){
 			$sql="update solution set remote_oj=?,remote_id=?,result=17 where solution_id=?";
 			pdo_query($sql,$remote_oj,$rid,$sid);
+		}else{
+			//40s once
+			break;
 		}
-		//40s once
-		break;
+		usleep(150000);
 	}
 
 }
@@ -110,9 +112,17 @@ function getResult($short){
 		"Output Limit Exceeded" => 9,
 		"System Error" => 10,
 		"Validator Error" => 10,
+		"Compiling" => 17,
 	
 	);
-	return $map[$short];
+	if(isset($map[$short])){
+                return $map[$short];
+        }else if(mb_strpos($short,"Error")>0){
+                return 10;
+        }else{
+                return 17;
+        }
+
 }
 function do_result_one($remote_site,$sid,$rid){
 	$html=curl_get($remote_site."/showsource?solution_id=".$rid);
@@ -161,7 +171,13 @@ function do_result($remote_site){
 		$sid=$row['solution_id'];
 		$rid=$row['remote_id'];
 	//	echo "$sid=>$rid";
-		do_result_one($remote_site,$sid,$rid);
+		$ret=do_result_one($remote_site,$sid,$rid);
+		if($ret<0) {
+			echo "error code:".$ret;
+			break;
+		}else{
+			usleep(150000);
+		}		
 	}
 
 }
@@ -177,8 +193,8 @@ if(isset($_POST[$OJ_NAME.'_refer'])){
 	unset($_SESSION[$OJ_NAME.'_refer']);
 }else{
 	if(time()-fileatime($remote_cookie.".sub")>$remote_delay){
-		do_submit($remote_site,$remote_user);
 		touch($remote_cookie.".sub");
+		do_submit($remote_site,$remote_user);
 	}
 
 	if (!is_login($remote_site)){
@@ -189,8 +205,8 @@ if(isset($_POST[$OJ_NAME.'_refer'])){
 	}
 }
 if(time()-fileatime(__FILE__)>$remote_delay){
-	do_result($remote_site);
 	touch(__FILE__);
+	do_result($remote_site);
 }
 if(isset($_GET['check'])){
 	$remote_delay*=2;

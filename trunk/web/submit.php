@@ -1,6 +1,7 @@
 <?php session_start();
 require_once "include/db_info.inc.php";
 require_once "include/my_func.inc.php";
+require_once "include/email.class.php";
 
 if(isset($OJ_CSRF) && $OJ_CSRF && $OJ_TEMPLATE=="bs3" && !isset($_SESSION[$OJ_NAME.'_'.'http_judge']))
   require_once(dirname(__FILE__)."/include/csrf_check.php");
@@ -334,9 +335,7 @@ if (~$OJ_LANGMASK&(1<<$language)) {
     }
   }
 
-  $sql = "UPDATE solution SET result=0 WHERE solution_id=?";
-  pdo_query($sql, $insert_id);
-	
+
  ////remote oj
   $result=0;
   $sql="select remote_oj from problem where problem_id=?";
@@ -349,6 +348,50 @@ if (~$OJ_LANGMASK&(1<<$language)) {
                 pdo_query($sql,$remote_oj,$insert_id);
           }
   }
+  
+  ////poison robot account,give system resources to the REAL people
+  if(isset($OJ_POISON_BOT_COUNT) && $OJ_POISON_BOT_COUNT >0 &&
+          !(isset($_SESSION[$OJ_NAME."_administrator"])||
+            isset($_SESSION[$OJ_NAME."_source_browser"])||
+            isset($_SESSION[$OJ_NAME."_contest_creator"])||
+            isset($_SESSION[$OJ_NAME."_problem_editor"])
+           )
+    ){
+        $sql="select count(1) from solution where user_id=? and result=4 and problem_id=?";
+        $count=pdo_query($sql,$user_id,$id);
+        if($count) $count=$count[0][0];
+        if($count>=$OJ_POISON_BOT_COUNT){
+                $result=rand(5,11);
+                $memory=rand(100,2000);
+                $time=rand(100,2000);
+                $sql="update solution set memory=?,time=? where solution_id=?";
+                pdo_query($sql,$memory,$time,$insert_id);
+                if( $OJ_ADMIN != "root@localhost" ){
+                         email($OJ_ADMIN,$MSG_SYS_WARN,"$DOMAIN $MSG_USER $user_id $MSG_IS_ROBOT");
+                }
+        }
+        /*   //prepare system ready for even worse robots
+        if($count>=$OJ_POISON_BOT_COUNT*2){
+                $sql="update users set defunct='Y' where user_id=?";
+                pdo_query($sql,$_SESSION[$OJ_NAME."_user_id"]);
+                $sql="select ip from users where user_id=? ";
+                $ip=pdo_query($sql,$_SESSION[$OJ_NAME."_user_id"]);
+                if(count($ip)>0){
+                        $ip=$ip[0][0];
+                        if($ip!="" && $ip!="127.0.0.1"){
+                                $sql="update users set defunct='Y' where ip=?";
+                                pdo_query($sql,$ip);
+                        }
+                }
+                unset($_SESSION[$OJ_NAME.'_'.'user_id']);
+                setcookie($OJ_NAME."_user","");
+                setcookie($OJ_NAME."_check","");
+                session_destroy();
+                header("Location:index.php");
+        }
+        */
+  }
+
   $sql = "UPDATE solution SET result=? WHERE solution_id=?";
   pdo_query($sql,$result,$insert_id);
 

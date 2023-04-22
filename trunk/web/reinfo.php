@@ -53,6 +53,11 @@ $lang = $row['language'];
 $contest_id = intval($row['contest_id']);
 $isRE = $row['result']==10;
 
+//统计当前用户对此题目的错误次数
+$sql = "SELECT count(solution_id) FROM solution WHERE result<>4 AND problem_id='".$row['problem_id']."' AND user_id=?"; 
+$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
+$error_count = $result[0];
+
 if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
 {
   $ok = true;
@@ -61,7 +66,7 @@ if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESS
 $view_reinfo = "";
 if(  ($ok && $OJ_FRIENDLY_LEVEL>2) ||
     (
-      isset($_SESSION[$OJ_NAME.'_'.'source_browser']) || ($ok&&$contest_id==0&& // 防止打表过数据弱的题目
+      isset($_SESSION[$OJ_NAME.'_'.'source_browser']) || ($ok&&$contest_id==0&&$error_count>2&& // 防止打表过数据弱的题目
   !(                                                                                   // 默认禁止比赛中查看WA对比和RE详情
     (isset($OJ_EXAM_CONTEST_ID)&&$OJ_EXAM_CONTEST_ID>0)||                              // 如果希望教学中无论练习或比赛均开放数据对比与运行错误，可以将这里
     (isset($OJ_ON_SITE_CONTEST_ID)&&$OJ_ON_SITE_CONTEST_ID>0)                          // 的所有条件简化为 $ok，即63行到69行简化为: if($ok){

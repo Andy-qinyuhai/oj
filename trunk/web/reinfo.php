@@ -54,9 +54,9 @@ $contest_id = intval($row['contest_id']);
 $isRE = $row['result']==10;
 
 //统计当前用户对此题目的错误次数
-$sql = "SELECT count(solution_id) FROM solution WHERE result<>4 AND problem_id='".$row['problem_id']."' AND user_id=?"; 
+$sql = "SELECT count(solution_id) AS items FROM solution WHERE result<>4 AND problem_id='".$row['problem_id']."' AND user_id=?"; 
 $result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
-$error_count = $result[0];
+$error_count = $result[0][items];
 
 if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
 {

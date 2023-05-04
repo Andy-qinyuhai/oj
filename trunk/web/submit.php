@@ -364,7 +364,7 @@ if (~$OJ_LANGMASK&(1<<$language)) {
                 $result=rand(5,11);
                 $memory=rand(100,2000);
                 $time=rand(100,2000);
-                $sql="update solution set memory=?,time=? where solution_id=?";
+                $sql="update solution set memory=?,time=?,judger='poisoner' where solution_id=?";
                 pdo_query($sql,$memory,$time,$insert_id);
                 if( $OJ_ADMIN != "root@localhost" ){
                          email($OJ_ADMIN,$MSG_SYS_WARN,"$DOMAIN $MSG_USER $user_id $MSG_IS_ROBOT");
@@ -463,7 +463,7 @@ if (isset($cid)) {
   $statusURI .= "&cid=$cid&fixed=";
 }
 
-if (!$test_run) {
+if (!$test_run&&!isset($_GET['ajax'])) {
   header("Location: $statusURI");
 }
 else {

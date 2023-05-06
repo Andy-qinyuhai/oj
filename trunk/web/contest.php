@@ -141,15 +141,15 @@ if (isset($_GET['cid'])) {
 				$view_problemset[$cnt][2] = $row['title'];
 			}
 		}
-
-		//$view_problemset[$cnt][3] = $row['source'];	    
+        if(time()<$end_time) $view_problemset[$cnt][3] ="";
+		else $view_problemset[$cnt][3] = $row['source'];	    
 
 	    if (!$noip)
-			$view_problemset[$cnt][3] = $row['accepted'];
+			$view_problemset[$cnt][4] = $row['accepted'];
 	    else
-			$view_problemset[$cnt][3] = "";
+			$view_problemset[$cnt][4] = "";
     
-    $view_problemset[$cnt][4] = $row['submit'];
+    $view_problemset[$cnt][5] = $row['submit'];
     $cnt++;
   }
 }

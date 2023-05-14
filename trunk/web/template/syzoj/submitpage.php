@@ -218,17 +218,7 @@ function do_submit(){
 	else
 	problem_id.value='<?php if (isset($cid))echo $cid?>';
 	document.getElementById("frmSolution").target="_self";
-	
-<?php if(isset($_GET['spa'])){?>
-        $.post("submit.php?ajax",$("#frmSolution").serialize(),function(data){fresh_result(data);});
-        $("#Submit").prop('disabled', true);
-        $("#TestRub").prop('disabled', true);
-        count=<?php echo $OJ_SUBMIT_COOLDOWN_TIME?> * 2 ;
-        handler_interval= window.setTimeout("resume();",1000);
-<?php }else{?>
-        document.getElementById("frmSolution").submit();
-<?php }?>
-
+	document.getElementById("frmSolution").submit();
 }
 var handler_interval;
 function do_test_run(){

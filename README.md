@@ -141,6 +141,7 @@ Star us, please!
 	
   日期  | 类型 |  更新内容
 ------- | :--: | :-------
+06-08 | 补丁 | 改善对hydroOJ题目导入的支持。
 04-21 | 更新 | 支持基于文件名的subtask绑定。默认字体颜色调黑。
 04-17 | 更新 | 设置$OJ_BG="bing";每小时从bing.com动态更新一次背景图片。
 04-10 | 更新 | 增加对syzoj导出的zip文件的支持（可以导入题面和数据）。开源《信息学奥赛一本通 —— 编程启蒙》题库接口。
@@ -504,7 +505,7 @@ docker run -d \
 
 ### LiveCD下载安装
 
-[家宽下载](http://dl2.hustoj.com:8090/) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时推荐使用。
+[家宽下载](http://hustoj.com/livecd.php) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时推荐使用。
 
 HUSTOJ_LiveCD(发送"livecd"到微信公众号 `onlinejudge` ，获得百度云下载链接)
 

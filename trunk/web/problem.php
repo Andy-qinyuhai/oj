@@ -158,8 +158,13 @@ if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD ){
 	$flag = count($rrs) > 0 ;
 	if($flag)
 	{	
-		$row[ 'accepted' ] = '<font color="red"> ? </font>';
-		$row[ 'hint' ] = $MSG_NOIP_NOHINT; //是否在比NOIP比赛中显示提示信息
+		$row[ 'accepted' ] = '<font color="red"> ? </font>';		
+        // 使用$OJ_NOIP_TISHI 条件语句确定是否显示提示信息
+        if (isset($OJ_NOIP_TISHI) && $OJ_NOIP_TISHI) {
+            //$row['hint'] = $MSG_NOIP_NOHINT;
+        } else {
+            $row['hint'] = $MSG_NOIP_NOHINT;
+        }
 	}
 }
 /////////////////////////Template

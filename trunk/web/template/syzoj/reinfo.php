@@ -88,15 +88,35 @@
       document.getElementById("errexp").innerHTML=expmsg;
     }
 
+
+
+ function showDownload2(){
+      var errmsg = $("#errtxt").html();
+
+      // 从错误信息文本框中提取出第一组数据名称，并将其作为参数添加到下载链接中
+      var first_data_name = /========\[(.*?)\]=========/.exec(errmsg)[1];
+      errmsg=errmsg.replace(/========\[(.*)\]=========/, "<a href='download.php?sid=<?php echo $id?>&name=" + first_data_name + "'>" + first_data_name + "</a>");
+
+      $("#errtxt").html(errmsg);
+ }
  function showDownload(){
       var errmsg = $("#errtxt").html();
       errmsg=errmsg.replace(/========\[(.*)\]=========/g,"<a href='download.php?sid=<?php echo $id?>&name=$1'>$1</a>");
       $("#errtxt").html(errmsg);
  }
 
+
     explain();
-    
-    <?php if(isset($OJ_DOWNLOAD)&&$OJ_DOWNLOAD) echo  "showDownload();" ?>
+    <?php
+  if(isset($OJ_DOWNLOAD)&&$OJ_DOWNLOAD){
+    if(isset($OJ_DL_1ST_WA_ONLY) && $OJ_DL_1ST_WA_ONLY){
+     echo  "showDownload2()";
+    }else{
+     echo  "showDownload();";
+    }
+  }
+?>
+    <?php //if(isset($OJ_DOWNLOAD)&&$OJ_DOWNLOAD) echo  "showDownload();" ?>
 </script>
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
 

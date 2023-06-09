@@ -24,6 +24,17 @@ require_once ("../include/problem.php");
 <br><br>
 
 <?php
+function startsWith( $haystack, $needle ) {
+     $length = strlen( $needle );
+     return substr( $haystack, 0, $length ) === $needle;
+}
+function endsWith( $haystack, $needle ) {
+    $length = strlen( $needle );
+    if( !$length ) {
+        return true;
+    }
+    return substr( $haystack, -$length ) === $needle;
+}
 function strip($Node, $TagName) {
   $len=mb_strlen($TagName);
   $i=mb_strpos($Node,"<".$TagName.">");
@@ -129,14 +140,27 @@ else {
 		}else if(basename($file_name)=="problem_zh.md"||basename($file_name)=="problem.md"){
 			$description="<div class='md'>".$file_content."</div>";	
 			//echo htmlentities("$description");
-    			$pid = addproblem($title,1,128, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
+			if(!hasProblem($title)){
+    				$pid = addproblem($title,1,128, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
+				mkdir($OJ_DATA."/$pid/");
+			}else{
+				echo "skiped $title";
+				$pid=0;
+			}
 			echo "PID:$pid";
 		}else if(basename($file_name)=="config.yaml"){
 			$hydrop=yaml_parse($file_content);	
+			if(endsWith($hydrop['time'],"ms")){
+				$hydrop['time']=substr($hydrop['time'],0,-2);
+				$hydrop['time']=floatval($hydrop['time'])/1000;
+			}else if(endsWith($hydrop['time'],"s")){
+				$hydrop['time']=substr($hydrop['time'],0,-1);
+				$hydrop['time']=floatval($hydrop['time']);
+			}
 			$time=floatval($hydrop['time']);
 			$memory=floatval($hydrop['memory']);
 			$iofile=$hydrop['filename'];
-			if($pid!=""){
+			if($pid!=""&&$iofile!=""){
 				file_put_contents($OJ_DATA."/$pid/input.name",$iofile.".in\n");
 				file_put_contents($OJ_DATA."/$pid/output.name",$iofile.".out\n");
 
@@ -145,8 +169,18 @@ else {
 			pdo_query("update problem set time_limit=?,memory_limit=? where problem_id=?",$time,$memory,$pid);
 		}else if($pid!="" && strpos($file_path,"testdata") !== false && basename($file_name) != "testdata" ){
 	  		echo ".";
-			mkdir($OJ_DATA."/$pid/");
-		        file_put_contents($OJ_DATA."/$pid/".basename($file_name),$file_content);
+			$dataname=basename($file_name);
+			if(endsWith($dataname,".txt")){
+				$pattern = '/input([0-9]*).txt/i';
+				$dataname=preg_replace($pattern, '\\1.in', $dataname);
+				$pattern = '/output([0-9]*).txt/i';
+				$dataname=preg_replace($pattern, '\\1.out', $dataname);
+			}else if(endsWith($dataname,"put")){
+				$dataname=substr($dataname,0,-3);	
+			}else if(endsWith($dataname,".ans")){
+				$dataname=substr($dataname,0,-3)."out";	
+			}
+		        file_put_contents($OJ_DATA."/$pid/".$dataname,$file_content);
 		}
 	}else{
 	  echo $file_name;

@@ -1,41 +1,17 @@
 <?php
+// 接口描述参考文件末尾注释
 require_once(realpath(dirname(__FILE__)."/..")."/include/db_info.inc.php");
 require_once(realpath(dirname(__FILE__)."/..")."/include/init.php");
 require_once(dirname(__FILE__)."/curl.php");
-function is_login($remote_site){
-	$html=curl_get($remote_site.'/mail_index.php');
-	if (str_contains($html,"Please login first.")) return false; 
-	else return true;
-}
-function show_vcode($remote_site){
-	$url = $remote_site.'/login_xx.php'; 
-	$imgData=curl_get($url);
-	$imgBase64 = base64_encode($imgData);
-	return '<img width=200px src="data:image/jpg;base64,'.$imgBase64.'" />';
-}
-function do_login($remote_site,$username,$password,$vcode){
-	$form= array(
-    		'username' => $username,
-    		'password' => $password,
-		'auth' => $vcode
-	);
-	 $data=curl_post($remote_site.'/login.php',$form);
-	if(str_contains($data,"验证码错误")) return false;
-	else return true;
-}
-function do_submit_one($remote_site,$username,$password,$sid){
-	
+function do_submit_one($remote_site,$username,$password,$sid){	
 	$langMap= array(
     		0 => 7, //C
     		1 => 7, //C++
-//		3 => 3, //Java
-//		2 => 4, //Pascal
 		6 => 5  //Python
 	);
 	$problem_id=3001;
 	$language=7;
 	$source="";
-	
 	$sql="select * from solution where solution_id=?";
  	$data=pdo_query($sql,$sid);	
 	if(count($data)>0){
@@ -92,22 +68,15 @@ function do_submit($remote_site,$remote_user,$remote_pass){
 		}else{
 			break;
 		}
-		//50ms once
 		usleep(150000);
 	}
 }
 function getResult($short){
 	//echo "short:$short<br>";
 	$map=array(
-		"AC" => 4,
-		"RE" => 10,
-		"CE" => 11,
-		"WA" => 6,
-		"PE" => 5,
-		"TLE" => 7,
-		"MLE" => 8,
-		"OLE" => 9,
-		"RF" => 10,
+		"AC" => 4,		"RE" => 10,		"CE" => 11,
+		"WA" => 6,		"PE" => 5,		"TLE" => 7,
+		"MLE" => 8,		"OLE" => 9,		"RF" => 10,
 	);
 	return $map[$short];
 }
@@ -140,7 +109,6 @@ function do_result_one($remote_site,$username,$password,$sid,$rid){
 		pdo_query($sql,$result,0,$time,$memory,$sid);
 		return $result;	
 	}
-	//echo "<br>";
 	$summary=explode(":",$data[2]);
 	$detail=explode(",",$summary[1]);
 	$total=count($detail)-1;
@@ -157,7 +125,6 @@ function do_result_one($remote_site,$username,$password,$sid,$rid){
 		$time+=intval($m_t[1]);
 		$reinfo.= $i.":   ". $re[0]." ".intval($m_t[0])."kb  ".intval($m_t[1])."ms \n";
 	}
-	//echo "[$ac==$i]";
 	if($ac==$i) {
 		$result=4;
 	}
@@ -182,7 +149,6 @@ function do_result_one($remote_site,$username,$password,$sid,$rid){
                      $sql="UPDATE `contest_problem` SET `c_accepted`=(SELECT count(*) FROM `solution` WHERE `problem_id`=? AND `result`=4 and contest_id=?) WHERE `problem_id`=? and contest_id=?";
                      pdo_query($sql,$pid,$cid, $pid,$cid);
                 }
-
 	}
 	return $result;
 }
@@ -205,30 +171,20 @@ function do_result($remote_site,$remote_user,$remote_pass){
 }
 // 本组件由一本通系列教材作者董永建老师委托开发，以GPL v2形式开源，参考本组件的代码进行二次开发，请注意遵守开源协议。
 // 判题API由一本通系列OJ开发维护者文仲友老师提供，使用时请遵守基本的互联网礼仪，若出现访问频率过快，提交恶意程序，可能会禁用相关测试账号，敬请谅解。
+
 $remote_oj="bas";
 $remote_site="http://www.ssoier.cn:18087/pubtest/";
 $remote_user='用户名';    //测试期到2024-8-1结束，一个机构一个账号，请勿外借。
 $remote_pass='密码';      //账号、密码加群23361372，找群主登记： 学校或机构	email	手机  后可以申请。
 $remote_cookie=$OJ_DATA.'/'.get_domain($remote_site).'.cookie';
 $remote_delay=1;
-if(isset($_POST['vcode'])){
-	do_login($remote_site,$remote_user,$remote_pass,$_POST['vcode']);
+if(time()-fileatime($remote_cookie.".sub")>$remote_delay){
+	touch($remote_cookie.".sub");
+	do_submit($remote_site,$remote_user,$remote_pass);	
+}
+if(isset($_SESSION[$OJ_NAME.'_refer'])){
 	header("location:".$_SESSION[$OJ_NAME.'_refer']);
 	unset($_SESSION[$OJ_NAME.'_refer']);
-}else{
-	if(time()-fileatime($remote_cookie.".sub")>$remote_delay){
-		touch($remote_cookie.".sub");
-		do_submit($remote_site,$remote_user,$remote_pass);	
-	}
-	//echo (htmlentities(curl_get($remote_site."/login0.php")));
-	if ( false && !is_login($remote_site)){
-		$view_errors="$MSG_VCODE".show_vcode($remote_site);
-		$view_errors.="	<form method='post' ><input name=vcode ><input type=submit> </form>";
-		require(dirname(__FILE__)."/../template/$OJ_TEMPLATE/error.php");
-	}else if(isset($_SESSION[$OJ_NAME.'_refer'])){
-		header("location:".$_SESSION[$OJ_NAME.'_refer']);
-		unset($_SESSION[$OJ_NAME.'_refer']);
-	}
 }
 if(time()-fileatime(__FILE__)>$remote_delay){
 	touch(__FILE__);
@@ -239,5 +195,28 @@ if(isset($_GET['check'])){
 	echo "<meta http-equiv='refresh' content='$remote_delay'>";
 	echo "$remote_oj<br>";
 }
-
 chmod($remote_cookie,0600);
+
+/* 
+以下接口描述，由文老师提供，供其他OJ系统开发者参考。
+-----------------------------------
+题面前台:
+http://bas.ssoier.cn:8086/problem_list.php?page=10,10
+一、程序提交：
+   网址：http://www.ssoier.cn:8087/pubtest/index1.php
+   返回值：
+   -2：访问频繁（低于50Ms访问一次）
+   -1：访问出错
+   0：提交成功（首行为0，第二行为运行结果id,即runid,为一个正整数）
+二、获取结果：
+   网址：http://www.ssoier.cn:8087/pubtest/index2.php
+   返回值：
+   -2：访问频繁（低于50Ms访问一次）
+   -1：访问出错
+   首行为0：访问成功，第2行是runid,第3行开始有以下情况：
+   （1）Waiting(等待评测)
+   （2）Judging(正在评测)
+   （3）"Compile Error",第4行开始为具体的编译信息
+   （4）Accepted...(通过，具体评测信息)
+   （5）Unaccepted...(未通过，具体评测信息)
+*/

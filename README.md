@@ -141,6 +141,7 @@ Star us, please!
 	
   日期  | 类型 |  更新内容
 ------- | :--: | :-------
+06-20 | 更新 | 后台题目列表支持跨页选择，自动保存已选题目状态。优化ubuntu22.04安装脚本，支持512M迷你服务器。
 06-08 | 补丁 | 改善对hydroOJ题目导入的支持。
 04-21 | 更新 | 支持基于文件名的subtask绑定。默认字体颜色调黑。
 04-17 | 更新 | 设置$OJ_BG="bing";每小时从bing.com动态更新一次背景图片。
@@ -671,7 +672,10 @@ sudo bash /home/judge/src/install/fixing.sh
 
 ## 硬件需求
 
-x86 arm mips 架构处理器， 1G以上内存，10G外部存储。
+处理器1CPU核心， 1G内存，20G硬盘可以安装，1Mbps 网络带宽，约能满足20~50人轻度使用。
+
+人数每增加50人，等比例增加核心数，内存，硬盘空间和网络带宽。
+
 
 [阿里云](https://www.aliyun.com/)，[腾讯云](https://curl.qcloud.com/kevnXODi)，[华为云](https://activity.huaweicloud.com/)，最小学生机均可稳定运行。
 

@@ -263,7 +263,7 @@ if (!$OJ_BENCHMARK_MODE) {
   $sql = "SELECT `in_date`,solution_id FROM `solution` WHERE `user_id`=? AND in_date>? ORDER BY `in_date` DESC LIMIT 1";
   $res = pdo_query($sql, $user_id, $now);
 
-  if (count($res)==1) {
+  if (count($res)>=1) {
     /*
     $view_errors = $MSG_BREAK_TIME."<br>";
     require "template/".$OJ_TEMPLATE."/error.php";
@@ -280,6 +280,7 @@ if (!$OJ_BENCHMARK_MODE) {
 	} else {
 		echo $res[0][1];
 	}
+	exit();
    }
 }
 
@@ -371,7 +372,10 @@ if (~$OJ_LANGMASK&(1<<$language)) {
                 }
         }
         /*   //prepare system ready for even worse robots
-        if($count>=$OJ_POISON_BOT_COUNT*2){
+        $now = strftime("%Y-%m-%d %X", time()-$OJ_SUBMIT_COOLDOWN_TIME * 6 );
+        $sql="select count(1) from solution where user_id=? and in_date > ?";
+        $count=pdo_query($sql,$user_id,$now);
+        if($count>=$OJ_POISON_BOT_COUNT){
                 $sql="update users set defunct='Y' where user_id=?";
                 pdo_query($sql,$_SESSION[$OJ_NAME."_user_id"]);
                 $sql="select ip from users where user_id=? ";

@@ -12,7 +12,8 @@ static 	$DB_NAME="jol";   //数据库名
 static 	$DB_USER="";  //数据库账户
 static 	$DB_PASS="";  //数据库密码
 
-static 	$OJ_NAME="";  //左上角显示的系统名称
+
+static 	$OJ_NAME="HUSTOJ";  //左上角显示的系统名称, 尽量简洁，避免用中文和空格，如需中文、长字符串、图片，可以直接修改template/syzoj/header.php
 static 	$OJ_HOME="./";    //主页目录
 static 	$OJ_ADMIN="";  //管理员email
 static 	$OJ_DATA="/home/judge/data";  //测试数据目录
@@ -76,7 +77,7 @@ static  $OJ_BEIAN="苏ICP备2021045986号";  // 如果有备案号，填写备�
 static  $OJ_RANK_HIDDEN="'admin','zhblue'";  // 管理员不显示在排名中
 static  $OJ_FRIENDLY_LEVEL=1; //系统友好级别，暂定0-9级，级别越高越傻瓜，系统易用度高的同时将降低安全性，仅供非专业用途，造成泄题、抄袭概不负责。
 static  $OJ_FREE_PRACTICE=false; //自由练习，不受比赛作业用题限制
-static  $OJ_SUBMIT_COOLDOWN_TIME=1; //提交冷却时间，连续两次提交的最小间隔，单位秒。
+static  $OJ_SUBMIT_COOLDOWN_TIME=10; //提交冷却时间，连续两次提交的最小间隔，单位秒。
 static  $OJ_POISON_BOT_COUNT=10; //给机器人账号投毒的起始AC数。例如设为10，则认为一个账号对某个题提交了10次正确之后还在提交，就是机器人行为，开始给出随机答复。
 static  $OJ_MARKDOWN=false; // 开启MARKDOWN，开启后在后台编辑题目时默认为源码模式，用[md] # Markdown [/md] 格式插入markdown代码, 如果需要用到[]也可以用<div class='md'> </div>。
 static  $OJ_INDEX_NEWS_TITLE='HelloWorld!';   // 在syzoj的首页显示哪一篇标题的文章（可以有多个相同标题）

@@ -15,14 +15,22 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 
 <?php
 $plist = "";
-if(is_array($_POST['pid'])) sort($_POST['pid']);
-foreach($_POST['pid'] as $i){
-  if($plist)
-    $plist.=','.intval($i);
-  else
-    $plist = $i;
+if(isset($_POST['pid'])&&is_array($_POST['pid'])) {
+        sort($_POST['pid']);
+        foreach($_POST['pid'] as $i){
+          if($plist)
+            $plist.=','.intval($i);
+          else
+            $plist = $i;
+        }
 }
+
 //echo "===".$plist;
+  $plist = trim($_POST['hlist']);
+  $pieces = explode(",",$plist );
+  $pieces = array_unique($pieces);
+  if($pieces[0]=="")unset($pieces[0]);
+  $plist=implode(",",$pieces);
 
 if(isset($_POST['enable'])&&$plist){
   $sql = "UPDATE `problem` SET defunct='N' WHERE `problem_id` IN ($plist)";           

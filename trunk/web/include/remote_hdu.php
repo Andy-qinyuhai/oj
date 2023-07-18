@@ -39,7 +39,7 @@ function do_submit_one($remote_site,$username,$sid){
 	$language=1;
 	$source="";
 	
-	$sql="select * from solution where solution_id=?";
+	$sql="select * from solution where result=16 and solution_id=?";
  	$data=pdo_query($sql,$sid);	
 	if(count($data)>0){
 		$row=$data[0];
@@ -50,7 +50,11 @@ function do_submit_one($remote_site,$username,$sid){
 		if(count($data)>0){
 			$row=$data[0];
 			$problem_id=$row['remote_id'];
+		}else{
+			return -1;
 		}
+	}else{
+		return -1;
 	}
 	$sql="select * from source_code where solution_id=?";
  	$data=pdo_query($sql,$sid);	
@@ -149,6 +153,7 @@ function do_result_one($remote_site,$sid,$rid){
 	}else{
 		$pass_rate=0;
 	}
+	
 	$sql="update solution set result=?,pass_rate=?,time=?,memory=?,judger=?,judgetime=now()  where solution_id=?";
 	pdo_query($sql,$result,$pass_rate,$time,$memory,get_domain($remote_site),$sid);
 	echo $sql,$result,$pass_rate,$time,$memory,get_domain($remote_site),$sid;
@@ -163,6 +168,15 @@ function do_result_one($remote_site,$sid,$rid){
                      pdo_query($sql,$pid,$cid, $pid,$cid);
                 }
 	}
+	        //get user_id
+        $data=pdo_query("select user_id from solution where solution_id=?",$sid);
+        $user_id=$data[0]['user_id'];
+        //update user
+        $sql="UPDATE `users` SET `solved`=(SELECT count(DISTINCT `problem_id`) FROM `solution` WHERE `user_id`=? AND `result`=4) WHERE `user_id`=?";
+        pdo_query($sql,$user_id,$user_id);
+        $sql="UPDATE `users` SET `submit`=(SELECT count(DISTINCT `problem_id`) FROM `solution` WHERE `user_id`=?               ) WHERE `user_id`=?";
+        pdo_query($sql,$user_id,$user_id);
+
 	return $result;
 }
 function do_result($remote_site){

@@ -12,7 +12,7 @@ function do_submit_one($remote_site,$username,$password,$sid){
 	$problem_id=3001;
 	$language=7;
 	$source="";
-	$sql="select * from solution where solution_id=?";
+	$sql="select * from solution where  result=16 and solution_id=?";
  	$data=pdo_query($sql,$sid);	
 	if(count($data)>0){
 		$row=$data[0];
@@ -23,7 +23,11 @@ function do_submit_one($remote_site,$username,$password,$sid){
 		if(count($data)>0){
 			$row=$data[0];
 			$problem_id=$row['remote_id'];
+		}else{
+			return -1;
 		}
+	}else{
+		return -1;
 	}
 	$sql="select * from source_code where solution_id=?";
  	$data=pdo_query($sql,$sid);	
@@ -96,19 +100,25 @@ function do_result_one($remote_site,$username,$password,$sid,$rid){
 	$time=0;
 	$memory=0;
 	echo "<br>==".htmlentities($html)."==";
-	if($data[2]=="Waiting"){
-		$sql="update solution set result=17,judgetime=now()  where solution_id=?";
-		pdo_query($sql,$sid);
-		return -1;
-	}else if($data[2]=="Compile Error"){
-		$reinfo=$html;
-		$sql="insert into compileinfo(solution_id,error) values(?,?) on duplicate key update error=? ";
-		pdo_query($sql,$sid,$reinfo,$reinfo);
-		$result=11;
-		$sql="update solution set result=?,pass_rate=?,time=?,memory=?,judgetime=now()  where solution_id=?";
-		pdo_query($sql,$result,0,$time,$memory,$sid);
-		return $result;	
-	}
+        if($data[2]=="Waiting"||$data[2]=="Judging"){
+                $sql="update solution set result=17,judgetime=now()  where solution_id=?";
+                pdo_query($sql,$sid);
+                return -1;
+        }else if($data[2]=="Compile Error"){
+                $reinfo=$html;
+                $sql="insert into compileinfo(solution_id,error) values(?,?) on duplicate key update error=? ";
+                pdo_query($sql,$sid,$reinfo,$reinfo);
+                $result=11;
+                $sql="update solution set result=?,pass_rate=?,time=?,memory=?,judgetime=now()  where solution_id=?";
+                pdo_query($sql,$result,0,$time,$memory,$sid);
+                return $result;
+        }else if(str_contains($data[2],"Accepted")){
+                $result=4;
+        }else if(str_contains($data[2],"Unaccepted")){
+                $result=5;
+        }
+
+	
 	$summary=explode(":",$data[2]);
 	$detail=explode(",",$summary[1]);
 	$total=count($detail)-1;
@@ -128,6 +138,14 @@ function do_result_one($remote_site,$username,$password,$sid,$rid){
 	if($ac==$i) {
 		$result=4;
 	}
+	if($result==4&&$time==0&&$memory==0) return -1;
+	//get user_id
+	$data=pdo_query("select user_id from solution where solution_id=?",$sid);
+	$user_id=$data[0]['user_id'];
+	//update user
+	$sql="UPDATE `users` SET `submit`=(SELECT count(DISTINCT `problem_id`) FROM `solution` WHERE `user_id`=?               ) WHERE `user_id`=?";
+	pdo_query($sql,$user_id,$user_id);
+	
 	$sql="insert into runtimeinfo(solution_id,error) values(?,?) on duplicate key update error=? ";
 	pdo_query($sql,$sid,$reinfo,$reinfo);
 	if($total>0)
@@ -149,6 +167,8 @@ function do_result_one($remote_site,$username,$password,$sid,$rid){
                      $sql="UPDATE `contest_problem` SET `c_accepted`=(SELECT count(*) FROM `solution` WHERE `problem_id`=? AND `result`=4 and contest_id=?) WHERE `problem_id`=? and contest_id=?";
                      pdo_query($sql,$pid,$cid, $pid,$cid);
                 }
+		$sql="UPDATE `users` SET `solved`=(SELECT count(DISTINCT `problem_id`) FROM `solution` WHERE `user_id`=? AND `result`=4) WHERE `user_id`=?";
+		pdo_query($sql,$user_id,$user_id);
 	}
 	return $result;
 }

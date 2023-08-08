@@ -49,6 +49,7 @@ chmod +X /usr/bin/sim_cc
 chmod +x /usr/bin/sim_java
 chmod +x /usr/bin/sim.sh
 
+
 # Adjust system configuration
 CPU=`grep "cpu cores" /proc/cpuinfo |head -1|awk '{print $4}'`
 USERNAME=`cat /etc/mysql/debian.cnf |grep user    |head -1|awk  '{print $3}'`
@@ -99,16 +100,14 @@ PHP_INIT=`find /etc/init.d -name "php*-fpm"`
 PHP_SERVICE=`basename $PHP_INIT`
 service nginx restart
 service $PHP_SERVICE start
-
+judge_client 1 0 /home/judge/ | grep "final result:4"
 cd /home/judge/src/web
 chmod 755 /home/judge
 for page in index.php problemset.php category.php status.php ranklist.php contest.php loginpage.php registerpage.php
-  do 
+do 
   w3m -dump http://127.0.0.1/$page | grep HUSTOJ
 done;
 
-w3m -dump http://127.0.0.1/ | grep 'HelloWorld'
-judge_client 1 0 /home/judge/ | grep "final result:4"
 w3m -dump http://127.0.0.1/status.php | grep 'AWT'
 w3m -dump http://hustoj.com/ip.php
 #ls -lh /home/judge/run0/log/

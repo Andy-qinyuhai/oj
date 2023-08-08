@@ -61,17 +61,17 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
 <center>
   <table width=100% border=1 style="text-align:center;">
     <tr>
-      <td>ID</td>
-      <td>TITLE</td>
-      <td>START</td>
-      <td>END</td>
-      <td>OPEN</td>
-      <td>NOW</td>
+    <td><?php echo $MSG_CONTEST_ID?></td>
+      <td><?php echo $MSG_CONTEST_NAME?></td>
+      <td><?php echo $MSG_START_TIME?></td>
+      <td><?php echo $MSG_END_TIME?></td>
+      <td><?php echo $MSG_CONTEST_OPEN?></td>
+      <td><?php echo $MSG_STATUS?></td>
       <td><?php echo $MSG_EDIT ?></td>
-      <td>COPY</td>
-      <td>EXPORT</td>
-      <td>LOGS</td>
-      <td>SUSPECT</td>
+      <td><?php echo $MSG_COPY?></td>
+      <td><?php echo $MSG_EXPORT ?></td>
+      <td><?php echo $MSG_LOG?></td>
+      <td><?php echo $MSG_SUSPECT?></td>
     </tr>
     <?php
     foreach($result as $row){
@@ -85,17 +85,17 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
         echo "<td><a href=contest_pr_change.php?cid=".$row['contest_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".($row['private']=="0"?"<span class=green>$MSG_Public</span>":"<span class=red>$MSG_Private<span>")."</a></td>";
         echo "<td><a href=contest_df_change.php?cid=".$row['contest_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".($row['defunct']=="N"?"<span class=green>$MSG_AVAILABLE </span>":"<span class=red>$MSG_RESERVED </span>")."</a></td>";
         echo "<td><a href=contest_edit.php?cid=".$row['contest_id'].">$MSG_EDIT</a></td>";
-        echo "<td><a href=contest_add.php?cid=".$row['contest_id'].">Copy</a></td>";
+        echo "<td><a href=contest_add.php?cid=".$row['contest_id'].">$MSG_COPY</a></td>";
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])){
-          echo "<td><a href=\"problem_export_xml.php?cid=".$row['contest_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey']."\">Export</a></td>";
+          echo "<td><a href=\"problem_export_xml.php?cid=".$row['contest_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey']."\">$MSG_EXPORT</a></td>";
         }else{
           echo "<td></td>";
         }
-        echo "<td> <a href=\"../export_contest_code.php?cid=".$row['contest_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey']."\">Logs</a></td>";
+        echo "<td> <a href=\"../export_contest_code.php?cid=".$row['contest_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey']."\">$MSG_LOG</a></td>";
       }else{
-        echo "<td colspan=5 align=right><a href=contest_add.php?cid=".$row['contest_id'].">Copy</a><td>";
+        echo "<td colspan=5 align=right><a href=contest_add.php?cid=".$row['contest_id'].">$MSG_COPY</a><td>";
       }
-      echo "<td><a href='suspect_list.php?cid=".$row['contest_id']."'>Suspect</a></td>";
+      echo "<td><a href='suspect_list.php?cid=".$row['contest_id']."'>$MSG_SUSPECT</a></td>";
       echo "</tr>";
     }
   ?>

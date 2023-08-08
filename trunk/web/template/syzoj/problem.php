@@ -133,7 +133,7 @@ div[class*=ace_br] {
     $soutput=str_replace("<","&lt;",$row['sample_output']);
     $soutput=str_replace(">","&gt;",$soutput);
   ?>
-  <?php if(strlen($sinput)){ ?>
+  <?php if(strlen($sinput)>0 && $sinput!="\n"){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
@@ -147,7 +147,7 @@ div[class*=ace_br] {
         </div>
     </div>
   <?php }?>
-  <?php if(strlen($sinput)){ ?>
+  <?php if(strlen($soutput)>0 && $soutput!="\n"){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
@@ -251,6 +251,10 @@ div[class*=ace_br] {
        	 	main.parent().append("<div id='submitPage' class='container' style='opacity:0.95;position:fixed;z-index:1000;top:49px;right:-"+width2+"px'></div>");
 		$("#submitPage").html("<iframe src='"+submitURL+"&spa' width='"+width+"px' height='"+height+"px' ></iframe>");
 	}
+	$("#submit").remove();
+	<?php if ($row['spj']>1){ ?>
+            window.setTimeout('$("iframe")[0].contentWindow.$("#TestRun").remove();',1000);
+        <?php }?>
   }
 
   function submit_code() {
@@ -281,51 +285,88 @@ div[class*=ace_br] {
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
 
   <script>
-  function phpfm(pid){
+function phpfm(pid){
     //alert(pid);
     $.post("admin/phpfm.php",{'frame':3,'pid':pid,'pass':''},function(data,status){
       if(status=="success"){
         document.location.href="admin/phpfm.php?frame=3&pid="+pid;
       }
     });
-  }
+}
+function selectOne( num, answer){
+          let editor = $("iframe")[0].contentWindow.$("#source");
+          let old=editor.text();
+          let key= num+".*";
+          console.log(key);
+          let rep=old.replace(new RegExp(key),num+" "+answer);
+          editor.text(rep);
+}
+function selectMulti( num, answer){
+  let editor = $("iframe")[0].contentWindow.$("#source");
+  let old=editor.text();
+  let key= num+".*";
+  console.log(key);
+  let rep=old.replace(new RegExp(key),num+" "+answer);
+  editor.text(rep);
+}
 
   $(document).ready(function(){
-    $("#creator").load("problem-ajax.php?pid=<?php echo $id?>");
-<?php if(isset($OJ_MARKDOWN)&&$OJ_MARKDOWN){ ?>
-                        $("div.md").each(function(){
-                                $(this).html(marked.parse($(this).text()));
-                        });
-<?php } ?>
+    	$("#creator").load("problem-ajax.php?pid=<?php echo $id?>");
+	<?php if(isset($OJ_MARKDOWN)&&$OJ_MARKDOWN){ ?>
+		$("div.md").each(function(){
+			$(this).html(marked.parse($(this).text()));
+		});
+	<?php } ?>
+        $('input[type="radio"]').click(function(){
+                if ($(this).is(':checked'))
+                   selectOne($(this).attr("name"),$(this).val());
+        });
+	$('input[type="checkbox"]').click(function(){
+                let num=$(this).attr("name");
+                let answer="";
+                $("input[type=checkbox][name="+num+"]").each(function(){
+                        if ($(this).is(':checked'))
+                                answer+=$(this).val();
+                });
+                selectMulti(num,answer);
+        });
+	<?php if ($row['spj']>1){ ?>
+	    transform();
+	<?php }?>
 
   });
   </script>   
 
 
   <script>
-    var clipboardin=new Clipboard(copyin);
-    clipboardin.on('success', function(e){
-      $("#copyin").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
-          setTimeout(function () {$("#copyin").text("<?php echo $MSG_COPY; ?>"); }, 1500);    
-      console.log(e);
-    });
-    clipboardin.on('error', function(e){
-      $("#copyin").text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!"); 
-          setTimeout(function () {$("#copyin").text("<?php echo $MSG_COPY; ?>"); }, 1500);
-      console.log(e);
-    });
+	  if($('#copyin')[0]!= undefined ){
 
-    var clipboardout=new Clipboard(copyout);
-    clipboardout.on('success', function(e){
-      $("#copyout").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
-          setTimeout(function () {$("#copyout").text("<?php echo $MSG_COPY; ?>"); }, 1500);    
-      console.log(e);
-    });
-    clipboardout.on('error', function(e){
-      $("#copyout").text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!"); 
-          setTimeout(function () {$("#copyout").text("<?php echo $MSG_COPY; ?>"); }, 1500);
-      console.log(e);
-    });
+		    var clipboardin=new Clipboard($('#copyin')[0]);
+		    clipboardin.on('success', function(e){
+		      $("#copyin").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
+		          setTimeout(function () {$("#copyin").text("<?php echo $MSG_COPY; ?>"); }, 1500);    
+		      console.log(e);
+		    });
+		    clipboardin.on('error', function(e){
+		      $("#copyin").text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!"); 
+		          setTimeout(function () {$("#copyin").text("<?php echo $MSG_COPY; ?>"); }, 1500);
+		      console.log(e);
+		    });
+	  }
+	  if($('#copyout')[0]!= undefined ){
+
+		    var clipboardout=new Clipboard($('#copyout')[0]);
+		    clipboardout.on('success', function(e){
+		      $("#copyout").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
+		          setTimeout(function () {$("#copyout").text("<?php echo $MSG_COPY; ?>"); }, 1500);    
+		      console.log(e);
+		    });
+		    clipboardout.on('error', function(e){
+		      $("#copyout").text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!"); 
+		          setTimeout(function () {$("#copyout").text("<?php echo $MSG_COPY; ?>"); }, 1500);
+		      console.log(e);
+		    });
+	  }
 
   </script>
 <?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>

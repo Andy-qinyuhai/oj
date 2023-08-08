@@ -162,7 +162,7 @@
   $MSG_SET_LOGIN_IP="SetLoginIP";
 	$MSG_PRIVILEGE_TYPE="Privilege Type";
 	$MSG_NEWS_MENU="Show in menu";
-
+        $MSG_LAST_LOGIN="Last Login";
   //contest.php
   $MSG_PRIVATE_WARNING="Contest has not started or you don't have privilege of it.";
 	$MSG_PRIVATE_USERS_ADD="*Enter userIDs with newline, or you can copy and paste from a spreadsheet.";
@@ -182,6 +182,8 @@
 	$MSG_CONTEST_CREATOR="CREATOR";
 	$MSG_CONTEST_PENALTY="TIME PENALTY";
 	$MSG_IP_VERIFICATION="IP VERIFICATION";
+        $MSG_LOG="Log";
+        $MSG_SUSPECT="Audit";
 	$MSG_CONTEST_SUSPECT1="IP addresses with multiple IDs. If multiple IDs are accessed at the same computer during the contest/exam, it logged.";
 	$MSG_CONTEST_SUSPECT2="IDs with multiple IP addresses. If switch to another computer during the contest/exam, it logged.";
         $MSG_REVIEW_CONTESTRANK="RankList of the Reviewers"; // rank of people who reviewed problems of contest after it's over

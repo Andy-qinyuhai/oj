@@ -171,7 +171,7 @@ if(date('m')==4&&date('d')==1&&rand(0,100)<10){
 	$MSG_SET_LOGIN_IP="ئادېرسنى تەڭشەش IP ";
 	$MSG_PRIVILEGE_TYPE="ھوقۇق تۈرى";
 	$MSG_NEWS_MENU="Show in menu";
-
+        $MSG_LAST_LOGIN="Last Login";
   //contest.php
   $MSG_PRIVATE_WARNING="مۇسابىقە باشلانمىدى ياكى سوئال شەخىسكە تەۋە";
   $MSG_PRIVATE_USERS_ADD="ئوقۇغۇچىلار ئوقۇش نومۇرىنى Excel دىن تەرتىپ بويىچە كۆچۈرۈپ كېلىپ، ئۇلاردىن ئوقۇش نومۇرى ئارقىلىق UID قىلىپ تىزىمغا ئالدۇرۇلغىلى بولىدۇ، Private نىڭ مۇسابىقىسىگە كىرىپ مەشغۇلات ۋە سىناق قىلغىلى بولىدۇ. ";
@@ -190,6 +190,8 @@ if(date('m')==4&&date('d')==1&&rand(0,100)<10){
 	$MSG_CONTEST_OPEN="ئوچۇق";
 	$MSG_CONTEST_CREATOR="ئىجادچى";
 	$MSG_CONTEST_PENALTY="يىغىندى ۋاقىت";
+ 	$MSG_LOG="Log";
+        $MSG_SUSPECT="Audit";
 	$MSG_IP_VERIFICATION="IP دەلىلەش";
 	$MSG_CONTEST_SUSPECT1="كۆپ ID لىق IP ئادرېسى بار. ئەگەر مۇسابىقە، ئىمتىھان مەزگىلىدە ئوخشاش بىر كومپيۇتېردا نۇرغۇن ID نى زىيارەت قىلغان بولسىڭىز، بۇ ID خاتىرىلىنىدۇ. ";
 	$MSG_CONTEST_SUSPECT2="كۆپلىگەن IP ئادرېسىغا ئىگە ID. ئەگەر مۇسابىقە، ئىمتىھان مەزگىلىدە باشقا بىر كومپيۇتېرغا ئالماشسا، ئۇ خاتىرىلىنىدۇ. ";

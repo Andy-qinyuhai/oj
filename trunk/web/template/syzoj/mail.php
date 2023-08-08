@@ -1,4 +1,4 @@
-<?php $show_title="错误信息 - $OJ_NAME"; ?>
+<?php $show_title="Mail - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="ui icon message">
   <i class="mail icon"></i>
@@ -8,7 +8,7 @@ if($view_content)
 echo "<center>
 <table>
 <tr>
-<td class=blue>$from_user:${to_user}[".htmlentities(str_replace("\n\r","\n",$view_title),ENT_QUOTES,"UTF-8")." ]</td>
+<td class=blue>$from_user -&gt; $to_user [".htmlentities(str_replace("\n\r","\n",$view_title),ENT_QUOTES,"UTF-8")." ]</td>
 </tr>
 <tr><td><pre>". htmlentities(str_replace("\n\r","\n",$view_content),ENT_QUOTES,"UTF-8")."</pre>
 </td></tr>

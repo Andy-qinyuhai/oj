@@ -1,13 +1,3 @@
-<html>
-<head>
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-Control" content="no-cache">
-  <meta http-equiv="Content-Language" content="zh-cn">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Problem Import</title>
-</head>
-<hr>
-
 <?php 
   require_once("../include/db_info.inc.php");
   require_once("admin-header.php");
@@ -32,10 +22,17 @@
   echo "<center><h3>".$MSG_PROBLEM."-".$MSG_IMPORT."</h3></center>";
 
 ?>
-
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Content-Language" content="zh-cn">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Problem Import</title>
+</head>
 <body leftmargin="30">
   <div class="container">
-    <br><br>
     <?php 
     $show_form = true;
 
@@ -43,11 +40,11 @@
       if (!writable($OJ_DATA)) {
         echo "- You need to add  $OJ_DATA into your open_basedir setting of php.ini,<br>
         or you need to execute:<br>
-        <b>chmod 775 -R $OJ_DATA && chgrp -R www-data $OJ_DATA</b><br>
+        <b>chmod 775 -R $OJ_DATA && chgrp -R ".get_current_user()." $OJ_DATA</b><br>
         you can't use import function at this time.<br>"; 
 
         if($OJ_LANG == "cn")
-          echo "权限异常，请先去执行sudo chmod 775 -R $OJ_DATA <br> 和 sudo chgrp -R www-data $OJ_DATA <br>";
+          echo "权限异常，请先去执行sudo chmod 775 -R $OJ_DATA <br> 和 sudo chgrp -R ".get_current_user()." $OJ_DATA <br>";
 
         $show_form = false;
       }
@@ -63,7 +60,7 @@
     ?>
 
     <?php if ($show_form) { ?>
-    - Import Problem XML<br><br>
+    - Import Problem XML a.k.a  FPS  <br><br>
     <form class='form-inline' action='problem_import_xml.php' method=post enctype="multipart/form-data">
       <div class='form-group'>
         <input class='form-control' type=file name=fps>
@@ -125,9 +122,6 @@
       <?php require_once("../include/set_post_key.php");?>
     </form>
     <?php } ?>
-
-    <br><br>
-
     <?php if ($OJ_LANG == "cn") { ?>
     免费题目<a href="https://github.com/zhblue/freeproblemset/tree/master/fps-examples" target="_blank">下载</a><br>
     更多题目请到 <a href="http://tk.hustoj.com/problemset.php?search=free" target="_blank">TK 题库免费专区</a>。

@@ -176,7 +176,7 @@
 	$MSG_SET_LOGIN_IP="指定登录IP";
 	$MSG_PRIVILEGE_TYPE="权限 类型";
 	$MSG_NEWS_MENU="是否展示到菜单";
-
+        $MSG_LAST_LOGIN="最后登录";
   //contest.php
   $MSG_PRIVATE_WARNING="比赛尚未开始或私有，不能查看题目。";
   $MSG_PRIVATE_USERS_ADD="*可以将学生学号从Excel整列复制过来，然后要求他们用学号做UserID注册,就能进入Private的比赛作为作业和测验。";
@@ -196,6 +196,8 @@
 	$MSG_CONTEST_CREATOR="创建人";
 	$MSG_CONTEST_PENALTY="累计时间";
 	$MSG_IP_VERIFICATION="IP验证";
+        $MSG_LOG="日志";
+        $MSG_SUSPECT="审计";
 	$MSG_CONTEST_SUSPECT1="具有多个ID的IP地址。如果在竞赛/考试期间在同一台计算机上访问了多个ID，则会记录该ID。";
 	$MSG_CONTEST_SUSPECT2="具有多个IP地址的ID。 如果在竞赛/考试期间切换到另一台计算机，它将记录下来。";
 	$MSG_REVIEW_CONTESTRANK="补题榜"; // 比赛之后在练习中补做比赛原题 

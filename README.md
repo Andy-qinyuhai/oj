@@ -4,7 +4,7 @@
 
 常见问题请先查阅
 --
-**[FAQ](https://github.com/zhblue/hustoj/blob/master/wiki/FAQ.md)**
+**[FAQ常见问答](http://hustoj.com)**
 
 
 ## 目录
@@ -111,16 +111,11 @@ HUSTOJ 是采用 GPL 的自由软件。(仅限原创部分代码，其中使用�
 
 论文请引用参考文献 [基于开放式云平台的开源在线评测系统设计与实现](http://kns.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFQ&dbname=CJFD2012&filename=JSJA2012S3088) 
 
-如果打算进行二次开发， [Wiki](https://github.com/zhblue/hustoj/tree/master/wiki) 和这份 [文档](https://zhblue.github.io/hustoj) 可能有帮助。
+如果打算进行二次开发， [Wiki](https://github.com/zhblue/hustoj/tree/master/wiki) 和这份[Wiki](https://github.com/zhblue/hustoj/tree/master/wiki) 可能有帮助。
 
 PS: GPL保证你可以合法忽略以上注意事项但不能保证你不受鄙视，呵呵。
 
-常见问题自动应答微信公众号:`hustoj`          <img src="http://hustoj.com/wx.jpg" height="180" />
-
-关注后回复： 新装系统、升级、目录等关键词，系统会自动回复相关帮助。
-
-有问题请先查阅 **[FAQ常见问答](https://github.com/zhblue/hustoj/blob/master/wiki/FAQ.md)** 和 **[Wiki使用技巧](https://github.com/zhblue/hustoj/tree/master/wiki)** 或使用搜索引擎。 
-
+有关安装、使用问题请先查阅 **[FAQ常见问答](http://hustoj.com)** 和 **[文档](https://zhblue.github.io/hustoj)** 或使用搜索引擎。 
 
 如果这个项目对你有用，请：
 
@@ -141,6 +136,10 @@ Star us, please!
 	
   日期  | 类型 |  更新内容
 ------- | :--: | :-------
+08-05 | 更新 | 在AC时记实际分数，不再是100分，比赛可以组合合适的题目，使OI排名中的总分为100分。
+08-04 | 更新 | 支持多选题，允许用&lt;input type=checkbox name=1 value=A&gt; 添加多选按钮。
+08-03 | 更新 | 当题目是选择题时ACE自动关闭,露一手中提交显示分数，选择题允许用&lt;input type=radio name=1 value=A&gt; 添加单选按钮。
+07-23 | 补丁 | 改善远程判题remote_bas的性能，更新部分菜单中文显示，修补手动判题功能。
 06-20 | 更新 | 后台题目列表支持跨页选择，自动保存已选题目状态。优化ubuntu22.04安装脚本，支持512M迷你服务器。
 06-08 | 补丁 | 改善对hydroOJ题目导入的支持。
 04-21 | 更新 | 支持基于文件名的subtask绑定。默认字体颜色调黑。

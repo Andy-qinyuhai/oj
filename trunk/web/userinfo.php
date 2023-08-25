@@ -5,13 +5,21 @@
         require_once('./include/db_info.inc.php');
 	require_once('./include/setlang.php');
 	require_once("./include/const.inc.php");
-	require_once("./include/my_func.inc.php");	
-/*
-        if(isset($OJ_OI_MODE)&&$OJ_OI_MODE&&!isset($_SESSION[$OJ_NAME."_administrator"])){
-		header("location:index.php");
-		exit();
-	}
-*/
+	require_once("./include/my_func.inc.php");
+	if(isset($OJ_OI_MODE)&&$OJ_OI_MODE&&!isset($_SESSION[$OJ_NAME."_administrator"])){
+                $now = strftime("%Y-%m-%d %H:%M",time());
+                $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
+                $row=pdo_query($sql);
+                $cols=$row[0];
+                //echo $sql;
+                //echo $cols[0];
+                if($cols[0]>0) {
+                      $view_errors =  "<h2> $MSG_NOIP_WARNING </h2>";
+                      require("template/".$OJ_TEMPLATE."/error.php");
+                      exit(0);
+                }
+        }
+
  // check user
 $user=$_GET['user'];
 if (!is_valid_user_name($user)){
@@ -103,7 +111,15 @@ $sql=	"SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM `solution` w
 		$chart_data_ac[$row['md']]=$row['c'];
     }
   
-  
+$acc_arr=Array();
+if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])) {
+        $sql = "SELECT distinct `problem_id` FROM `solution` WHERE `user_id`=? AND `result`=4 ";
+        if(isset($pids)&&$pids!="") $sql.=" and problem_id in ($pids)";
+        $result = mysql_query_cache($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
+        foreach ($result as $row)
+                $acc_arr[$row[0]] = true;
+}
+
     
 /////////////////////////Template
 require("template/".$OJ_TEMPLATE."/userinfo.php");

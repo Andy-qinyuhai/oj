@@ -2630,8 +2630,8 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, int *total_ma
         FILE *out=fopen(outfile,"r");
         int num=0;
         char * user_answer=(char * )malloc(4096);
-        long unsigned int user_length=4095;
-        long unsigned int ans_length=4095;
+        size_t user_length=4095;
+        size_t ans_length=4095;
         float m[total+1];
         char * ans[total+1];
 	*total_mark=0;
@@ -3137,7 +3137,7 @@ void init_parameters(int argc, char **argv, int &solution_id,
 {
 	if (argc < 3)
 	{
-		fprintf(stderr,"HUSTOJ judge_client ver 20201127\n\n");
+		fprintf(stderr,"HUSTOJ judge_client ver 20230823\n\n");
 		fprintf(stderr, "Normal Usage:\n\t%s <solution_id> <runner_id>\n\n", argv[0]);
 		fprintf(stderr, "Multi OJ with Specific home :\n\t%s <solution_id> <runner_id> [judge_base_path].\n\n",
 				argv[0]);
@@ -3390,7 +3390,7 @@ int main(int argc, char **argv)
 	get_solution(solution_id, work_dir, lang);
 
 	//java and other VM language are lucky to have the global bonus in judge.conf
-	if (lang >= LANG_JAVA && lang != LANG_OBJC && lang != LANG_CLANG && lang != LANG_CLANGPP && lang != LANG_GO)
+	if (lang >= LANG_JAVA && lang != LANG_OBJC && lang != LANG_CLANG && lang != LANG_CLANGPP )
 	{ //ObjectivC Clang Clang++ Go not VM or Script
 		// the limit for java
 		time_lmt = time_lmt + java_time_bonus;
@@ -3732,7 +3732,8 @@ int main(int argc, char **argv)
 			}
 			if (total_mark > 0 ){
 				pass_rate =get_mark;
-				pass_rate /= 100.0;
+				 if(total_mark>100) pass_rate /= total_mark;
+                                else pass_rate /= 100.0;
 			}
 			update_solution(solution_id, finalACflg, usedtime, topmemory >> 10, sim,
 							sim_s_id, pass_rate);

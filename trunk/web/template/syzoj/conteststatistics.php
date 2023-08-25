@@ -2,7 +2,7 @@
   $show_title="$MSG_STATISTICS - $OJ_NAME";
   include("template/$OJ_TEMPLATE/header.php");
 ?>
-<div class="container">
+<div class="padding">
 
 	<?php
 	function formatTimeLength($length) {
@@ -303,7 +303,7 @@
 <!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<?php include("template/$OJ_TEMPLATE/js.php");?>	    
+	    
 	<script type="text/javascript" src="include/jquery.tablesorter.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function()

@@ -167,7 +167,7 @@ else {
 			  $sql="WHERE (contest_id=0 or contest_id is null)  ";      // 如果希望所有人能在练习状态直接查看自己的比赛提交，这里改成 where problem_id>0 
 	    }
     }else{
-        $sql="WHERE problem_id>0 and (contest_id=0 or contest_id is null) "; // 如果希望所有人能在练习状态直接查看别人的比赛提交，这里改成 where problem_id>0 
+        $sql="WHERE user_id not in ($OJ_RANK_HIDDEN) and  problem_id>0 and (contest_id=0 or contest_id is null) "; // 如果希望所有人能在练习状态直接查看别人的比赛提交，这里改成 where problem_id>0 
     }
 }
 
@@ -402,7 +402,10 @@ for ($i=0; $i<$rows_cnt; $i++) {
     $mark = "";
   }
   else {
-    $mark = " ".$MSG_MARK.$AC_RATE;
+    if($AC_RATE > 99||$row['result']==4)      
+        $mark = "";
+    else 
+        $mark = " ".$MSG_MARK.$AC_RATE;
   }
 
   if ((!isset($_SESSION[$OJ_NAME.'_'.'user_id']) || $row['user_id']!=$_SESSION[$OJ_NAME.'_'.'user_id']) && !isset($_SESSION[$OJ_NAME.'_'.'source_browser']))

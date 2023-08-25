@@ -131,8 +131,8 @@
                             <div class="ui bottom attached segment">
                                 <script language='javascript'>
                                     function p(id, c) {
-                                        if(c>0)document.write("<a href=problem.php?id=" + id + " class=\"ui green basic label\" id=\"show-problem-id\">" + id + " </a>");
-                                        else document.write("<a href=problem.php?id=" + id + " class=\"ui red basic label\" id=\"show-problem-id\">" + id + " </a>");
+                                        document.write("<a href=problem.php?id=" + id + " class=\"ui green basic label\" id=\"show-problem-id\">" + id +
+                                            " </a>");
                                     }
 
                                     function ptot(len) {
@@ -143,57 +143,78 @@
                                     if ($ret = pdo_query($sql, $user)) {
                                         $len = count($ret);
                                         echo "ptot($len);";
-                                        foreach ($ret as $row){
-                                            if (isset($acc_arr[$row['problem_id']]))
-                                                echo "p($row[0],$row[1]);";
-                                            else
-                                                echo "p($row[0],0);";
-                                        }
+                                        foreach ($ret as $row)
+                                            echo "p($row[0],$row[1]);";
                                     }
                                     ?>
                                 </script>
                             </div>
-
                         </div>
                     </div>
-					<div class="row">
-                        <div class="column">
-                            <h4 class="ui top attached block header">
-                               近期登录日志
 
-                            </h4>
-                            <div class="ui bottom attached segment">
-
-					<?php
-					if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
-					?><table border=1 class='ui table'>
-					<thead><tr class=toprow><th>UserID</th><th>Password</th><th>IP</th><th>Time</th></tr></thead>
-					<tbody>
-					<?php
-					$cnt=0;
-					foreach($view_userinfo as $row){
-					        if ($cnt)
-					                echo "<tr class='oddrow'>";
-					        else
-					                echo "<tr class='evenrow'>";
-					        for($i=0;$i<count($row)/2;$i++){
-					                echo "<td>";
-					                echo "\t".$row[$i];
-					                echo "</td>";
-					        }
-					        echo "</tr>";
-					        $cnt=1-$cnt;
-					}
-					?>
-					</tbody>
-					</table>
-					<?php
-					}
-					?>
-                             </div>
-
+                       
+                  
+  
                         </div>
                     </div>
+
+                </div>
+
+                <!-- <div class="row">
+                    <div class="column">
+                        <h4 class="ui top attached block header">帖子</h4>
+                        <div class="ui bottom attached <% if (!show_user.articles.length) { %>center aligned <% } %>segment">
+													  <% if (!show_user.articles.length) { %>该用户从未发表帖子<% } else { %>
+                            <table class="ui very basic table">
+                                <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (let article of show_user.articles) { %>
+                                    <tr>
+																			  <td><a href="<%= syzoj.utils.makeUrl(['article', article.id]) %>"><%= article.title %></a></td>
+                                        <td><%= syzoj.utils.formatDate(article.public_time) %></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+													  <% } %>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="row">
+                    <div class="column">
+                        <h4 class="ui top attached block header">比赛</h4>
+                        <div class="ui bottom attached segment">
+                            <table class="ui very basic table">
+                                <thead>
+                                    <tr>
+                                        <th>比赛</th>
+                                        <th>名次</th>
+                                        <th>积分</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (const history of ratingHistories) { %>
+                                    <tr>
+                                        <td><%= history.contestName %></td>
+                                        <td><%= history.rank != null ? history.rank + " / " + history.participants : '' %></td>
+                                        <td><%= history.value %> 
+                                            <% if(history.delta != null) { %> 
+                                                <span class="<%= history.delta >= 0 ? 'rating_up' : 'rating_down' %>">
+                                                (<%= (history.delta < 0 ? '' : '+') + history.delta %>)
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>

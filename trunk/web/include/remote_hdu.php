@@ -62,6 +62,7 @@ function do_submit_one($remote_site,$username,$sid){
 		$row=$data[0];
 		$source=$row['source'];
 	}
+	while(strlen($source)<50) $source.="\n          \n";     // hdu要求至少50
 	$form=array(
 		'problemid' => $problem_id, 
 		'language' => $language,
@@ -209,7 +210,7 @@ if(isset($_POST[$OJ_NAME.'_refer'])){
 	header("location:".$_SESSION[$OJ_NAME.'_refer']);
 	unset($_SESSION[$OJ_NAME.'_refer']);
 }else{
-	if(time()-fileatime($remote_cookie.".sub")>$remote_delay){
+	if(time()-fileatime($remote_cookie.".sub")>$remote_delay && is_login($remote_site) ){
 		touch($remote_cookie.".sub");
 		do_submit($remote_site,$remote_user);	
 	}

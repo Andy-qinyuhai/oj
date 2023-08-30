@@ -58,6 +58,8 @@ $sql = "SELECT count(solution_id) AS items FROM solution WHERE result<>4 AND pro
 $result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
 $error_count = $result[0][items];
 
+$isAC = $row['result']==4 ;
+
 if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
 {
   $ok = true;
@@ -94,6 +96,7 @@ if(  ($ok && $OJ_FRIENDLY_LEVEL>2) ||
     $sql="select pass_rate*100 from solution where solution_id=?";
     $result = pdo_query($sql,$id);
     if(count($result)>0) $mark=$result[0][0];
+    if($isAC) $mark=100;
     $view_reinfo .="<br>$MSG_MARK : $mark";
 
   }

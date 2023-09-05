@@ -19,7 +19,7 @@
 	        <thead>
 	        <tr>
 			<th>ip</th>
-			<th>uri</th>
+			<th>url</th>
 			<th>refer</th>
 			<th>stay time</th>
 			<th>user agent</th>

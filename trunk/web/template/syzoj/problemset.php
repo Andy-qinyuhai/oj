@@ -7,7 +7,7 @@
           <form action="" method="get">
             <div class="ui search" style="width: 280px; height: 28px; margin-top: -5.3px;float:left ">
               <div class="ui left icon input" style="width: 100%; ">
-                <input class="prompt" style="width: 100%; " type="text" value="" placeholder=" <?php echo $MSG_TITLE;?> …" name="search">
+                <input class="prompt" style="width: 100%; " type="text" value="" placeholder=" <?php echo $MSG_TITLE;?> / <?php echo $MSG_CONTENTS;?> …" name="search">
                 <i class="search icon"></i>               
               </div>               
               <div class="results" style="width: 100%; "></div>

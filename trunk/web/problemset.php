@@ -65,7 +65,7 @@ if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 }
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$search = "%".($_GET['search'])."%";
-	$filter_sql = " ( title like ? or source like ? or description like ? or hint like ?)";
+	$filter_sql = " ( title like ?) or (source like ?) or (description like ?) or (hint like ?)";
 	$pstart = 0;
 	$pend = 100;
 

@@ -146,7 +146,7 @@ pdo_query("SET sort_buffer_size = 1024*1024");   // Out of sort memory, consider
 
 //echo htmlentities( $sql);
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
-	$result = pdo_query($sql,$search,$search);
+	$result = pdo_query($sql,$search,$search,$search,$search);
 }
 else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);	

@@ -3,7 +3,7 @@ function addproblem($title, $time_limit, $memory_limit, $description, $input, $o
   //$spj=($spj);
   $sql = "INSERT INTO `problem` (`title`,`time_limit`,`memory_limit`,`description`,`input`,`output`,`sample_input`,`sample_output`,`sample_input_2`,`sample_output_2`,`hint`,`source`,`spj`,`in_date`,`defunct`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),'Y')";
   //echo $sql;
-  $pid = pdo_query($sql, $title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj);
+  $pid = pdo_query($sql, $title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output,$sample_input_2, $sample_output_2, $hint, $source, $spj);
 
   echo "&nbsp;&nbsp;- Problem ID $pid added!<br>";
 

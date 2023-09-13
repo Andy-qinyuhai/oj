@@ -173,7 +173,7 @@ div[class*=ace_br] {
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input_2?> 
-          <span class="copy" id="copyin" data-clipboard-text="<?php echo htmlentities($sinput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
+          <span class="copy" id="copyin_2" data-clipboard-text="<?php echo htmlentities($sinput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
           </h4>
           <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
@@ -187,7 +187,7 @@ div[class*=ace_br] {
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output_2?>
-          <span class="copy" id="copyout" data-clipboard-text="<?php echo htmlentities($soutput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
+          <span class="copy" id="copyout_2" data-clipboard-text="<?php echo htmlentities($soutput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
           </h4>
           <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
@@ -432,7 +432,34 @@ function selectMulti( num, answer){
 		      console.log(e);
 		    });
 	  }
+      if($('#copyin_2')[0]!= undefined ){
 
+		    var clipboardin=new Clipboard($('#copyin_2')[0]);
+		    clipboardin.on('success', function(e){
+		      $("#copyin_2").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
+		          setTimeout(function () {$("#copyin_2").text("<?php echo $MSG_COPY; ?>"); }, 1500);    
+		      console.log(e);
+		    });
+		    clipboardin.on('error', function(e){
+		      $("#copyin_2").text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!"); 
+		          setTimeout(function () {$("#copyin_2").text("<?php echo $MSG_COPY; ?>"); }, 1500);
+		      console.log(e);
+		    });
+	  }
+	  if($('#copyout_2')[0]!= undefined ){
+
+		    var clipboardout=new Clipboard($('#copyout_2')[0]);
+		    clipboardout.on('success', function(e){
+		      $("#copyout_2").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
+		          setTimeout(function () {$("#copyout_2").text("<?php echo $MSG_COPY; ?>"); }, 1500);    
+		      console.log(e);
+		    });
+		    clipboardout.on('error', function(e){
+		      $("#copyout_2").text("<?php echo $MSG_COPY.$MSG_FAIL; ?>!"); 
+		          setTimeout(function () {$("#copyout_2").text("<?php echo $MSG_COPY; ?>"); }, 1500);
+		      console.log(e);
+		    });
+	  }
   </script>
 <?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>
     <!--以下为了加载公式的使用而既加入-->

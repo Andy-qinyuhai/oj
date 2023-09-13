@@ -162,6 +162,42 @@ div[class*=ace_br] {
         </div>
     </div>
   <?php }?>
+  
+  <?php
+    $sinput=str_replace("<","&lt;",$row['sample_input_2']);
+    $sinput=str_replace(">","&gt;",$sinput);
+    $soutput=str_replace("<","&lt;",$row['sample_output_2']);
+    $soutput=str_replace(">","&gt;",$soutput);
+  ?>
+  <?php if(strlen($sinput)>0 && $sinput!="\n"){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input_2?> 
+          <span class="copy" id="copyin" data-clipboard-text="<?php echo htmlentities($sinput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
+          </h4>
+          <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
+          <div class="ui bottom attached segment font-content">
+            <!-- <pre><?php echo ($sinput); ?></pre> -->
+            <pre style="margin-top: 0; margin-bottom: 0; "><code class="lang-plain"><?php echo ($sinput); ?></code></pre>
+          </div>
+        </div>
+    </div>
+  <?php }?>
+  <?php if(strlen($soutput)>0 && $soutput!="\n"){ ?>
+    <div class="row">
+        <div class="column">
+          <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output_2?>
+          <span class="copy" id="copyout" data-clipboard-text="<?php echo htmlentities($soutput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
+          </h4>
+          <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
+          <div class="ui bottom attached segment font-content">
+            <!-- <div class="ui existing segment"> -->
+              <pre style="margin-top: 0; margin-bottom: 0; "><code class="lang-plain"><?php echo ($soutput); ?></code></pre>
+            <!-- </div> -->
+          </div>
+        </div>
+    </div>
+  <?php }?>
   <?php if($row['hint']){ ?>
     <div class="row">
         <div class="column">

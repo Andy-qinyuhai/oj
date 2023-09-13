@@ -121,8 +121,10 @@
 	$MSG_Description="Description"  ;
 	$MSG_Input="Input"  ;
 	$MSG_Output= "Output" ;
-	$MSG_Sample_Input= "Sample Input" ;
-	$MSG_Sample_Output= "Sample Output" ;
+	$MSG_Sample_Input= "Sample Input-1" ;
+	$MSG_Sample_Output= "Sample Output-1" ;
+	$MSG_Sample_Input_2= "Sample Input-2" ;
+	$MSG_Sample_Output_2= "Sample Output-2" ;
 	$MSG_Test_Input= "Test Input" ;
 	$MSG_Test_Output= "Test Output" ;
 	$MSG_NJ= "Normal Judger" ;

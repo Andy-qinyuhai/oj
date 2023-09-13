@@ -33,6 +33,8 @@ $output = str_replace(",", "&#44;", $output);
 
 $sample_input = $_POST['sample_input'];
 $sample_output = $_POST['sample_output'];
+$sample_input_2 = $_POST['sample_input_2'];
+$sample_output_2 = $_POST['sample_output_2'];
 $test_input = $_POST['test_input'];
 $test_output = $_POST['test_output'];
 /* don't do this , we will left them empty for not generating invalid test data files 
@@ -60,12 +62,13 @@ if (false) {
   $output = stripslashes($output);
   $sample_input = stripslashes($sample_input);
   $sample_output = stripslashes($sample_output);
+  $sample_input_2 = stripslashes($sample_input_2);
+  $sample_output_2 = stripslashes($sample_output_2);
   $test_input = stripslashes($test_input);
   $test_output = stripslashes($test_output);
   $hint = stripslashes($hint);
   $source = stripslashes($source);
-  $spj = stripslashes($spj);
-  $source = stripslashes($source);
+  $spj = stripslashes($spj);  
 }
 
 $title = ($title);
@@ -74,12 +77,12 @@ $input = ($input);
 $output = ($output);
 $hint = ($hint);
 //echo "->".$OJ_DATA."<-"; 
-$pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
+$pid = addproblem($title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $sample_input_2, $sample_output_2,$hint, $source, $spj, $OJ_DATA);
 $basedir = "$OJ_DATA/$pid";
 mkdir($basedir);
-if(strlen($sample_output) && !strlen($sample_input)) $sample_input = "0";
-if(strlen($sample_input)) mkdata($pid, "sample.in", $sample_input, $OJ_DATA);
-if(strlen($sample_output)) mkdata($pid, "sample.out", $sample_output, $OJ_DATA);
+//if(strlen($sample_output) && !strlen($sample_input)) $sample_input = "0";
+//if(strlen($sample_input)) mkdata($pid, "sample.in", $sample_input, $OJ_DATA);
+//if(strlen($sample_output)) mkdata($pid, "sample.out", $sample_output, $OJ_DATA);
 if(strlen($test_output) && !strlen($test_input)) $test_input = "0";
 if(strlen($test_input)) mkdata($pid,"test.in", $test_input, $OJ_DATA);
 if(strlen($test_output)) mkdata($pid,"test.out", $test_output, $OJ_DATA);

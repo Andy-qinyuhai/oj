@@ -53,6 +53,14 @@
           <?php echo "<h4>".$MSG_Sample_Output."(<64kB)</h4>"?>
           <textarea  class="input input-large" style="width:100%;" rows=13 name=sample_output></textarea><br><br>
         </p>
+		<p align=left>
+          <?php echo "<h4>".$MSG_Sample_Input_2."(<64kB)</h4>"?>
+          <textarea  class="input input-large" style="width:100%;" rows=13 name=sample_input_2></textarea><br><br>
+        </p>
+        <p align=left>
+          <?php echo "<h4>".$MSG_Sample_Output_2."(<64kB)</h4>"?>
+          <textarea  class="input input-large" style="width:100%;" rows=13 name=sample_output_2></textarea><br><br>
+        </p>
         <p align=left>
           <?php echo "<h4>".$MSG_Test_Input."</h4>"?>
           <?php echo "(".$MSG_HELP_MORE_TESTDATA_LATER.")"?><br>

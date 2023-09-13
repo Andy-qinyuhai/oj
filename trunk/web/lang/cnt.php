@@ -128,8 +128,10 @@
  $MSG_Description ="題目描述" ;
  $MSG_Input ="輸入" ;
  $MSG_Output = "輸出" ;
- $MSG_Sample_Input = "樣例輸入" ;
- $MSG_Sample_Output = "樣例輸出" ;
+ $MSG_Sample_Input = "樣例輸入-1" ;
+ $MSG_Sample_Output = "樣例輸出-1" ;
+ $MSG_Sample_Input_2 = "樣例輸入-2" ;
+ $MSG_Sample_Output_2 = "樣例輸出-2" ;
  $MSG_Test_Input = "測試輸入" ;
  $MSG_Test_Output = "測試輸出" ;
  $MSG_NJ = "普通裁判" ;

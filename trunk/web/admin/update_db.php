@@ -204,10 +204,10 @@ $tsql[43]="alter table $DB_NAME.problem add column remote_oj varchar(16) default
 $csql[43]="alter table $DB_NAME.problem add column remote_id varchar(16) default NULL after remote_oj;";
 $tsql[44]="alter table $DB_NAME.solution add column remote_oj char(16) not null default '' after judger;";
 $csql[44]="alter table $DB_NAME.solution add column remote_id char(16) not null default '' after remote_oj;";
-
 $tsql[45]="alter table $DB_NAME.news modify content mediumtext not null;";
 $csql[45]="alter table $DB_NAME.problem modify description mediumtext not null, modify input  mediumtext not null, modify output mediumtext not null;";
-
+$tsql[46]="alter table $DB_NAME.problem add `sample_input_2` text after `sample_input`;";
+$csql[46]="alter table $DB_NAME.problem add `sample_output_2` text after `sample_output`;";
 if(isset($_POST['do'])){
 	require_once("../include/check_post_key.php");
 	echo "Executing...<br>";

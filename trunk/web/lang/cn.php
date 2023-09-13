@@ -135,8 +135,10 @@
 	$MSG_Description="题目描述"  ;
 	$MSG_Input="输入"  ;
 	$MSG_Output= "输出" ;
-	$MSG_Sample_Input= "样例输入" ;
-	$MSG_Sample_Output= "样例输出" ;
+	$MSG_Sample_Input= "样例输入-1" ;
+	$MSG_Sample_Output= "样例输出-1" ;
+	$MSG_Sample_Input_2= "样例输入-2" ;
+	$MSG_Sample_Output_2= "样例输出-2" ;
 	$MSG_Test_Input= "测试输入" ;
 	$MSG_Test_Output= "测试输出" ;
 	$MSG_NJ= "普通裁判" ;

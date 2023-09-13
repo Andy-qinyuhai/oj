@@ -76,6 +76,16 @@ include_once("kindeditor.php") ;
         <?php echo "<h4>".$MSG_Sample_Output."</h4>"?>
         <textarea  class="input input-large" style="width:100%;" rows=13 name=sample_output><?php echo htmlentities($row['sample_output'],ENT_QUOTES,"UTF-8")?></textarea><br><br>
       </p>
+	  
+	  <p align=left>
+        <?php echo "<h4>".$MSG_Sample_Input_2."</h4>"?>
+        <textarea  class="input input-large" style="width:100%;" rows=13 name=sample_input_2><?php echo htmlentities($row['sample_input_2'],ENT_QUOTES,"UTF-8")?></textarea><br><br>
+      </p>
+
+      <p align=left>
+        <?php echo "<h4>".$MSG_Sample_Output_2."</h4>"?>
+        <textarea  class="input input-large" style="width:100%;" rows=13 name=sample_output_2><?php echo htmlentities($row['sample_output_2'],ENT_QUOTES,"UTF-8")?></textarea><br><br>
+      </p>
 
       <p align=left>
         <?php echo "<h4>".$MSG_HINT."</h4>"?>
@@ -140,6 +150,8 @@ include_once("kindeditor.php") ;
 
       $sample_input = $_POST['sample_input'];
       $sample_output = $_POST['sample_output'];
+	  $sample_input_2 = $_POST['sample_input_2'];
+      $sample_output_2 = $_POST['sample_output_2'];
       //if ($sample_input=="") $sample_input="\n";
       //if ($sample_output=="") $sample_output="\n";
 
@@ -162,6 +174,8 @@ include_once("kindeditor.php") ;
         $output = stripslashes($output);
         $sample_input = stripslashes($sample_input);
         $sample_output = stripslashes($sample_output);
+		$sample_input_2 = stripslashes($sample_input_2);
+        $sample_output_2 = stripslashes($sample_output_2);
         //$test_input = stripslashes($test_input);
         //$test_output = stripslashes($test_output);
         $hint = stripslashes($hint);
@@ -191,9 +205,9 @@ include_once("kindeditor.php") ;
 
       $spj = intval($spj);
 
-      $sql = "UPDATE `problem` SET `title`=?,`time_limit`=?,`memory_limit`=?, `description`=?,`input`=?,`output`=?,`sample_input`=?,`sample_output`=?,`hint`=?,`source`=?,`spj`=?,remote_oj=?,remote_id=?,`in_date`=NOW() WHERE `problem_id`=?";
+      $sql = "UPDATE `problem` SET `title`=?,`time_limit`=?,`memory_limit`=?, `description`=?,`input`=?,`output`=?,`sample_input`=?,`sample_output`=?,`sample_input_2`=?,`sample_output_2`=?,`hint`=?,`source`=?,`spj`=?,remote_oj=?,remote_id=?,`in_date`=NOW() WHERE `problem_id`=?";
 
-      @pdo_query($sql,$title,$time_limit,$memory_limit,$description,$input,$output,$sample_input,$sample_output,$hint,$source,$spj,$remote_oj,$remote_id,$id);
+      @pdo_query($sql,$title,$time_limit,$memory_limit,$description,$input,$output,$sample_input,$sample_output,$sample_input_2,$sample_output_2,$hint,$source,$spj,$remote_oj,$remote_id,$id);
 
       echo "Edit OK!<br>";
       echo "<a href='../problem.php?id=$id'>See The Problem!</a>";

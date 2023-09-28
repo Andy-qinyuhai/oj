@@ -18,8 +18,8 @@ include_once("kindeditor.php") ;
   <div class="container">
     <?php
     if (isset($_GET['id'])) {
-      ;//require_once("../include/check_get_key.php");
-        $pid=intval($_GET['pid']);
+      //require_once("../include/check_get_key.php");
+        $pid=intval($_GET['id']);
         if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) || isset($_SESSION[$OJ_NAME.'_'."p".$pid])) ){
                 echo "No Privilege.";
                 exit(0);

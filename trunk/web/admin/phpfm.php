@@ -22,7 +22,7 @@ require_once("../include/db_info.inc.php");
 	
 	if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
       || isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
-      || (isset($_GET['pid']) && isset($_SESSION[$OJ_NAME.'_'."p".intval($_GET['pid'])]))
+      || isset($_SESSION[$OJ_NAME.'_'."p".intval($_GET['pid'])])
      )){
 	echo $_SESSION[$OJ_NAME.'_'.'administrator'];
 	echo "<a href='../loginpage.php'>Please Login First!</a>";

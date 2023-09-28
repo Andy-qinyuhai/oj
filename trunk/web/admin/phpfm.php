@@ -19,13 +19,16 @@ require_once('../include/my_func.inc.php');
         $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
     }
 	// Server Vars
+	if (isset($_GET['pid'])) {
+		$pid=intval($_GET['pid']);
+	}
 	
 	if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
       || isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
-      || isset($_SESSION[$OJ_NAME.'_'."p".$_GET['pid']])
+      || isset($_SESSION[$OJ_NAME.'_'."p".$pid])
      )){
 	echo $_SESSION[$OJ_NAME.'_'.'administrator'];
-	echo "<a href='../loginpage.php'>Please Login First!</a>";
+	echo "<a href='../loginpage.php'>No Privilege.</a>";
 	exit(1);
 }
 // this is not a webshell , and it need administrator / problem editor / problem owner  membership to use, 

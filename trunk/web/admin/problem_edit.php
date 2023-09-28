@@ -10,11 +10,6 @@ require_once("../include/db_info.inc.php");
 require_once("admin-header.php");
 require_once("../include/my_func.inc.php");
 
-if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))) {
-  echo "<a href='../loginpage.php'>Please Login First!</a>";
-  exit(1);
-}
-
 echo "<center><h3>"."Edit-".$MSG_PROBLEM."</h3></center>";
 include_once("kindeditor.php") ;
 ?>
@@ -25,7 +20,7 @@ include_once("kindeditor.php") ;
     if (isset($_GET['id'])) {
       ;//require_once("../include/check_get_key.php");
         $pid=intval($_GET['pid']);
-        if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'."p".$pid])) ){
+        if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) || isset($_SESSION[$OJ_NAME.'_'."p".$pid])) ){
                 echo "No Privilege.";
                 exit(0);
         }
@@ -120,11 +115,11 @@ include_once("kindeditor.php") ;
     else {
       require_once("../include/check_post_key.php");
       $id = intval($_POST['problem_id']);
-      if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'."p".$id])) ){
+      if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) || isset($_SESSION[$OJ_NAME.'_'."p".$id])) ){
                 echo "No Privilege.";
                 exit(0)    ;
       }
-      if (!(isset($_SESSION[$OJ_NAME.'_'."p$id"]) || isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) )) exit();
+      //if (!(isset($_SESSION[$OJ_NAME.'_'."p$id"]) || isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) )) exit();
 
       $title = $_POST['title'];
       $title = str_replace(",", "&#44;", $title);

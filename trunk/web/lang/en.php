@@ -258,6 +258,7 @@
 	$MSG_HELP_ADD_PRIVILEGE=" adds permissions to designated users, including administrators, subjects, players, organizers, participants, code viewer, manual judge questions, remote questions and other permissions. ";
 	$MSG_HELP_ADD_CONTEST_USER="Add User to private contest.";
 	$MSG_HELP_ADD_SOLUTION_VIEW="Add Problem Solution View for User.";
+	$MSG_HELP_ADD_PROBLEM_EDIT="Add problem edit private for User.";
 	$MSG_HELP_PRIVILEGE_LIST= "looks at the existing list of special permissions and deletes them. ";
 	$MSG_HELP_GIVESOURCE=" transfers the label of the import system to the designated account number, which is used to assist the person who has not passed the training after the training. ";
 	$MSG_HELP_EXPORT_PROBLEM= "export the problems of the system in the form of fps.xml file. ";

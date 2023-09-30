@@ -273,6 +273,7 @@
   $MSG_HELP_ADD_PRIVILEGE="给指定用户增加权限，包括管理员、题目添加者、比赛组织者、比赛参加者、代码查看者、手动判题、远程判题、打印员、气球发放员等权限。";
 	$MSG_HELP_ADD_CONTEST_USER="给用户添加单个比赛权限。";
 	$MSG_HELP_ADD_SOLUTION_VIEW="给用户添加单个题目的答案查看权限。";
+	$MSG_HELP_ADD_PROBLEM_EDIT="给用户添加单个题目的编辑权限。";
   $MSG_HELP_PRIVILEGE_LIST="查看已有的特殊权限列表、进行删除操作。";
   $MSG_HELP_GIVESOURCE="将导入系统的标程赠与指定帐号，用于训练后辅助未通过的人学习参考。";
   $MSG_HELP_EXPORT_PROBLEM="将系统中的题目以fps.xml文件的形式导出。";

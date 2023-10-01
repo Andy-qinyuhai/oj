@@ -95,8 +95,9 @@ require_once('../include/my_func.inc.php');
         if($pid==0) $pid=intval(basename($dir_dest));
     }
     $current_dir="$OJ_DATA/$pid/";
+
     if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) || isset($_SESSION[$OJ_NAME.'_'."p".$pid])) ){
-        echo "No Privilege.";
+        echo "No Privilege.<br>你不是管理员，也不是这个题的原创作者，因此不能管理这个题的数据。";
         exit(0)    ;
     }
 
@@ -193,7 +194,7 @@ if ($loggedon==$auth_pass){
             }
     }
 } else {
-    if (isset($pass)) login();
+    if (isset($_SESSION[$OJ_NAME.'_administrator'])||isset($_SESSION[$OJ_NAME.'_problem_editor'])) login();
     else login_form();
 }
 // +--------------------------------------------------

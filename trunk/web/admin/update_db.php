@@ -199,7 +199,6 @@ $tsql[41]="delete from $DB_NAME.compileinfo where solution_id in (select solutio
 $csql[41]="delete from $DB_NAME.compileinfo where solution_id not in (select solution_id from  $DB_NAME.solution);";
 $tsql[42]="";
 $csql[42]="delete from $DB_NAME.solution where problem_id=0 and result>4;";
-
 $tsql[43]="alter table $DB_NAME.problem add column remote_oj varchar(16) default NULL after solved;";
 $csql[43]="alter table $DB_NAME.problem add column remote_id varchar(16) default NULL after remote_oj;";
 $tsql[44]="alter table $DB_NAME.solution add column remote_oj char(16) not null default '' after judger;";
@@ -208,6 +207,8 @@ $tsql[45]="alter table $DB_NAME.news modify content mediumtext not null;";
 $csql[45]="alter table $DB_NAME.problem modify description mediumtext not null, modify input  mediumtext not null, modify output mediumtext not null;";
 $tsql[46]="alter table $DB_NAME.problem add `sample_input_2` text after `sample_input`;";
 $csql[46]="alter table $DB_NAME.problem add `sample_output_2` text after `sample_output`;";
+$tsql[47]="alter table $DB_NAME.users add column activecode varchar(16) not null default '' after school;";
+$csql[47]="";
 if(isset($_POST['do'])){
 	require_once("../include/check_post_key.php");
 	echo "Executing...<br>";

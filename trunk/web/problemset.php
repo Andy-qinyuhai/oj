@@ -48,6 +48,7 @@ if ($page > $cnt+1 && ! isset($_SESSION[$OJ_NAME.'_administrator']) ) $page = $c
 $pstart = $page_cnt*intval($page)-$page_cnt+1; //start 1
 $pend = $pstart+$page_cnt;
 
+
 //all submit
 $sub_arr = Array(); // all submit
 $acc_arr = Array(); // all ac
@@ -63,12 +64,15 @@ if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 	}
 		
 }
+
+$postfix="";
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$search = "%".($_GET['search'])."%";
-	$filter_sql = " ( title like ? or source like ?) ";
-	$pstart = 0;
-	$pend = 100;
-
+	$filter_sql = " ( title like ? or source like ?)";
+	$filter_sql .= " and A.ROWNUM >='" . strval($pstart) . "' AND A.ROWNUM < '". strval($pend) . "' ";
+	//$pstart = 0;
+	//$pend = 100;
+ 	$postfix="&search=".urlencode($_GET['search']);
 }else if (isset($_GET['list']) && trim($_GET['list']!="")){
         $plist= explode(",",$_GET['list']);
 	$pids="0";

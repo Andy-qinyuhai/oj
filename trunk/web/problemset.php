@@ -43,22 +43,6 @@ else {
 if(isset($_GET['page'])) $page = intval($_GET['page']);
 else $page = 1;
 $page_cnt = 50;  //50 problems per page
-
-//all submit
-$sub_arr = Array(); // all submit
-$acc_arr = Array(); // all ac
-$issue_arr = Array(); //some issue
-if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
-	$sql = "SELECT `problem_id`, MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=? GROUP BY `problem_id`";
-	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);         
-	foreach ($result as $row){
-		$sub_arr[$row['problem_id']] = true;
-		if($row['min_result'] == 4) $acc_arr[$row['problem_id']] = true;
-		else if($row['min_result'] != 4) $issue_arr[$row['problem_id']] = true;	
-	}
-		
-}
-
 $postfix="";
 $filter_sql = "";
 $limit_sql = "";
@@ -85,6 +69,22 @@ if (isset($_GET['search']) && trim($_GET['search'])!="") {
 else {
 	$filter_sql = " 1";
 	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
+}
+
+//all submit
+$sub_arr = Array(); // all submit
+$acc_arr = Array(); // all ac
+$issue_arr = Array(); //some issue
+if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
+	$sql = "SELECT `problem_id`, MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=?";
+	if(isset($pids)&&$pids!="") $sql.=" AND `problem_id` in ($pids)";
+	$sql .= " GROUP BY `problem_id`";
+	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);         
+	foreach ($result as $row){
+		$sub_arr[$row['problem_id']] = true;
+		if($row['min_result'] == 4) $acc_arr[$row['problem_id']] = true;
+		else if($row['min_result'] != 4) $issue_arr[$row['problem_id']] = true;	
+	}		
 }
 
 // Problem Page Navigator

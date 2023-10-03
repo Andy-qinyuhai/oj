@@ -12,6 +12,7 @@ require_once('./include/setlang.php');
 $view_title = "Problem Set";
 
 //remember page
+/*
 $page = "1";
 if (isset($_GET['page'])) {
 	$page = intval($_GET['page']);
@@ -35,19 +36,13 @@ else {
 	if (!is_numeric($page) || $page<=0)
 		$page = '1';
 }
+*/
 //end of remember page
 
 //Page Setting
-$sql = "select count(`problem_id`) as upid FROM `problem` WHERE `defunct`='N'";
+if(isset($_GET['page'])) $page = intval($_GET['page']);
+else $page = 1;
 $page_cnt = 50;  //50 problems per page
-$result = mysql_query_cache($sql);
-$row = $result[0];
-$cnt = $row['upid'] / $page_cnt;
-if ($row['upid'] % $page_cnt == 0) $cnt = $cnt-1;
-if ($page > $cnt+1 && ! isset($_SESSION[$OJ_NAME.'_administrator']) ) $page = $cnt+1 ;
-$pstart = $page_cnt*intval($page)-$page_cnt+1; //start 1
-$pend = $pstart+$page_cnt;
-
 
 //all submit
 $sub_arr = Array(); // all submit
@@ -66,12 +61,12 @@ if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 }
 
 $postfix="";
+$filter_sql = "";
+$limit_sql = "";
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$search = "%".($_GET['search'])."%";
 	$filter_sql = " ( title like ? or source like ?)";
-	$filter_sql .= " and A.ROWNUM >='" . strval($pstart) . "' AND A.ROWNUM < '". strval($pend) . "' ";
-	//$pstart = 0;
-	//$pend = 100;
+	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;	
  	$postfix="&search=".urlencode($_GET['search']);
 }else if (isset($_GET['list']) && trim($_GET['list']!="")){
         $plist= explode(",",$_GET['list']);
@@ -81,41 +76,26 @@ if (isset($_GET['search']) && trim($_GET['search'])!="") {
      	  $pids.=",$pid";
 	}
 	$filter_sql = " problem_id in ($pids) order by FIELD(problem_id,$pids)"; // 如果希望按难度顺序改成 order by accepted desc ;
-	$pstart = 0;
-	$pend = 100;
-	//echo $filter_sql ;
+	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
 
 }else if(isset($_GET['my'])){
-	$pstart = 0;
-	$pend = 100;
-	$filter_sql = "A.ROWNUM >='" . strval($pstart) . "' AND A.ROWNUM < '". strval($pend) . "' ";
+	$filter_sql = " 1";
+	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
 }
 else {
-	//$filter_sql = " `problem_id`>='".strval($pstart)."' AND `problem_id`<'".strval($pend)."' ";
-	$filter_sql = "A.ROWNUM >='" . strval($pstart) . "' AND A.ROWNUM < '". strval($pend) . "' ";
+	$filter_sql = " 1";
+	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
 }
 
 // Problem Page Navigator
 //if($OJ_SAE) $first=1;
-if ($OJ_FREE_PRACTICE){  // open free practice without limit of contest using
-	$sql = "SELECT count(problem_id) as upid FROM `problem` WHERE defunct='N' ";
-        $result = mysql_query_cache($sql);
-        $row = $result[0];
-        $cnt = $row['upid'] / $page_cnt;
-        if ($row['upid'] % $page_cnt == 0) $cnt = $cnt-1;
-        $sql = "SELECT * FROM (SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, `problem_id`,`title`,`source`,`submit`,`accepted`,defunct FROM (select * from `problem` WHERE `defunct`='N'  order by problem_id) problem, (SELECT @ROWNUM := 0) TEMP ORDER BY `problem_id`) A WHERE defunct='N' and  $filter_sql";
-
+$limit = "";
+if ($OJ_FREE_PRACTICE){  // open free practice without limit of contest using	
+    $sql = "SELECT * FROM (SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, `problem_id`,`title`,`source`,`submit`,`accepted`,defunct FROM (select * from `problem` WHERE `defunct`='N'  order by problem_id) problem, (SELECT @ROWNUM := 0) TEMP ORDER BY `problem_id`) A WHERE defunct='N' and  $filter_sql";
+    $limit = $sql.$limit_sql;
 }else if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {  //all problems
-	// Reset Page Count
-	$sql = "select count(`problem_id`) as upid FROM `problem`";
-	$result = mysql_query_cache($sql);
-	$row = $result[0];
-	$cnt = $row['upid'] / $page_cnt;
-
-	if ($row['upid'] % $page_cnt == 0) $cnt = $cnt-1;
-
 	$sql = "SELECT * FROM (SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, `problem_id`,`title`,`source`,`submit`,`accepted`,defunct FROM (select * from `problem` order by problem_id) problem, (SELECT @ROWNUM := 0) TEMP ORDER BY `problem_id`) A WHERE $filter_sql";
-
+    $limit = $sql.$limit_sql;
 }
 else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ // show my unpass problem
 	$now = strftime("%Y-%m-%d %H:%M",time());
@@ -130,6 +110,7 @@ else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ // sho
         FROM solution
                     WHERE result = 4 AND user_id =?".	//hidden passed problem	 		
 	") ORDER BY `problem_id` ) A WHERE $filter_sql"; 
+	$limit = $sql.$limit_sql;
 }
 
 else {  //page problems (not include in contests period)
@@ -143,6 +124,7 @@ else {  //page problems (not include in contests period)
 			// " AND (c.`defunct` = 'N' AND '$now'<c.`end_time`)" .    // option style show all non-running contest
 			"and (c.`end_time` >  '$now'  OR c.private =1)" .    // original style , hidden all private contest problems
 	") ORDER BY `problem_id` ) A WHERE $filter_sql";
+	$limit = $sql.$limit_sql;
 }
 // End Page Setting
 pdo_query("SET sort_buffer_size = 1024*1024");   // Out of sort memory, consider increasing server sort buffer size
@@ -150,16 +132,22 @@ pdo_query("SET sort_buffer_size = 1024*1024");   // Out of sort memory, consider
 
 //echo htmlentities( $sql);
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
-	$result = pdo_query($sql,$search,$search);
+	$total = pdo_query($sql,$search,$search);
+	$cnt = count($total) / $page_cnt;
+	$result = pdo_query($limit,$search,$search);
 }
 else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
-	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);	
+	$total = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
+	$cnt = count($total) / $page_cnt;
+	$result = pdo_query($limit,$_SESSION[$OJ_NAME.'_'.'user_id']);		
 }
 else {
-	$result = mysql_query_cache($sql);
+	$total = mysql_query_cache($sql);	
+	$cnt = count($total) / $page_cnt;
+	$result = mysql_query_cache($limit);
 }
 
-$view_total_page = intval($cnt+1);
+$view_total_page = ceil($cnt*1.0);
 
 $cnt = 0;
 $view_problemset = Array();

@@ -19,20 +19,16 @@ require_once('../include/my_func.inc.php');
         $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
     }
 	// Server Vars
-	/*
-	if (isset($_GET['pid'])) {
-		$pid=intval($_GET['pid']);
-	}
 	
-	if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
-      || isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
-      || isset($_SESSION[$OJ_NAME.'_'."p".$pid])
-     )){
-	echo $_SESSION[$OJ_NAME.'_'.'administrator'];
-	echo "<a href='../loginpage.php'>No Privilege.</a>";
-	exit(1);	
-}
-*/
+	$pid=0;
+        if(isset($_GET['pid'])){
+           $pid=intval($_GET['pid']);
+        }else{
+           $pid=intval(basename($current_dir));
+        if($pid==0) $pid=intval(basename($dir_dest));
+        }
+        $current_dir="$OJ_DATA/$pid/";
+
 // this is not a webshell , and it need administrator / problem editor / problem owner  membership to use, 
     function get_client_ip() {
         $ipaddress = '';
@@ -86,15 +82,6 @@ require_once('../include/my_func.inc.php');
         case 1: error_reporting(E_ERROR | E_PARSE | E_COMPILE_ERROR); @ini_set("display_errors",1); break;
         case 2: error_reporting(E_ALL); @ini_set("display_errors",1); break;
     }
-
-    $pid=0;
-    if(isset($_GET['pid'])){
-        $pid=intval($_GET['pid']);
-    }else{
-        $pid=intval(basename($current_dir));
-        if($pid==0) $pid=intval(basename($dir_dest));
-    }
-    $current_dir="$OJ_DATA/$pid/";
 
     if(! (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']) || isset($_SESSION[$OJ_NAME.'_'."p".$pid])) ){
         echo "No Privilege.<br>你不是管理员，也不是这个题的原创作者，因此不能管理这个题的数据。";

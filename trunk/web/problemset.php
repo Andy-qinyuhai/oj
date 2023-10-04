@@ -12,9 +12,9 @@ require_once('./include/setlang.php');
 $view_title = "Problem Set";
 
 //remember page
-/*
+
 $page = "1";
-if (isset($_GET['page'])) {
+if (isset($_GET['page'])&&!isset($_GET['search'])) {
 	$page = intval($_GET['page']);
 
 	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])) {
@@ -36,12 +36,10 @@ else {
 	if (!is_numeric($page) || $page<=0)
 		$page = '1';
 }
-*/
+
 //end of remember page
 
 //Page Setting
-if(isset($_GET['page'])) $page = intval($_GET['page']);
-else $page = 1;
 $page_cnt = 50;  //50 problems per page
 
 $postfix="";
@@ -68,6 +66,7 @@ if (isset($_GET['search']) && trim($_GET['search'])!="") {
 }else if(isset($_GET['my'])){
 	$filter_sql = " 1";
 	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
+        $postfix="&my=1";
 }
 else {
 	$filter_sql = " 1";
@@ -106,7 +105,7 @@ else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ // sho
         "UNION SELECT problem_id
         FROM solution
                     WHERE result = 4 AND user_id =?".	//hidden passed problem	 		
-	") ORDER BY `problem_id` "; 	
+	") "; 	
 }
 else {  //page problems (not include in contests period)
 	$now = strftime("%Y-%m-%d %H:%M",time());
@@ -116,7 +115,7 @@ else {  //page problems (not include in contests period)
 			INNER JOIN  `contest_problem` cp ON c.`contest_id` = cp.`contest_id` ".
 			// " AND (c.`defunct` = 'N' AND '$now'<c.`end_time`)" .    // option style show all non-running contest
 			"and (c.`end_time` >  '$now'  OR c.private =1)" .    // original style , hidden all private contest problems
-	") ORDER BY `problem_id` ";	
+	") ";	
 }
   pdo_query("SET sort_buffer_size = 1024*1024");   // Out of sort memory, consider increasing server sort buffer size
   $sql = "SELECT `problem_id`,`title`,`source`,`submit`,`accepted`,defunct FROM problem A WHERE $filter_sql $order_by $limit_sql ";

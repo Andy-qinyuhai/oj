@@ -14,10 +14,9 @@ $view_title = "Problem Set";
 //remember page
 
 $page = "1";
-if (isset($_GET['page'])&&!isset($_GET['search'])) {
+if (isset($_GET['page'])) {
 	$page = intval($_GET['page']);
-
-	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])) {
+	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])) {
 		$sql = "update users set volume=? where user_id=?";
 		pdo_query($sql,$page,$_SESSION[$OJ_NAME.'_'.'user_id']);
 	}
@@ -32,7 +31,6 @@ else {
 	}else{
 		$page = 1;
 	}
-
 	if (!is_numeric($page) || $page<=0)
 		$page = '1';
 }

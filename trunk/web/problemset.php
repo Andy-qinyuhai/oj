@@ -13,17 +13,17 @@ $view_title = "Problem Set";
 
 //remember page
 
-$page = "1";
+$page = 1;
 if (isset($_GET['page'])) {
 	$page = intval($_GET['page']);
-	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])) {
+	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])&&!isset($_GET['my'])) {
 		$sql = "update users set volume=? where user_id=?";
 		pdo_query($sql,$page,$_SESSION[$OJ_NAME.'_'.'user_id']);
 	}
 
 }
 else {
-	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])) {
+	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])&&!isset($_GET['my'])) {
 		$sql = "select volume from users where user_id=?";
 		$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
 		$row = $result[0];
@@ -32,7 +32,7 @@ else {
 		$page = 1;
 	}
 	if (!is_numeric($page) || $page<=0)
-		$page = '1';
+		$page = 1;
 }
 
 //end of remember page

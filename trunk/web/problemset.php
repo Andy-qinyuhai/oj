@@ -16,11 +16,11 @@ $view_title = "Problem Set";
 $page = 1;
 if (isset($_GET['page'])) {
 	$page = intval($_GET['page']);
+
 	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])&&!isset($_GET['my'])) {
-		$sql = "update users set volume=? where user_id=?";
+        $sql = "update users set volume=? where user_id=?";
 		pdo_query($sql,$page,$_SESSION[$OJ_NAME.'_'.'user_id']);
 	}
-
 }
 else {
 	if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&&!isset($_GET['search'])&&!isset($_GET['my'])) {
@@ -61,10 +61,11 @@ if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$order_by = "order by FIELD(problem_id,$pids)"; // 如果希望按难度顺序改成 order by accepted desc ;
 	//$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
 	$limit_sql="";  // list 不翻页
+
 }else if(isset($_GET['my'])){
 	$filter_sql = " 1";
 	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
-        $postfix="&my=1";
+    $postfix="&my=1";
 }
 else {
 	$filter_sql = " 1";
@@ -80,13 +81,14 @@ if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 	$sql = "SELECT `problem_id`, MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=?";
 	if(isset($pids)&&$pids!="") $sql.=" AND `problem_id` in ($pids)";
 	$sql .= " GROUP BY `problem_id`";
-	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);         
+	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']); 
 	foreach ($result as $row){
 		$sub_arr[$row['problem_id']] = true;
 		if($row['min_result'] == 4) $acc_arr[$row['problem_id']] = true;
 		else if($row['min_result'] != 4) $issue_arr[$row['problem_id']] = true;	
 	}		
 }
+
 
 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {  //all problems
    // $limit = $limit_sql;

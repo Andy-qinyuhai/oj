@@ -178,7 +178,7 @@
                                     <th>
                                         <?php echo $MSG_TITLE; ?>
                                     </th>
-                                    <th><?php echo $MSG_STATUS; ?></th>
+                                    <th  style="width: 82px;" ><?php echo $MSG_STATUS; ?></th>
                                     <th>
                                         <?php echo $MSG_START_TIME; ?>
                                     </th>
@@ -198,7 +198,7 @@
                                             <?php } else if (strtotime($new['start_time']) > time()) { ?><span
                                                         class="ui label green">未开始</span>
                                             <?php } else { ?><span class="ui label red">
-                                                    <?php echo $MSG_Runnning; ?>
+                                                    <?php echo $MSG_Running; ?>
                                                     </span>
                                             <?php } ?>
                                         </td>

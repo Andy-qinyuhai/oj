@@ -54,7 +54,7 @@
 
 #define STD_MB 1048576LL
 #define STD_T_LIM 2
-#define STD_F_LIM (STD_MB << 5) //default file size limit 32m ,2^5=32
+#define STD_F_LIM (STD_MB << 7) //default file size limit 128m ,2^7=128
 #define STD_M_LIM (STD_MB << 7) //default memory limit 128m ,2^7=128
 #define BUFFER_SIZE 4096		//default size of char buffer 5120 bytes
 #define LOCKMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
@@ -2440,8 +2440,8 @@ void run_solution(int &lang, char *work_dir, double &time_lmt, int &usedtime,
 	if (time_limit_to_total)
 		LIM.rlim_cur = (time_lmt / cpu_compensation - usedtime / 1000.0f) + 1;
 	else
-		LIM.rlim_cur = time_lmt / cpu_compensation + 1;
-	LIM.rlim_max = LIM.rlim_cur;
+		LIM.rlim_cur = time_lmt / cpu_compensation + 1 ;
+	LIM.rlim_max = LIM.rlim_cur + 1 ;
 	//if(DEBUG) printf("LIM_CPU=%d",(int)(LIM.rlim_cur));
 	setrlimit(RLIMIT_CPU, &LIM);
 	alarm(0);
@@ -2700,7 +2700,7 @@ int special_judge(char *oj_home, int problem_id, char *infile, char *outfile,
 
 		struct rlimit LIM; // time limit, file limit& memory limit
 
-		LIM.rlim_cur = 5;
+		LIM.rlim_cur = 15;
 		LIM.rlim_max = LIM.rlim_cur;
 		setrlimit(RLIMIT_CPU, &LIM);
 		alarm(0);
@@ -3306,11 +3306,13 @@ void print_call_array()
 	}
 	printf("0};\n");
 }
+int has_mark_in_name=0;
 int mark_of_name(const char * name){
 	int mark;
 	printf("reading mark from %s \n",name);
 	if(sscanf(name,"%*[^\[][%d]",&mark)==1){
 		printf("reading mark %d \n",mark);
+		has_mark_in_name=1;
 		return mark;
 	}else{
 		return 10;
@@ -3635,8 +3637,12 @@ int main(int argc, char **argv)
 			judge_solution(ACflg, usedtime, time_lmt, spj, p_id, infile,
 						   outfile, userfile, PEflg, lang, work_dir, topmemory,
 						   mem_lmt, solution_id, num_of_test,&pass_rate);
+			/*
+   			if(usedtime > time_lmt * 1000) {          // 如果觉得的显示超时结果的计时过长，可以覆盖数据。
+					usedtime = time_lmt * 1000;
+			}
+			*/
 			time_space_index+=sprintf(time_space_table+time_space_index,"%s:%s mem=%dk time=%dms\n",infile+strlen(oj_home)+5,jresult[ACflg],topmemory/1024,usedtime);
-			
 			/*   // full diff code backup
 			 if( ACflg != OJ_AC ){
                                 FILE *DF=fopen("diff.out","a");
@@ -3720,17 +3726,14 @@ int main(int argc, char **argv)
 		usedtime = total_time;
 	}
 	
-/*	if(usedtime > time_lmt * 1000) {                  // show real time cost
-		usedtime = time_lmt * 1000;
-	}
-*/
+
 	if(spj!=2){
 		if (oi_mode)
 		{
 			if (num_of_test > 0){
 				pass_rate /= num_of_test;
 			}
-			if (total_mark > 0 ){
+			if (total_mark > 0 && has_mark_in_name ){
 				pass_rate =get_mark;
 				 if(total_mark>100) pass_rate /= total_mark;
                                 else pass_rate /= 100.0;

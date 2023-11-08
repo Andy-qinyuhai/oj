@@ -50,11 +50,12 @@ mysql < src/install/db.sql
 echo "CREATE USER '$USER'@'localhost' identified by '$PASSWORD';grant all privileges on jol.* to '$USER'@'localhost' ; flush privileges;"|mysql
 echo "insert into jol.privilege values('admin','administrator','true','N');"|mysql
 
-PHP_VER=`grep 'php.*fpm\.sock' /etc/nginx/sites-enabled/default |awk -F/ '{print $4}'|awk -F- '{print $1}'|cut -c4-6`
+PHP_VER=`ls /etc/php | head -1`
 
 if grep "added by hustoj" /etc/nginx/sites-enabled/default ; then
 	echo "hustoj nginx config added!"
 else
+	sed -i "s/php7.4/php$PHP_VER/g" /etc/nginx/sites-enabled/default
         sed -i "s#root /var/www/html;#root /home/judge/src/web;#g" /etc/nginx/sites-enabled/default
 	sed -i "s:index index.html:index index.php:g" /etc/nginx/sites-enabled/default
 	sed -i "s:#location ~ \\\.php\\$:location ~ \\\.php\\$:g" /etc/nginx/sites-enabled/default
@@ -90,6 +91,12 @@ else
 fi
 ln -s /usr/bin/mcs /usr/bin/gmcs
 
+cd /home/judge/src/install/
+sed -i "s/ubuntu:22.04/debian12.2/g" Dockerfile
+sed -i "s/libmysqlclient-dev/default-libmysqlclient-dev/" Dockerfile
+sed -i "s/openjdk-17-jdk/gcc/" Dockerfile
+
+bash docker.sh
 /usr/bin/judged
 cp /home/judge/src/install/hustoj /etc/init.d/hustoj
 update-rc.d hustoj defaults

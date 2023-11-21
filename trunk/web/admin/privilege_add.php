@@ -28,9 +28,11 @@ if (isset($_POST['do'])) {
 	if (isset($_POST['psv']))
 		$rightstr = "s$rightstr";
     
-	if (isset($_POST['pedit']))
-		$rightstr = "p$rightstr";
 	$sql = "insert into `privilege`(user_id,rightstr,valuestr,defunct) values(?,?,?,'N')";
+	if (isset($_POST['pedit'])){
+		$rightstr = "p$rightstr";
+		$sql = "UPDATE `privilege` SET user_id=? WHERE rightstr=? AND valuestr=?";		
+	}
 	$link= 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['REQUEST_URI']);
         $msg = $_SESSION[$OJ_NAME.'_user_id']." $MSG_ADD $rightstr [$valuestr] $MSG_PRIVILEGE -> $user_id @  ".date('Y-m-d h:i:s a', time());
         $msg .="\n\nmessage from site: $link";

@@ -165,7 +165,7 @@
 
                         <?php
 						if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
-		                     $now = strftime("%Y-%m-%d %H:%M",time());
+		                     $now =  date('Y-m-d H:i', time());
         	                 $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
 		                     $row=pdo_query($sql);
 		                     $cols=$row[0];	

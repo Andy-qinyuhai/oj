@@ -2,6 +2,7 @@
 require_once "include/db_info.inc.php";
 require_once "include/my_func.inc.php";
 require_once "include/email.class.php";
+require_once "include/base64.php";
 
 if(isset($OJ_CSRF) && $OJ_CSRF && $OJ_TEMPLATE=="bs3" && !isset($_SESSION[$OJ_NAME.'_'.'http_judge']))
   require_once(dirname(__FILE__)."/include/csrf_check.php");
@@ -16,7 +17,7 @@ if (!isset($_SESSION[$OJ_NAME . '_' . 'user_id'])) {
 require_once "include/memcache.php";
 require_once "include/const.inc.php";
 
-$now = strftime("%Y-%m-%d %H:%M", time());
+$now =  date('Y-m-d H:i:s', time());
 $user_id = $_SESSION[$OJ_NAME.'_'.'user_id'];
 $language = intval($_POST['language']);
 
@@ -193,7 +194,8 @@ if (isset($_POST['input_text'])) {
 
 
 if (isset($_POST['encoded_submit'])) {
-  $source = base64_decode($source);
+
+  $source = decode64($source);
 }
 
 $input_text = preg_replace("(\r\n)", "\n", $input_text);
@@ -260,7 +262,7 @@ if ($len > 65536) {
 if (!$OJ_BENCHMARK_MODE) {
   // last submit
   if(!isset($OJ_SUBMIT_COOLDOWN_TIME))  $OJ_SUBMIT_COOLDOWN_TIME = 5;
-  $now = strftime("%Y-%m-%d %X", time()-$OJ_SUBMIT_COOLDOWN_TIME);
+  $now =  date('Y-m-d H:i:s', time()-$OJ_SUBMIT_COOLDOWN_TIME);
   $sql = "SELECT `in_date`,solution_id FROM `solution` WHERE `user_id`=? AND in_date>? ORDER BY `in_date` DESC LIMIT 1";
   $res = pdo_query($sql, $user_id, $now);
 
@@ -373,7 +375,7 @@ if (~$OJ_LANGMASK&(1<<$language)) {
                 }
         }
         /*   //prepare system ready for even worse robots
-        $now = strftime("%Y-%m-%d %X", time()-$OJ_SUBMIT_COOLDOWN_TIME * 6 );
+        $now =  date('Y-m-d H:i', time()-$OJ_SUBMIT_COOLDOWN_TIME * 6 );
         $sql="select count(1) from solution where user_id=? and in_date > ?";
         $count=pdo_query($sql,$user_id,$now);
         if($count>=$OJ_POISON_BOT_COUNT){

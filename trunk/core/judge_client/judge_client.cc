@@ -3422,7 +3422,7 @@ int main(int argc, char **argv)
         if(spj!=2){
                 Compile_OK = compile(lang, work_dir);
         }
-	if (Compile_OK != 0 && !spj)
+	if ( Compile_OK != 0 && spj!=2 )
 	{
 		addceinfo(solution_id);
 		update_solution(solution_id, OJ_CE, 0, 0, 0, 0, 0.0);
@@ -3454,9 +3454,11 @@ int main(int argc, char **argv)
 	//DIR *dp;
 	dirent *dirp;
 	// using http to get remote test data files
-	if (p_id > 0 && http_judge && http_download)
+	if (p_id > 0 && http_judge && http_download == 1)
 		get_test_file(work_dir, p_id);
-
+	// using rsync to get remote test data files, using id_rsa to login ,change src/install/rsync.sh if need
+        if (p_id > 0 && http_download == 2 )
+		execute_cmd("%s/src/install/rsync.sh %d",oj_home,p_id);
 	
 	struct dirent **namelist;
         int namelist_len;
@@ -3595,7 +3597,7 @@ int main(int argc, char **argv)
 			continue;
 		mark=mark_of_name(dirp->d_name);
 		total_mark+=mark;
-		if (http_judge && http_download && (!data_list_has(dirp->d_name)))
+		if (http_judge && ( http_download==1 ) && (!data_list_has(dirp->d_name)))
 			continue;
 
 		prepare_files(dirp->d_name, namelen, infile, p_id, work_dir, outfile,
@@ -3686,7 +3688,7 @@ int main(int argc, char **argv)
 			{
 				finalACflg = ACflg;
 			}
-			if (ACflg==OJ_TL) break;     // limit all TLE submit to protect the system from D.o.S flooding
+			if ( time_limit_to_total && (ACflg==OJ_TL) ) break;     // limit all TLE submit to protect the system from D.o.S flooding
 			ACflg = OJ_AC;
 		}
 #ifdef _mysql_h

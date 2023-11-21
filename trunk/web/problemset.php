@@ -96,7 +96,7 @@ if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])) {  //all problems
     $filter_sql .= " and defunct='N' ";
 }
 else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ // show my unpass problem
-	$now = strftime("%Y-%m-%d %H:%M",time());
+	$now =  date('Y-m-d H:i', time());
 	$filter_sql.= " AND `defunct`='N' AND `problem_id` NOT IN (
 		SELECT problem_id
 		FROM (contest c
@@ -108,7 +108,7 @@ else if(isset($_GET['my']) &&  isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ // sho
 	") "; 	
 }
 else {  //page problems (not include in contests period)
-	$now = strftime("%Y-%m-%d %H:%M",time());
+	$now =  date('Y-m-d H:i', time());
 	$filter_sql.= " AND `defunct`='N' AND `problem_id` NOT IN (
 		SELECT  `problem_id`
 		FROM contest c

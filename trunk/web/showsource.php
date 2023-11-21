@@ -13,7 +13,7 @@ if (!isset($_GET['id'])){
 	exit(0);
 }
 if(isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD && !isset($_SESSION[$OJ_NAME.'_'.'source_browser']) && !isset($_SESSION[$OJ_NAME.'_'."administrator"])){
-		$now = strftime("%Y-%m-%d %H:%M",time());
+		$now =  date('Y-m-d H:i', time());
         	$sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
 		$row=pdo_query($sql);
 		$cols=$row[0];
@@ -67,7 +67,7 @@ if(!isset($_SESSION[$OJ_NAME."_source_browser"])){
 				$need_check_using=true;
 	}
 	// 检查是否使用中
-	$now = strftime("%Y-%m-%d %H:%M", time());
+	$now =  date('Y-m-d H:i', time());
 	$sql="select contest_id from contest where contest_id in (select contest_id from contest_problem where problem_id=?) 
 								and start_time < '$now' and end_time > '$now' ";
 	if($need_check_using){
@@ -140,4 +140,3 @@ require("template/".$OJ_TEMPLATE."/showsource.php");
 if(file_exists('./include/cache_end.php'))
 	require_once('./include/cache_end.php');
 ?>
-

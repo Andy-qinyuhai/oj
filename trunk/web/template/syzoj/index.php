@@ -161,12 +161,20 @@ $view_month_rank=mysql_query_cache("select user_id,nick,count(distinct(problem_i
             <h4 class="ui top attached block header"><i class="ui star icon"></i><?php echo "本月之星"?></h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic table" style="table-layout: fixed; ">
+				    <thead>
+                        <tr>
+                            <th style="width:30px">#</th>
+                            <th style="width=70%"><?php echo $MSG_USER_ID;?></th>
+                            <th><?php echo $MSG_SOVLED ;?></th>
+                        </tr>
+                    </thead>
                     <tbody>
         <?php
+		                    $i=1;
                             foreach ( $view_month_rank as $row ) {
                                     echo "<tr>".
-                                            "<td><a target='_blank' href='userinfo.php?user=".htmlentities($row[0],ENT_QUOTES,"UTF-8")."'>".htmlentities($row[0],ENT_QUOTES,"UTF-8")."</a></td>".
-                                            "<td>".($row[1])."</td>".
+									        "<td>".$i++."</td>".
+                                            "<td><a target='_blank' href='userinfo.php?user=".htmlentities($row[0],ENT_QUOTES,"UTF-8")."'>".htmlentities($row[0],ENT_QUOTES,"UTF-8")."</a></td>".                                            
                                             "<td>".($row[2])."</td>".
                                             "</tr>";
                             }

@@ -1,10 +1,12 @@
 #!/bin/bash
 cd /home/judge/git
-git pull .
+git pull
 
-echo "SVN not available from github any more "
-echo "using 'sudo bash fixing.sh' to get update from dl.hustoj.com "
-exit 1
+while ! svn up /home/judge/src
+do
+  echo "Subversion update from github.com failed , retry in 5 seconds ..."
+  sleep 5s
+done
 
 cd /home/judge/src/core
 pkill -9 judged

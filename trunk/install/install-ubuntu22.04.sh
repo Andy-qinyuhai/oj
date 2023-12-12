@@ -75,6 +75,7 @@ chgrp www-data  /home/judge
 USER="hustoj"
 PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`
 mysql < src/install/db.sql
+echo "DROP USER $USER;" | mysql
 echo "CREATE USER $USER identified by '$PASSWORD';grant all privileges on jol.* to $USER ;flush privileges;"|mysql
 CPU=$(grep "cpu cores" /proc/cpuinfo |head -1|awk '{print $4}')
 MEM=`free -m|grep Mem|awk '{print $2}'`
@@ -109,8 +110,8 @@ if grep "OJ_SHM_RUN=0" etc/judge.conf ; then
         done
 fi
 
-sed -i "s/OJ_USER_NAME=root/OJ_USER_NAME=$USER/g" etc/judge.conf
-sed -i "s/OJ_PASSWORD=root/OJ_PASSWORD=$PASSWORD/g" etc/judge.conf
+sed -i "s/OJ_USER_NAME=.*/OJ_USER_NAME=$USER/g" etc/judge.conf
+sed -i "s/OJ_PASSWORD=.*/OJ_PASSWORD=$PASSWORD/g" etc/judge.conf
 sed -i "s/OJ_COMPILE_CHROOT=1/OJ_COMPILE_CHROOT=0/g" etc/judge.conf
 sed -i "s/OJ_RUNNING=1/OJ_RUNNING=$CPU/g" etc/judge.conf
 
@@ -118,8 +119,8 @@ chmod 700 backup
 chmod 700 etc/judge.conf
 chown -R root:root etc
 
-sed -i "s/DB_USER[[:space:]]*=[[:space:]]*\"root\"/DB_USER=\"$USER\"/g" src/web/include/db_info.inc.php
-sed -i "s/DB_PASS[[:space:]]*=[[:space:]]*\"root\"/DB_PASS=\"$PASSWORD\"/g" src/web/include/db_info.inc.php
+sed -i "s/DB_USER[[:space:]]*=[[:space:]]*\".*\"/DB_USER=\"$USER\"/g" src/web/include/db_info.inc.php
+sed -i "s/DB_PASS[[:space:]]*=[[:space:]]*\".*\"/DB_PASS=\"$PASSWORD\"/g" src/web/include/db_info.inc.php
 chmod 700 src/web/include/db_info.inc.php
 chown -R www-data:www-data src/web/
 
@@ -218,6 +219,10 @@ echo "password:$PASSWORD"
 echo "DO NOT POST THESE INFORMATION ON ANY PUBLIC CHANNEL!"
 echo "Register a user as 'admin' on http://127.0.0.1/ "
 echo "打开http://127.0.0.1/ 或者 http://$IP  或者 http://$LIP 注册用户admin，获得管理员权限。"
+echo "如果无法打开页面或无法注册用户，请检查上方数据库账号是否能正常连接数据库。"
+echo "如果发现数据库账号登录错误，可用sudo bash /home/judge/src/install/fixdb.sh 尝试修复。"
+echo "遇到服务器内部错误500，查看/var/log/nginx/error.log末尾，寻找详细原因。"
+echo "更多问题请查阅http://hustoj.com/"
 echo "不要在QQ群或其他地方公开发送以上信息，否则可能导致系统安全受到威胁。"
 echo "█████████████████████████████████████████"
 echo "████ ▄▄▄▄▄ ██▄▄ ▀  █▀█▄▄██ ███ ▄▄▄▄▄ ████"

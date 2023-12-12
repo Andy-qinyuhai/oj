@@ -165,6 +165,7 @@ static char java_xmx[BUFFER_SIZE/10];
 static int sim_enable = 0;
 static int oi_mode = 0;
 static int full_diff = 0;
+static int raw_text_diff = 1;
 static int use_max_time = 0;
 static int time_limit_to_total= 1;
 static int total_time= 0;
@@ -555,6 +556,7 @@ void init_judge_conf()   //读取判题主目录etc中的配置文件judge.conf
 			read_int(buf, "OJ_HTTP_DOWNLOAD", &http_download);
 			read_int(buf, "OJ_OI_MODE", &oi_mode);
 			read_int(buf, "OJ_FULL_DIFF", &full_diff);
+			read_int(buf, "OJ_RAW_TEXT_DIFF", &raw_text_diff);
 			read_int(buf, "OJ_SHM_RUN", &shm_run);
 			read_int(buf, "OJ_USE_MAX_TIME", &use_max_time);
 			read_int(buf, "OJ_TIME_LIMIT_TO_TOTAL", &time_limit_to_total);
@@ -574,7 +576,10 @@ void init_judge_conf()   //读取判题主目录etc中的配置文件judge.conf
 		fclose(fp);
 	}
 //	fclose(fp);
-	if(use_docker)shm_run=0;
+	if(use_docker){
+		shm_run=0;
+		compile_chroot=0;
+	}
  	if(strcmp(http_username,"IP")==0){
                   FILE * fjobs = fopen("/etc/hostname","r");
                   if(1!=fscanf(fjobs, "%s", http_username)) printf("IP/HOSTNAME read fail...\n");
@@ -2445,17 +2450,17 @@ void run_solution(int &lang, char *work_dir, double &time_lmt, int &usedtime,
 	//if(DEBUG) printf("LIM_CPU=%d",(int)(LIM.rlim_cur));
 	setrlimit(RLIMIT_CPU, &LIM);
 	alarm(0);
-	if ( num_of_test >0 ){
-		if(num_of_test * time_lmt / cpu_compensation>1)
-			alarm( num_of_test * time_lmt / cpu_compensation);
-		else
-			alarm(1);
-	}else{
+//	if ( num_of_test >0 ){
+//		if(num_of_test * time_lmt / cpu_compensation>1)
+//			alarm( num_of_test * time_lmt / cpu_compensation);
+//		else
+//			alarm(1);
+//	}else{
 		if(time_lmt / cpu_compensation>1)
 			alarm( time_lmt / cpu_compensation);
 		else
 			alarm(1);
-	}
+//	}
 	// file limit
 	LIM.rlim_max = STD_F_LIM + STD_MB;
 	LIM.rlim_cur = STD_F_LIM;
@@ -2662,7 +2667,7 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, int *total_ma
                         if(strcasecmp(ans[num],user_answer)==0 || strcasecmp(ans[num],"*")==0){
                                 mark+=m[num];
                         }else{
-                                fprintf(df,"%d:%s[%s] -%.1f\n",i,ans[i],user_answer,m[i]);
+                              if(raw_text_diff) fprintf(df,"%d:%s[%s] -%.1f\n",i,ans[i],user_answer,m[i]);
                         }
                         m[num]=0;
                 }

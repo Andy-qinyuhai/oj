@@ -237,7 +237,12 @@ div[class*=ace_br] {
 
 
         </div>
-      <div class="ui buttons">
+     
+      </div>
+    </div>
+  <?php } ?>
+  
+     <div class="ui buttons">
 
           <?php
             if($pr_flag){
@@ -254,11 +259,6 @@ div[class*=ace_br] {
           ?>
           
       </div>
-      </div>
-    </div>
-  <?php } ?>
-  
-    
 </div>
 
   <script type="text/javascript">

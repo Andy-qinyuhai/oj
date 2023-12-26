@@ -15,6 +15,7 @@ if ( isset( $OJ_ON_SITE_CONTEST_ID ) ) {
 }
 ///////////////////////////MAIN	
 
+
 //NOIP赛制比赛时，排名暂时屏蔽
 if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
 		                     $now =  date('Y-m-d H:i', time());

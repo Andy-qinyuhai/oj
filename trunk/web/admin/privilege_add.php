@@ -39,9 +39,10 @@ if (isset($_POST['do'])) {
         $rows = pdo_query($sql,$user_id,$rightstr,$valuestr);
         if ($OJ_ADMIN=="root@localhost"){
                 $sql="select email from users where user_id=? ";
-                $OJ_ADMIN=pdo_query($sql,$_SESSION[$OJ_NAME.'_user_id'])[0][0];
-        }
-        //email($OJ_ADMIN,"Privilege Add Warning!",$msg);
+                $OJ_ADMIN=pdo_query($sql,$_SESSION[$OJ_NAME.'_user_id'])[0][0];		
+        }else{
+       	 	email($OJ_ADMIN,"Privilege Add Warning!",$msg);
+	    }
         echo "<center><h4 class='text-danger'>User ".htmlentities($_POST['user_id'], ENT_QUOTES, 'UTF-8')."'s Privilege Added!</h4></center>";
 }
 ?>

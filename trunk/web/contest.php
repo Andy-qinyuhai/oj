@@ -139,10 +139,7 @@ if (isset($_GET['cid'])) {
 			}
 			else {
 				$view_problemset[$cnt][1] = "<a href='problem.php?id=".$row['problem_id']."'>".$PID[$cnt]."</a>";
-				if($contest_ok)
-					$view_problemset[$cnt][2] = "<a href='problem.php?cid=$cid&pid=$cnt'>".$row['title']."</a>";
-				else
-					$view_problemset[$cnt][2] = $row['title'];
+				$view_problemset[$cnt][2] = "<a href='problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";				
 			}
 		}
         if(time()<$end_time) $view_problemset[$cnt][3] ="";

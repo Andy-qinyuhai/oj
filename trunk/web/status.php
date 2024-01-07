@@ -11,11 +11,13 @@ require_once('./include/memcache.php');
 require_once('./include/setlang.php');
 $view_title = "$MSG_STATUS";
 
+$NOIP_flag = 0;
 if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
 		$now =  date('Y-m-d H:i', time());
         	$sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
 		$row=pdo_query($sql);
-		$cols=$row[0];		
+		$cols=$row[0];        		
+		if($cols[0] > 0) $NOIP_flag = 1;
 }
 
 function formatTimeLength($length) {
@@ -200,7 +202,7 @@ if (isset($_GET['problem_id']) && $_GET['problem_id']!="") {
 	  //以下是判断当前用户在此题是否AC
 	  $acsql = "SELECT 1 FROM solution WHERE result=4 AND problem_id='".$problem_id."' AND user_id=?"; 
       $rrs = pdo_query($acsql, $_SESSION[$OJ_NAME.'_'.'user_id']);
-      $AC = (intval(count($rrs))>0 && (isset($OJ_AUTO_SHARE)&&$OJ_AUTO_SHARE));
+      $AC = (intval(count($rrs))>0 && (isset($OJ_AUTO_SHARE)&&$OJ_AUTO_SHARE) && ($NOIP_flag == 0));
     }
     else
       $problem_id = "";
@@ -481,12 +483,12 @@ for ($i=0; $i<$rows_cnt; $i++) {
 
       if ($row["problem_id"]>0 && (isset($_SESSION[$OJ_NAME.'_'.'user_id']) && strtolower($row['user_id'])==strtolower($_SESSION[$OJ_NAME.'_'.'user_id']))) {
         if ($row['contest_id']>0) {
-         if (isset($end_time)&&time()<$end_time && $cols[0]==0 || isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
+         if (isset($end_time)&&time()<$end_time && $NOIP_flag == 0 || isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
             $view_status[$i][6] .= "/<a target=_self href=\"submitpage.php?cid=".$row['contest_id']."&pid=".$row['num']."&sid=".$row['solution_id']."\">Edit</a>";
           else
             $view_status[$i][6] .= "";
         }
-        else if($cols[0]==0){
+        else if($NOIP_flag == 0){
           $view_status[$i][6] .= "/<a target=_self href=\"submitpage.php?id=".$row['problem_id']."&sid=".$row['solution_id']."\">Edit</a>";
         }
       }

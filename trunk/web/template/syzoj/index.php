@@ -29,11 +29,11 @@
                         ?>
                     </tbody>
                 </table>
-            </div>			     
-            <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
+            </div>	
+	      
+		    <h4 class="ui top attached block header"><i class="ui rss icon"></i> <?php echo $MSG_RECENT_PROBLEM;?> </h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic table">
-
                     <thead>
                         <tr>
                             <th width="50%"><?php echo $MSG_TITLE;?></th>
@@ -42,8 +42,11 @@
                     </thead>
                     <tbody>
                     <?php
-                        $sql_problems = "select * FROM `problem` ORDER BY `problem_id` DESC LIMIT 5";
-                        //$sql_problems = "select * FROM `problem` where defunct='N' ORDER BY `problem_id` DESC LIMIT 5";
+                        // 未解之谜
+                        if(isset($_SESSION[$OJ_NAME."_user_id"])) $user_id=$_SESSION[$OJ_NAME."_user_id"]; else $user_id='guest';
+                        $sql_problems = "select p.problem_id,title,in_date from (select problem_id,min(result) best from solution
+                                where user_id=? and result>=4 and problem_id>0 group by problem_id ) s inner join problem p on s.problem_id=p.problem_id
+                             where s.best>4 order by p.problem_id  LIMIT 5";
                         $result_problems = mysql_query_cache( $sql_problems );
                         if ( $result_problems ) {
                             $i = 1;

@@ -24,13 +24,19 @@ $result = pdo_query($sql,$solution_id);
 		
 if (count($result)>0) {
 	$row = $result[0];
-	if (isset($_GET['tr']) && isset($_SESSION[$OJ_NAME.'_'.'user_id'])) {
+	 if (isset($_GET['tr'])&&($row['problem_id']==0||($row['problem_id']>0&&$OJ_SHOW_DIFF)) && isset($_SESSION[$OJ_NAME.'_'.'user_id'])) {
 		$res = $row['result'];
 		
 		if ($res==11) {
 			$sql = "SELECT `error` FROM `compileinfo` WHERE `solution_id`=?";
 		}
 		else {
+			$spj=pdo_query("select spj from problem where problem_id=?",$row['problem_id']);
+			if(is_array($spj)&&$spj[0][0]==2 && $OJ_HIDE_RIGHT_ANSWER ){
+					echo $MSG_WARNING_ACCESS_DENIED;
+					exit();
+			}
+
 			$sql = "SELECT `error` FROM `runtimeinfo` WHERE `solution_id`=?";
 		}
 

@@ -131,6 +131,17 @@ Star us, please!
 ## 更新日志
 
 <details open>
+<summary><b>2024年</b></summary>
+	
+日期  | 类型 |  更新内容
+------- | :--: | :-------
+01-11 | 更新 | 增加开关OJ_HIDE_RIGHT_ANSWER屏蔽选择填空题答案。适配HDU的编码提交模式。
+01-04 | 更新 | syzoj的首页*最近更新* 语义修改为 *未解之谜*
+01-03 | 更新 | 增加服务器监控图表。	
+01-02 | 更新 | 修复bing壁纸。
+</details>
+
+<details>
 
 <summary><b>2023年</b></summary>
 	

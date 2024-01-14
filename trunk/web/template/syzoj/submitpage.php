@@ -148,33 +148,33 @@ function fresh_result(solution_id)
 	}
 	xmlhttp.onreadystatechange=function()
 	{
-	if (xmlhttp.readyState==4 && xmlhttp.status==200)
-	{
-	var r=xmlhttp.responseText;
-	var ra=r.split(",");
-	// alert(r);
-	// alert(judge_result[r]);
-	var loader="<img width=18 src=image/loader.gif>";
-	var tag="span";
-	if(ra[0]<4) tag="span disabled=true";
-	else tag="a";
-	{
-		if(ra[0]==11)
-		
-		tb.innerHTML="<"+tag+" href='ceinfo.php?sid="+solution_id+"' class='badge badge-info' target=_blank>"+judge_result[ra[0]]+"</"+tag+">";
-		else
-		tb.innerHTML="<"+tag+" href='reinfo.php?sid="+solution_id+"' class='badge badge-info' target=_blank>"+judge_result[ra[0]]+"AC:"+ra[4]+"</"+tag+">";
-	}
-	if(ra[0]<4)tb.innerHTML+=loader;
-	tb.innerHTML+="Memory:"+ra[1]+"&nbsp;&nbsp;";
-	tb.innerHTML+="Time:"+ra[2]+"";
-	if(ra[0]<4)
-	window.setTimeout("fresh_result("+solution_id+")",2000);
-	else{
-		window.setTimeout("print_result("+solution_id+")",2000);
-		count=1;
-	}
-	}
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			var r=xmlhttp.responseText;
+			var ra=r.split(",");
+			// alert(r);
+			// alert(judge_result[r]);
+			var loader="<img width=18 src=image/loader.gif>";
+			var tag="span";
+			if(ra[0]<4) tag="span disabled=true";
+			else tag="a";
+			{
+				if(ra[0]==11||ra[0]>15)
+					tb.innerHTML="<"+tag+" href='ceinfo.php?sid="+solution_id+"' class='badge badge-info' target=_blank>"+judge_result[ra[0]]+"</"+tag+">";
+				else
+					tb.innerHTML="<"+tag+" href='reinfo.php?sid="+solution_id+"' class='badge badge-info' target=_blank>"+judge_result[ra[0]]+"AC:"+ra[4]+"</"+tag+">";
+			}
+			if(ra[0]<4||ra[0]>15)
+				tb.innerHTML+=loader;
+			tb.innerHTML+="Memory:"+ra[1]+"&nbsp;&nbsp;";
+			tb.innerHTML+="Time:"+ra[2]+"";
+			if(ra[0]<4||ra[0]>15)
+				window.setTimeout("fresh_result("+solution_id+")",2000);
+			else{
+				window.setTimeout("print_result("+solution_id+")",2000);
+				count=1;
+			}
+		}
 	}
 	xmlhttp.open("GET","status-ajax.php?solution_id="+solution_id,true);
 	xmlhttp.send();
@@ -236,8 +236,17 @@ function do_submit(){
 	problem_id.value='<?php if (isset($id))echo $id?>';
 	else
 	problem_id.value='<?php if (isset($cid))echo $cid?>';
-	document.getElementById("frmSolution").target="_self";
-	document.getElementById("frmSolution").submit();
+	document.getElementById("frmSolution").target="_self";	
+<?php if(isset($_GET['spa'])){?>
+        $.post("submit.php?ajax",$("#frmSolution").serialize(),function(data){fresh_result(data);});
+        $("#Submit").prop('disabled', true);
+        $("#TestRub").prop('disabled', true);
+        count=<?php echo $OJ_SUBMIT_COOLDOWN_TIME?> * 2 ;
+        handler_interval= window.setTimeout("resume();",1000);
+	$("#sk").attr("src","remote.php");
+<?php }else{?>
+        document.getElementById("frmSolution").submit();
+<?php }?>
 }
 var handler_interval;
 function do_test_run(){

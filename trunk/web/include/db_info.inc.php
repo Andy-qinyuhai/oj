@@ -9,7 +9,7 @@ date_default_timezone_set('Asia/Shanghai');//'Asia/Shanghai' 亚洲/上海
 // connect db 
 static 	$DB_HOST="localhost";  //数据库服务器ip或域名
 static 	$DB_NAME="jol";   //数据库名
-static 	$DB_USER="test";  //数据库账户
+static 	$DB_USER="t";  //数据库账户
 static 	$DB_PASS="test";  //数据库密码
 
 

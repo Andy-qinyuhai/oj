@@ -9,8 +9,8 @@ date_default_timezone_set('Asia/Shanghai');//'Asia/Shanghai' 亚洲/上海
 // connect db 
 static 	$DB_HOST="localhost";  //数据库服务器ip或域名
 static 	$DB_NAME="jol";   //数据库名
-static 	$DB_USER="";  //数据库账户
-static 	$DB_PASS="";  //数据库密码
+static 	$DB_USER="test";  //数据库账户
+static 	$DB_PASS="test";  //数据库密码
 
 
 static 	$OJ_NAME="HUSTOJ";  //左上角显示的系统名称, 尽量简洁，避免用中文和空格，如需中文、长字符串、图片，可以直接修改template/syzoj/header.php

@@ -1,12 +1,8 @@
 #!/bin/bash
-cd /home/judge/git
-git pull
+cd /home/judge/upstream
+git pull origin master
 
-while ! svn up /home/judge/src
-do
-  echo "Subversion update from github.com failed , retry in 5 seconds ..."
-  sleep 5s
-done
+cp -rf /home/judge/upstream/trunk/* /home/judge/src/
 
 cd /home/judge/src/core
 pkill -9 judged

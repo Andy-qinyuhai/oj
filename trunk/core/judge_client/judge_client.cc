@@ -2626,7 +2626,7 @@ int fix_java_mis_judge(char *work_dir, int &ACflg, int &topmemory,
 	}
 	return comp_res;
 }
-float raw_text_judge( char *infile, char *outfile, char *userfile, int *total_mark){
+float raw_text_judge( char *infile, char *outfile, char *userfile, float *total_mark){
         float mark=0;
         int total=0;
         FILE *in=fopen(infile,"r");
@@ -3178,8 +3178,7 @@ int get_sim(int solution_id, int lang, int pid, int &sim_s_id)
         FILE *pf;
         pf = fopen("sim", "r");
         if (!sim){
-                if(pf){
-                        execute_cmd("/bin/mkdir ../data/%d/ac/ 2>/dev/null", pid);
+                execute_cmd("/bin/mkdir ../data/%d/ac/ 2>/dev/null", pid);
                 execute_cmd("/bin/cp %s ../data/%d/ac/%d.%s 2>/dev/null", src_pth, pid, solution_id,
                                         lang_ext[lang]);
                 //c cpp will
@@ -3191,7 +3190,6 @@ int get_sim(int solution_id, int lang, int pid, int &sim_s_id)
                         execute_cmd("/bin/ln ../data/%d/ac/%d.%s ../data/%d/ac/%d.%s 2>/dev/null", pid,
                                                 solution_id, lang_ext[lang], pid, solution_id,
                                                 lang_ext[lang - 1]);
-                }
         }else{
                 if (pf){
                         if(2==fscanf(pf, "%d%d", &sim, &sim_s_id));
@@ -3539,7 +3537,7 @@ int main(int argc, char **argv)
 	// read files and run
 	double pass_rate = 0.0;
 	float mark=0;
-	int total_mark=0,get_mark=0;
+	float total_mark=0,get_mark=0;
 	int finalACflg = ACflg;
 	if (p_id == 0)
 	{ //custom input running
@@ -3764,7 +3762,7 @@ int main(int argc, char **argv)
 			if(mark>=0 && mark<=total_mark) pass_rate=mark;
 			pass_rate/=100.0;
 			if(mark==total_mark) finalACflg=ACflg=OJ_AC;else finalACflg=ACflg=OJ_WA;
-			update_solution(solution_id, finalACflg,total_mark,mark,sim,sim_s_id, pass_rate);
+			update_solution(solution_id, finalACflg,total_mark,mark*10,sim,sim_s_id, pass_rate);
 
 	}
 	FILE *df=fopen("diff.out","a");

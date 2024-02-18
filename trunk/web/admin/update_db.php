@@ -69,7 +69,7 @@ CREATE TABLE $DB_NAME.`mail` (
   KEY `uid` (`to_user`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000 ;";   
  
-$tsql[5]="ALTER TABLE $DB_NAME.`solution` MODIFY COLUMN `pass_rate` DECIMAL(3,2) UNSIGNED NOT NULL DEFAULT 0,MODIFY COLUMN in_date datetime not null default '2009-06-13 19:00:00', MODIFY COLUMN `user_id` CHAR(48)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,MODIFY COLUMN `ip` CHAR(15)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;";
+$tsql[5]="ALTER TABLE $DB_NAME.`solution` MODIFY COLUMN `pass_rate` DECIMAL(4,3) UNSIGNED NOT NULL DEFAULT 0,MODIFY COLUMN in_date datetime not null default '2009-06-13 19:00:00', MODIFY COLUMN `user_id` CHAR(48)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,MODIFY COLUMN `ip` CHAR(15)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;";
 $csql[5]="";
 
 $tsql[6]="select langmask from $DB_NAME.contest limit 1;";
@@ -205,10 +205,14 @@ $tsql[44]="alter table $DB_NAME.solution add column remote_oj char(16) not null 
 $csql[44]="alter table $DB_NAME.solution add column remote_id char(16) not null default '' after remote_oj;";
 $tsql[45]="alter table $DB_NAME.news modify content mediumtext not null;";
 $csql[45]="alter table $DB_NAME.problem modify description mediumtext not null, modify input  mediumtext not null, modify output mediumtext not null;";
+
 $tsql[46]="alter table $DB_NAME.problem add `sample_input_2` text after `sample_input`;";
 $csql[46]="alter table $DB_NAME.problem add `sample_output_2` text after `sample_output`;";
 $tsql[47]="alter table $DB_NAME.users add column activecode varchar(16) not null default '' after school;";
 $csql[47]="";
+$tsql[48]="alter table $DB_NAME.users add column group_name varchar(16) not null default '' after school;";
+$csql[48]="";
+
 if(isset($_POST['do'])){
 	require_once("../include/check_post_key.php");
 	echo "Executing...<br>";

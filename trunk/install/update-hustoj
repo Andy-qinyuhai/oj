@@ -2,6 +2,9 @@
 cd /home/judge/upstream
 git pull origin master
 
+#备份
+cp -rf /home/judge/src/* /var/backups/hustoj_bak/
+#更新
 cp -rf /home/judge/upstream/trunk/* /home/judge/src/
 
 cd /home/judge/src/core

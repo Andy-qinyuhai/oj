@@ -106,7 +106,7 @@
 	$MSG_WEEK="Week-Rank";
 	$MSG_MONTH="Month-Rank";
 	$MSG_YEAR="Year-Rank";
-	
+	$MSG_ABSENT="Absent";
 	//registerpage.php
 	$MSG_USER_ID="User ID";
 	$MSG_PASSWORD="Password";
@@ -295,6 +295,27 @@
 
   $MSG_LOSTPASSWORD_MAILBOX="Input the Code sended to your email (Trash Box )";
   $MSG_LOSTPASSWORD_WILLBENEW="if it's correct, it will be the new password";
+
+
+  //discuss.php
+	$MSG_LAST_REPLY="Last";
+	$MSG_REPLY_COUNTS="Counts";
+	$MSG_REPLY_NUMBER="Number";	
+	$MSG_QUESTION="Question";
+	$MSG_NO_QUESTIONS="No questions";
+	$MSG_REGISTER_QUESTION="Register";	
+	$MSG_WRITE_QUESTION="Question";	
+	$MSG_REGISTERED="Registered";
+	$MSG_BLOCKED="Blocked";
+	$MSG_REPLY="Reply";	
+	$MSG_REGISTER_REPLY="Reply";
+	$MSG_DISABLE="Disable";		
+  $MSG_LOCK="Lock";
+	$MSG_RESUME="Resume";
+	$MSG_DISCUSS_DELETE="Delete";	
+	$MSG_DISCUSS_NOTICE="Notice";		
+	$MSG_DISCUSS_NOTE="Note";	
+	$MSG_DISCUSS_NORMAL="Normal";		
 
 
 	// template/../reinfo.php

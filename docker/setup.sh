@@ -103,10 +103,26 @@ service $PHP_SERVICE start
 judge_client 1 0 /home/judge/ | grep "final result:4"
 cd /home/judge/src/web
 chmod 755 /home/judge
-for page in index.php problemset.php category.php status.php ranklist.php contest.php loginpage.php registerpage.php "userinfo.php?user=zhblue"
+
+for page in `cat test.lst` 
 do 
-  w3m -dump http://127.0.0.1/$page | grep HUSTOJ
-done;
+	if w3m -dump http://127.0.0.1/$page |grep HUSTOJ > /dev/null ; then 
+ 		echo "OK        $page "  
+   	else 
+    		echo "Fail         $page" 
+      	fi
+done
+
+echo "Testing template bs3 ..."
+sed -i 's/static  $OJ_TEMPLATE="syzoj";/static  $OJ_TEMPLATE="bs3";/' include/db_info.inc.php
+for page in `cat test.lst` 
+do 
+	if w3m -dump http://127.0.0.1/$page |grep HUSTOJ > /dev/null ; then 
+ 		echo "OK        $page "  
+   	else 
+    		echo "Fail         $page" 
+      	fi
+done
 
 w3m -dump http://127.0.0.1/status.php | grep 'AWT'
 w3m -dump http://hustoj.com/ip.php

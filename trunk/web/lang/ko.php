@@ -104,7 +104,7 @@
 	$MSG_WEEK="주간-순위";
 	$MSG_MONTH="월간-순위";
 	$MSG_YEAR="연간-순위";
-
+        $MSG_ABSENT="Absent";
 
 	//registerpage.php
 	$MSG_USER_ID="사용자ID";
@@ -287,6 +287,27 @@
 
 	$MSG_LOSTPASSWORD_MAILBOX=" Email로 전송된 코드를 입력하세요.";
 	$MSG_LOSTPASSWORD_WILLBENEW=" 입력된 코드가 정확하면 입력된 코드가 새로운 비밀번호로 저장됩니다.";
+
+
+  //discuss.php
+	$MSG_LAST_REPLY="최근답변";
+	$MSG_REPLY_COUNTS="답변개수";
+	$MSG_REPLY_NUMBER="순번";	
+	$MSG_QUESTION="질문내용";
+	$MSG_NO_QUESTIONS="묻고 답하기 없음";
+	$MSG_REGISTER_QUESTION="질문등록";	
+	$MSG_WRITE_QUESTION="질문작성";	
+	$MSG_REGISTERED="등록시간";
+	$MSG_BLOCKED="차단됨";
+	$MSG_REPLY="답글쓰기";	
+	$MSG_REGISTER_REPLY="답글등록";
+	$MSG_DISABLE="숨김";		
+  $MSG_LOCK="숨김";
+	$MSG_RESUME="보여줌";
+	$MSG_DISCUSS_DELETE="삭제";	
+	$MSG_DISCUSS_NOTICE="공지";		
+	$MSG_DISCUSS_NOTE="참고";	
+	$MSG_DISCUSS_NORMAL="일반";
 
 
 	// template/../reinfo.php

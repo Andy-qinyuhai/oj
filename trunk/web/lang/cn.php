@@ -121,7 +121,7 @@
  	$MSG_WEEK="周排行";
 	$MSG_MONTH="月排行";
 	$MSG_YEAR="年排行";
-
+        $MSG_ABSENT="缺席";
 	//registerpage.php
 	$MSG_USER_ID="用户名";
 	$MSG_PASSWORD="密码";
@@ -313,7 +313,29 @@
   $MSG_LOSTPASSWORD_MAILBOX="请到您邮箱的垃圾邮件文件夹寻找验证码，并填写到这里";
   $MSG_LOSTPASSWORD_WILLBENEW="如果填写正确，通过下一步验证，这个验证码就自动成为您的新密码！";
 
-  
+
+  //discuss.php
+  $MSG_LAST_REPLY="最新回复";
+  $MSG_REPLY_COUNTS="回复总数";
+  $MSG_REPLY_NUMBER="回复计数";
+  $MSG_QUESTION="帖子";
+  $MSG_NO_QUESTIONS="没有帖子";
+  $MSG_REGISTER_QUESTION="发布帖子";
+  $MSG_WRITE_QUESTION="发帖";
+  $MSG_REGISTERED="已发布";
+  $MSG_BLOCKED="已屏蔽";
+  $MSG_REPLY="回复";
+  $MSG_REGISTER_REPLY="发布回复";
+  $MSG_DISABLE="禁用";
+  $MSG_LOCK="锁定";
+  $MSG_RESUME="恢复";
+  $MSG_DISCUSS_DELETE="删除";
+  $MSG_DISCUSS_NOTICE="提示";
+  $MSG_DISCUSS_NOTE="笔记";
+  $MSG_DISCUSS_NORMAL="普通";
+
+
+
   // template/../reinfo.php
   $MSG_A_NOT_ALLOWED_SYSTEM_CALL="使用了系统禁止的操作系统调用，看看是否越权访问了文件或进程等资源,如果你是系统管理员，而且确认提交的答案没有问题，测试数据没有问题，可以发送'RE'到微信公众号onlinejudge，查看解决方案。";
   $MSG_SEGMETATION_FAULT="段错误，检查是否有数组越界，指针异常，访问到不应该访问的内存区域，或者全局数组申请过大空间(每个long long占用8字节)。";

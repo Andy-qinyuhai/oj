@@ -135,6 +135,8 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+03-01 | 更新 | [@melongist](https://github.com/melongist) 改善讨论板。
+02-25 | 补丁 | 修补管理-导出排名(ranklist_export.php)
 02-16 | 更新 | 允许比赛描述中用 "限时xx分钟" 规定个人做题时间。
 02-15 | 更新 | 简单的班级功能。
 02-13 | 更新 | 改良测试输出生成脚本。
@@ -488,25 +490,6 @@ Linux新手请看[鸟哥的私房菜](http://cn.linux.vbird.org/linux_basic/linu
 
 建好系统需要题目，请访问[TK题库](http://tk.hustoj.com/) 和 [freeeproblemset项目](https://github.com/zhblue/freeproblemset)
 
-### 卸载阿里云盾
-
-逐条执行下列代码删除阿里云盾：
-
-```
-# 卸载云盾
-wget http://update.aegis.aliyun.com/download/uninstall.sh
-chmod +x uninstall.sh
-./uninstall.sh
-wget http://update.aegis.aliyun.com/download/quartz_uninstall.sh
-chmod +x quartz_uninstall.sh
-./quartz_uninstall.sh
-# 删除残留
-pkill aliyun-service
-rm -rf /etc/init.d/agentwatch /usr/sbin/aliyun-service
-rm -rf /usr/local/aegis*
-```
-
-重启后若执行 `ps -aux | grep -E 'aliyun|AliYunDun'` 显示没有阿里云盾相关进程即为卸载成功。
 
 ## 装后须知
 

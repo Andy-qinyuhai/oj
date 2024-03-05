@@ -153,7 +153,7 @@
 /* 本月之星  */
 
 $month_id=mysql_query_cache("select solution_id from solution where  in_date<date_add(curdate(),interval -day(curdate())+1 DAY) order by solution_id desc limit 1;");
-if(is_array( $month_id)) $month_id=$month_id[0][0];else $month_id=0;
+if(is_array( $month_id) && isset($month_id[0][0]) ) $month_id=$month_id[0][0];else $month_id=0;
 //NOIP赛制比赛时，排名暂时屏蔽
 if($NOIP_flag[0]==0) $view_month_rank=mysql_query_cache("select user_id,nick,count(distinct(problem_id)) ac from solution where solution_id>$month_id and problem_id>0 and result=4 group by user_id,nick order by ac desc limit 10");
             if ( is_array($view_month_rank) ) {

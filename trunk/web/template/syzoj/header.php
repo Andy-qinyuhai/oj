@@ -135,7 +135,7 @@ background-size: 100%">
             {
               echo '<a class="item" href="moodle"><i class="group icon"></i>Moodle</a>';
             }
-            if(!isset($_GET['cid'])){
+            if(!isset($_GET['cid'])||$cid==0){
           ?>
 
             <a class="item <?php if ($url=="problemset.php") echo "active";?>"
@@ -164,7 +164,7 @@ background-size: 100%">
             }
                 ?>
             <a class="item" href="https://www.mclouds.online/index.php?user-app-login"><i class ="home icon"></i>模拟考试系统</a>
-            <?php if(isset($_GET['cid'])){
+            <?php if( isset($_GET['cid']) && intval($_GET['cid'])>0 ){
                 $cid=intval($_GET['cid']);
             ?>
             <a id="" class="item" href="<?php echo $path_fix?>contest.php" ><i class="arrow left icon"></i><?php echo $MSG_CONTEST.$MSG_LIST?></a>

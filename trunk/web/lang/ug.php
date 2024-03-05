@@ -116,6 +116,7 @@ if(date('m')==4&&date('d')==1&&rand(0,100)<10){
  	$MSG_WEEK="ھەپتىلىك مەرتىۋە";
 	$MSG_MONTH="ئايلىق مەرتىۋە";
 	$MSG_YEAR="يىللىق مەرتىۋە";
+$MSG_ABSENT="Absent";
 	//registerpage.php
 	$MSG_USER_ID="ئابۇنىت نۇمۇرى";
 	$MSG_PASSWORD="مەخپى نۇمۇر";
@@ -297,6 +298,27 @@ if(date('m')==4&&date('d')==1&&rand(0,100)<10){
   
   $MSG_LOSTPASSWORD_MAILBOX="  دەلىللەش كودىنى ئېلخېتىڭىزگە يوللاندى،تەكشۈرۈپ ئېلىڭ";
   $MSG_LOSTPASSWORD_WILLBENEW=" ئەگەر توغرا بولسا ،كىيىنكى قەدەمدە مۇقۇملاش ئارقىلىق دەلىللەش كودى سىزنىڭ يېڭى مەخپى شىفىرىڭىزگە ئايلىنىدۇ";
+
+
+  //discuss.php
+	$MSG_LAST_REPLY="Last";
+	$MSG_REPLY_COUNTS="Counts";
+	$MSG_REPLY_NUMBER="Number";	
+	$MSG_QUESTION="Question";
+	$MSG_NO_QUESTIONS="No questions";
+	$MSG_REGISTER_QUESTION="Register";	
+	$MSG_WRITE_QUESTION="Question";	
+	$MSG_REGISTERED="Registered";
+	$MSG_BLOCKED="Blocked";
+	$MSG_REPLY="Reply";	
+	$MSG_REGISTER_REPLY="Reply";
+	$MSG_DISABLE="Disable";		
+  $MSG_LOCK="Lock";
+	$MSG_RESUME="Resume";
+	$MSG_DISCUSS_DELETE="Delete";	
+	$MSG_DISCUSS_NOTICE="Notice";		
+	$MSG_DISCUSS_NOTE="Note";	
+	$MSG_DISCUSS_NORMAL="Normal";
 
 
   // template/../reinfo.php

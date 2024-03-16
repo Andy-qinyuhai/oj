@@ -14,17 +14,15 @@ if (!isset($_GET['id'])){
 }
 if(isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD && !isset($_SESSION[$OJ_NAME.'_'.'source_browser']) && !isset($_SESSION[$OJ_NAME.'_'."administrator"])){
 		$now =  date('Y-m-d H:i', time());
-        	$sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
+        $sql="select count(contest_id) from contest where start_time<'$now' and end_time>'$now' and title like '%$OJ_NOIP_KEYWORD%'";
 		$row=pdo_query($sql);
 		$cols=$row[0];
 		//echo $sql;
 		//echo $cols[0];
-		if($cols[0]>0) {
-			
+		if($cols[0]>0) {			
 		      $view_errors =  "<h2> $MSG_NOIP_WARNING </h2>";
 		      require("template/".$OJ_TEMPLATE."/error.php");
 		      exit(0);
-
 		}
  }
 $ok=false;
@@ -42,7 +40,7 @@ $sproblem_id=$row['problem_id'];
 $view_user_id=$suser_id=$row['user_id'];
 $contest_id=intval($row['contest_id']);
 $need_check_using=true;
-if(!isset($_SESSION[$OJ_NAME."_source_browser"])){
+if(!(isset($_SESSION[$OJ_NAME."_source_browser"])||isset($_SESSION[$OJ_NAME."_administrator"]))){
 	if ( $contest_id > 0 ){
 		$sql="select start_time,end_time from contest where contest_id=?";
 		$result=pdo_query($sql,$contest_id);

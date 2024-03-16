@@ -116,7 +116,7 @@ var i=0;
 var using_blockly=false;
 var judge_result=[<?php
 foreach($judge_result as $result){
-echo "'$result',";
+    echo "'$result',";
 }
 ?>''];
 function print_result(solution_id)
@@ -239,7 +239,7 @@ function do_submit(){
         $("#TestRub").prop('disabled', true);
         count=<?php echo $OJ_SUBMIT_COOLDOWN_TIME?> * 2 ;
         handler_interval= window.setTimeout("resume();",1000);
-	$("#sk").attr("src","remote.php");
+	 <?php if(isset($OJ_REMOTE_JUDGE)&&$OJ_REMOTE_JUDGE) {?>$("#sk").attr("src","remote.php"); <?php } ?>
 <?php }else{?>
         document.getElementById("frmSolution").submit();
 <?php }?>
@@ -275,10 +275,10 @@ function resume(){
 	var s=$("#Submit")[0];
 	var t=$("#TestRub")[0];
 	if(count<0){
-		s.disabled=false;
-		if(t!=null)t.disabled=false;
+		 $("#Submit").attr("disabled","false");
 		 $("#Submit").text("<?php echo $MSG_SUBMIT?>");
-		if(t!=null)t.value="<?php echo $MSG_TR?>";
+		if(t!=null) $("#TestRub").attr("disabled","false");
+		if(t!=null) $("#TestRub").text("<?php echo $MSG_TR?>");
 		if( handler_interval) window.clearInterval( handler_interval);
 		if($("#vcode")!=null) $("#vcode").click();
 	}else{
@@ -380,6 +380,9 @@ function loadFromBlockly(){
 
 	}
 	window.setInterval('autoSave();',5000);
+	$("body").dblclick(function(){
+                 if (event.ctrlKey==1) formatCode();
+        }).attr("title","Ctrl+双击鼠标,自动整理缩进");
    });
 </script>
 <script>
@@ -403,6 +406,123 @@ function loadFromBlockly(){
         editor.setTheme("ace/theme/xcode");
     }
 }
+
+	var level = 0;
+var LOOP_SIZE = 100;
+function finishTabifier(code) {
+    code = code.replace(/\n\s*\n/g, '\n');  //blank lines
+    code = code.replace(/^[\s\n]*/, ''); //leading space
+    code = code.replace(/[\s\n]*$/, ''); //trailing space
+    level = 0;
+    var session = editor.getSession();
+    session.setValue(code);
+    return code;
+}
+
+function cleanCStyle(code) {
+    var i = 0;
+    code = code.replace(/\)\n[\s]*/g,')\n    '); //single line if while for
+    function cleanAsync() {
+        var iStart = i;
+        for (; i < code.length && i < iStart + LOOP_SIZE; i++) {
+            c = code.charAt(i);
+
+            if (incomment) {
+                if ('//' == incomment && '\n' == c) {
+                    incomment = false;
+                } else if ('/*' == incomment && '*/' == code.substr(i, 2)) {
+                    incomment = false;
+                    c = '*/\n';
+                    i++;
+                }
+                if (!incomment) {
+                    while (code.charAt(++i).match(/\s/)); ; i--;
+                    c += tabs();
+                }
+                out += c;
+            } else if (instring) {
+                if (instring == c && // this string closes at the next matching quote
+                // unless it was escaped, or the escape is escaped
+          ('\\' != code.charAt(i - 1) || '\\' == code.charAt(i - 2))
+        ) {
+                    instring = false;
+                }
+                out += c;
+            } else if (infor && '(' == c) {
+                infor++;
+                out += c;
+            } else if (infor && ')' == c) {
+                infor--;
+                out += c;
+            } else if ('else' == code.substr(i, 4)) {
+                out = out.replace(/\s*$/, '') + ' e';
+            } else if (code.substr(i).match(/^for\s*\(/)) {
+                infor = 1;
+                out += 'for (';
+                while ('(' != code.charAt(++i)); ;
+            } else if ('//' == code.substr(i, 2)) {
+                incomment = '//';
+                out += '//';
+                i++;
+            } else if ('/*' == code.substr(i, 2)) {
+                incomment = '/*';
+                out += '\n' + tabs() + '/*';
+                i++;
+            } else if ('"' == c || "'" == c) {
+                if (instring && c == instring) {
+                    instring = false;
+                } else {
+                    instring = c;
+                }
+                out += c;
+            } else if ('{' == c) {
+                level++;
+                out = out.replace(/\s*$/, '') + ' {\n' + tabs();
+                while (code.charAt(++i).match(/\s/)); ; i--;
+            } else if ('}' == c) {
+                out = out.replace(/\s*$/, '');
+                level--;
+                out += '\n' + tabs() + '}\n' + tabs();
+                while (code.charAt(++i).match(/\s/)); ; i--;
+            } else if (';' == c && !infor) {
+                out += ';\n' + tabs();
+                while (code.charAt(++i).match(/\s/)); ; i--;
+            } else if ('\n' == c) {
+                out += '\n' + tabs();
+            } else {
+                out += c;
+            }
+        }
+
+        if (i < code.length) {
+            setTimeout(cleanAsync, 0);
+        } else {
+            level = li;
+            out = out.replace(/[\s\n]*$/, '');
+            finishTabifier(out);
+        }
+    }
+
+    code = code.replace(/^[\s\n]*/, ''); //leading space
+    code = code.replace(/[\s\n]*$/, ''); //trailing space
+    code = code.replace(/[\n\r]+/g, '\n'); //collapse newlines
+
+    var out = tabs(), li = level, c = '';
+    var infor = false, forcount = 0, instring = false, incomment = false;
+    cleanAsync();
+}
+function tabs() {
+    var s = '';
+    for (var j = 0; j < level; j++) s += '\t';
+    return s;
+}
+// Functions
+function formatCode() {
+  var session = editor.getSession();
+  cleanCStyle(session.getValue());
+}
+
+
 
 </script>
 <?php }?>

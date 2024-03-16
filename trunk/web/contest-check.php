@@ -61,7 +61,7 @@
                         exit(0);
                 }
         }
-
+        if(!isset($OJ_CONTEST_LIMIT_KEYWORD)) $OJ_CONTEST_LIMIT_KEYWORD="限时";
         if(str_contains($view_description,$OJ_CONTEST_LIMIT_KEYWORD)&&isset($_SESSION[$OJ_NAME."_user_id"])){
                 echo "<!-- 个人限时赛  -->";
                 $contest_limit_minutes=intval(getPartByMark($view_description,$OJ_CONTEST_LIMIT_KEYWORD,"分钟"));  //允许比赛描述中用 "限时xx分钟" 规定个人做题时间。
@@ -83,20 +83,26 @@
                                 }
                                 $sql="INSERT INTO `loginlog` VALUES(?,?,?,NOW())";
                                 pdo_query($sql,$user_id,"c".$cid,$ip);
+                         $first_login_contest=time();
                 }else{
                         $first_login_contest=strtotime($first_login_contest[0][0]);
-                        $unixnow=time();
-                        echo "<!-- $unixnow - $first_login_contest = ".($unixnow-$first_login_contest)." -->";
-                        if($unixnow-$first_login_contest>=$contest_limit_minutes*60 && !isset($_SESSION[$OJ_NAME."_m".$cid]) && !isset($_SESSION[$OJ_NAME."_administrator"])){
-                                $contest_ok=false;
-
-                                $view_errors = "<center>";
-                                $view_errors .= "<h3>$MSG_CONTEST_ID : $view_cid - $view_title</h3>";
-                                $view_errors .= "<p>$view_description</p>";
-                                require("template/".$OJ_TEMPLATE."/error.php");
-                                exit(0);
-                        }
                 }
+                $unixnow=time();
+                echo "<!-- $unixnow - $first_login_contest = ".($unixnow-$first_login_contest)." -->";
+                if($unixnow-$first_login_contest>=$contest_limit_minutes*60 && !isset($_SESSION[$OJ_NAME."_m".$cid]) && !isset($_SESSION[$OJ_NAME."_administrator"])){
+                        $contest_ok=false;
+
+                        $view_errors = "<center>";
+                        $view_errors .= "<h3>$MSG_CONTEST_ID : $view_cid - $view_title</h3>";
+                        $view_errors .= "<p>$view_description</p>";
+                        require("template/".$OJ_TEMPLATE."/error.php");
+                        exit(0);
+                }else{
+                        $time_left=$contest_limit_minutes*60-($unixnow-$first_login_contest);
+                        if($time_left>0)
+                        $view_description.="<br><span id='time_left'>$MSG_LeftTime :". intval($time_left/60)." $MSG_MINUTES" .($time_left % 60). $MSG_SECONDS."<span>";
+                }
+
         };
 
 

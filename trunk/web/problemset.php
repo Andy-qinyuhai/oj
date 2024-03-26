@@ -78,7 +78,7 @@ $sub_arr = Array(); // all submit
 $acc_arr = Array(); // all ac
 $issue_arr = Array(); //some issue
 if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
-	$sql = "SELECT `problem_id`, MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=?";
+	$sql = "SELECT `problem_id`, MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=? and result>=4";
 	if(isset($pids)&&$pids!="") $sql.=" AND `problem_id` in ($pids)";
 	$sql .= " GROUP BY `problem_id`";
 	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']); 

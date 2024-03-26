@@ -90,10 +90,10 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 	<input type=hidden id="hide_source" name="source" value=""/>
 
 <?php }else{ ?>
-	<textarea style="width:80%;height:600" cols=180 rows=25 id="source" name="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></textarea>
+	<textarea style="width:80%;height:600" cols=180 rows=30 id="source" name="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></textarea>
 <?php }?>
 
-<?php if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN){?>
+<?php if ( isset($OJ_TEST_RUN) && $OJ_TEST_RUN && $spj<=1 ){?>
 <?php echo $MSG_Input?>:<textarea style="width:30%" cols=40 rows=5 id="input_text" name="input_text" ><?php echo $view_sample_input?></textarea>
 <?php echo $MSG_Output?>:
 <textarea style="width:30%" cols=10 rows=5 id="out" name="out" disabled="true" >SHOULD BE:
@@ -275,9 +275,9 @@ function resume(){
 	var s=$("#Submit")[0];
 	var t=$("#TestRub")[0];
 	if(count<0){
-		 $("#Submit").attr("disabled","false");
+		 $("#Submit").attr("disabled",false);
 		 $("#Submit").text("<?php echo $MSG_SUBMIT?>");
-		if(t!=null) $("#TestRub").attr("disabled","false");
+		if(t!=null) $("#TestRub").attr("disabled",false);
 		if(t!=null) $("#TestRub").text("<?php echo $MSG_TR?>");
 		if( handler_interval) window.clearInterval( handler_interval);
 		if($("#vcode")!=null) $("#vcode").click();
@@ -288,7 +288,7 @@ function resume(){
 	}
 }
 function switchLang(lang){
-   var langnames=new Array("c_cpp","c_cpp","pascal","java","ruby","sh","python","php","perl","csharp","objectivec","vbscript","scheme","c_cpp","c_cpp","lua","javascript","golang");
+   var langnames=new Array("c_cpp","c_cpp","pascal","java","ruby","sh","python","php","perl","csharp","objectivec","vbscript","scheme","c_cpp","c_cpp","lua","javascript","golang","sql","fortran","matlab","cobol","r");
    editor.getSession().setMode("ace/mode/"+langnames[lang]);
 
 }

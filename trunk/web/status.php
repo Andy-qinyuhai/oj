@@ -484,20 +484,23 @@ for ($i=0; $i<$rows_cnt; $i++) {
         $view_status[$i][6] = "<a target=_self href=showsource.php?id=".$row['solution_id'].">".$language_name[$row['language']]."</a>";
       else
         $view_status[$i][6] = $language_name[$row['language']];
-
+      if($OJ_TEMPLATE=="syzoj" || $OJ_TEMPLATE=="bs3" ) {
+            $edit_link="problem.php";
+      }else {
+            $edit_link="submitpage.php";
+      }
       if ($row["problem_id"]>0 && (isset($_SESSION[$OJ_NAME.'_'.'user_id']) && strtolower($row['user_id'])==strtolower($_SESSION[$OJ_NAME.'_'.'user_id']))) {
         if ($row['contest_id']>0) {
          if (isset($end_time)&&time()<$end_time && $NOIP_flag == 0 || isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
-            $view_status[$i][6] .= "/<a target=_self href=\"submitpage.php?cid=".$row['contest_id']."&pid=".$row['num']."&sid=".$row['solution_id']."\">Edit</a>";
+            $view_status[$i][6] .= "/<a target=_self href=\"$edit_link?cid=".$row['contest_id']."&pid=".$row['num']."&sid=".$row['solution_id']."\">Edit</a>";
           else
             $view_status[$i][6] .= "";
         }
         else if($NOIP_flag == 0){
-          $view_status[$i][6] .= "/<a target=_self href=\"submitpage.php?id=".$row['problem_id']."&sid=".$row['solution_id']."\">Edit</a>";
+          $view_status[$i][6] .= "/<a target=_self href=\"$edit_link?id=".$row['problem_id']."&sid=".$row['solution_id']."\">Edit</a>";
         }
       }
-    }
-    
+    }    
     $view_status[$i][7] = $row['code_length']." bytes";
         
   }

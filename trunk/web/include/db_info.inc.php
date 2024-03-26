@@ -22,7 +22,7 @@ static  $OJ_ONLINE=true;  //是否记录在线情况
 static  $OJ_LANG="en";  //默认语言
 static  $OJ_SIM=false;  //显示相似度，注意只是显示，启动检测的开关在judge.conf，且自己抄自己不计为抄袭
 static  $OJ_DICT=false; //显示在线翻译
-static  $OJ_LANGMASK=4194224; //掩码计算器:https://pigeon-developer.github.io/hustoj-langmask/
+static  $OJ_LANGMASK=8388532; //掩码计算器:https://pigeon-developer.github.io/hustoj-langmask/
 static  $OJ_ACE_EDITOR=true;  // 是否启用有高亮提示的提交代码输入框
 static  $OJ_AUTO_SHARE=true; //true: 设为true则通过的题目可在统计页查看其他人代码.
 static  $OJ_CSS="white.css";  // bing.css | kawai.css | black.css | blue.css | green.css | hznu.css
@@ -59,6 +59,7 @@ static  $OJ_EMAIL_CONFIRM=false; //允许邮件激活账号
 static  $OJ_NEED_LOGIN=false; //需要登录才能访问
 static  $OJ_LONG_LOGIN=true; //启用长时间登录信息保留
 static  $OJ_KEEP_TIME=30;  //登录Cookie有效时间(单位:天(day),仅在上一行为true时生效)
+static  $OJ_AUTO_SHOW_OFF = false;//打开题目默认开启编辑器
 static  $OJ_RANK_LOCK_PERCENT=0; //比赛封榜时间比例
 static  $OJ_RANK_LOCK_DELAY=3600; //赛后封榜持续时间，单位秒。根据实际情况调整，在闭幕式颁奖结束后设为0即可立即解封。
 static  $OJ_SHOW_METAL=true; //榜单上是否按比例显示奖牌
@@ -89,7 +90,9 @@ static  $OJ_DIV_FILTER=false;   // 过滤题面中的div，修复显示异常，
 static  $OJ_LIMIT_TO_1_IP=false;  // 限制用户同一时刻只能在一个IP地址登录
 static  $OJ_REMOTE_JUDGE=false; //是否启用Remote Judge ，启用哪些模块请在remote.php中设置
 static  $OJ_NO_CONTEST_WATCHER=false ; //是否禁止无权限用户观战私有比赛
-static  $OJ_CONTEST_TOTAL_100=true; //是否让比赛按100分计分
+static  $OJ_CONTEST_TOTAL_100=false; //是否让比赛按100分计分
+static  $OJ_AI_HTML=false; // 若想开启AI链接，可设为 '<a class="desktop-only item active" target="_blank" href="http://ai.hustoj.com"><i class="help icon"></i> 问问狗蛋</a>';
+
 //static  $OJ_EXAM_CONTEST_ID=1000; // 启用考试状态，填写考试比赛ID
 //static  $OJ_ON_SITE_CONTEST_ID=1000; //启用现场赛状态，填写现场赛比赛ID
 

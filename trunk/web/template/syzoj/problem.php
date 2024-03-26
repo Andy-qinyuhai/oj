@@ -34,6 +34,28 @@ div[class*=ace_br] {
 </style>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE/"?>clipboard.min.js"></script>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>marked.min.js"></script>
+
+
+<script src="<?php echo $OJ_CDN_URL.$path_fix."template/syzoj/js/"?>katex.min.js"></script>
+
+<script>
+    var katex_config = {
+        delimiters: [{
+                left: "$$",
+                right: "$$",
+                display: true
+            },
+            {
+                left: "$",
+                right: "$",
+                display: false
+            }
+        ]
+    };
+</script>
+
+<script defer src="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE"?>/js/auto-render.min.js" onload="renderMathInElement(document.body, katex_config)"></script>
+
 <div class="padding ">
 <div class="ui center aligned grid">
     <div class="row">
@@ -275,6 +297,9 @@ div[class*=ace_br] {
 			let width2=parseInt(document.body.clientWidth*0.4);
 <?php } ?>
         let submitURL=$("#submit")[0].href;
+        <?php
+                 if(isset($_GET['sid'])) echo "submitURL+='&sid=".intval($_GET['sid'])."';";
+         ?>
         console.log(width);
         let main=$("#main");
         let problem=main.html();
@@ -360,7 +385,7 @@ function selectMulti( num, answer){
                   headerIds: false
                 });
 
-		$("div.md").each(function(){
+		$(".md").each(function(){
 			$(this).html(marked.parse($(this).html()));
 		});
 	  	// adding note for ```input1  ```output1 in description
@@ -436,7 +461,7 @@ function selectMulti( num, answer){
                 });
                 selectMulti(num,answer);
         });
-	<?php if ($row['spj']>1){ ?>
+        <?php if ($row['spj']>1 || isset($_GET['sid']) || (isset($OJ_AUTO_SHOW_OFF)&&$OJ_AUTO_SHOW_OFF)){ ?>
 	    transform();
 	<?php }?>
 

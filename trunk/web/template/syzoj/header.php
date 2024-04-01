@@ -165,7 +165,7 @@ background-size: 100%">
 
             }
                 ?>
-            <a class="item" href="https://www.mclouds.online/index.php?user-app-login"><i class ="home icon"></i>模拟考试系统</a>
+            <a class="desktop-only item" href="https://www.mclouds.online/index.php?user-app-login"><i class ="home icon"></i>模拟考试系统</a>
             <?php if( isset($_GET['cid']) && intval($_GET['cid'])>0 ){
                 $cid=intval($_GET['cid']);
             ?>

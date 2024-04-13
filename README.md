@@ -111,9 +111,18 @@ HUSTOJ 是采用 GPL 的自由软件。(仅限原创部分代码，其中使用�
 
 论文请引用参考文献 [基于开放式云平台的开源在线评测系统设计与实现](http://kns.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFQ&dbname=CJFD2012&filename=JSJA2012S3088) 
 
-如果打算进行二次开发， [Wiki](https://github.com/zhblue/hustoj/tree/master/wiki) 和这份[Wiki](https://github.com/zhblue/hustoj/tree/master/wiki) 可能有帮助。
+如果打算进行二次开发， [Wiki](https://github.com/zhblue/hustoj/tree/master/wiki) 和这份[FAQ](http://hustoj.com/) 可能有帮助。
 
-PS: GPL保证你可以合法忽略以上注意事项但不能保证你不受鄙视，呵呵。
+## 上面这是建议，不是强制要求。
+
+[GPLv2](https://github.com/zhblue/hustoj/blob/master/trunk/web/gpl-2.0.txt) 唯一实质性要求的是，当你基于本项目进行二次开发，请在分发时提供源代码，这里的分发，指您将二次开发的产品安装在您“客户”的服务器上使用，这时需要一并提供您修改过的源码，给您的“客户”（不是我，不是公开在网上）并在其中包含[GPLv2](https://github.com/zhblue/hustoj/blob/master/trunk/web/gpl-2.0.txt)的协议，并明示[GPLv2](https://github.com/zhblue/hustoj/blob/master/trunk/web/gpl-2.0.txt)的授权。这里的“客户”可以是收费的，也可以是免费的。仅提供SaaS模式的服务，让其他人在您自己的服务器上使用本软件的衍生品，并不构成这里的分发。因此，您可以部署本系统的二次开发品作为SaaS服务出租，而无需公开源码，也无需在前端页面标注，甚至可以去除原先页脚的版权信息而不破坏授权，只要您不将本系统的衍生物安装到客户的服务器上，或提供给他们二进制编译后或加密后的可运行程序使用，就不算分发。
+
+简单总结，二次开发时页脚的标注可以删除，Web目录下的[GPLv2](https://github.com/zhblue/hustoj/blob/master/trunk/web/gpl-2.0.txt)，在分发时必须保留。
+
+如果您是完全重新开发一套Web界面，只在数据库和API层面与本品耦合，[GPLv2](https://github.com/zhblue/hustoj/blob/master/trunk/web/gpl-2.0.txt)不会对您所开发的Web部分代码构成感染。
+
+如果您在淘宝购买了本系统的二次开发产品，请注意索取未加密的源代码，如商家拒绝提供，可以找店小二投诉，要求退款。
+ 
 
 有关安装、使用问题请先查阅 **[FAQ常见问答](http://hustoj.com)** 和 **[文档](https://zhblue.github.io/hustoj)** 或使用搜索引擎。 
 
@@ -135,6 +144,8 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+04-06 | 更新 | 测试数据管理界面增加了生成input.name/output.name文件的功能。
+04-05 | 更新 | [@Tiang-88](https://github.com/Tiang-88) 增加了露一手功能中，左右屏幕占比调整的功能。
 03-26 | 更新 | 增加对来自hydro的主观题格式题目导入，支持图片附件的导入。允许更换markdown-it作为markdown解析器。
 03-24 | 更新 | 增加R语言支持，仅限x64环境。
 03-16 | 更新 | [@Tiang-88](https://github.com/Tiang-88) 改善MathJax渲染，补充了字体并修订了部分显示效果。

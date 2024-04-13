@@ -286,7 +286,17 @@ div[class*=ace_br] {
           
       </div>
 </div>
-
+<style>
+    #dragButton {
+  width: 10px;
+  height: 10%;
+  background-color: gray;
+  position: absolute;
+  top:350px;
+  left: 0;
+  cursor: col-resize; /* 显示可调整宽度的光标 */
+}
+</style>
   <script type="text/javascript">
   
   function transform(){
@@ -320,6 +330,87 @@ div[class*=ace_br] {
 	<?php if ($row['spj']>1){ ?>
             window.setTimeout('$("iframe")[0].contentWindow.$("#TestRun").remove();',1000);
         <?php }?>
+      
+// Add code to place drag button on the left side of the iframe
+$("#submitPage").prepend("<div id='dragButton'></div>");
+$(document).ready(function() {
+    let isDragging = false;
+    let startX = 0;
+    let initialWidth = 0;
+
+
+    function setIframeReadonly (readonly) {
+        const iframe = $("#submitPage").find('iframe')
+        if (readonly) {
+            iframe.css({
+                position: 'relative',
+                'z-index': -999
+            })
+        } else {
+            iframe.css({
+                position: 'static',
+                'z-index': 'unset'
+            })
+        }
+    }
+
+
+    // 鼠标按下时开始拖拽，颜色变为绿色
+    $("#dragButton").mousedown(function(event) {
+        if (event.target === this) { // Only allow dragging if the mouse button is clicked on the drag button itself
+            isDragging = true;
+            startX = event.pageX;
+            initialWidth = parseInt($("#main").css("width"));
+            $(this).css("background-color", "#a5ff00");
+
+            setIframeReadonly(true)
+
+        }
+    });
+
+    // 拖拽过程中更新宽度
+    $(document).mousemove(function(event) {
+        if (isDragging) {
+            let diffX = event.pageX - startX;
+            let newWidth = initialWidth + diffX;
+            $("#main").css("width", newWidth);
+            $("#submitPage").css("right", "-" + newWidth + "px");
+            $("#submitPage").find("iframe").attr("width", document.body.clientWidth - newWidth + "px");
+        }
+    });
+
+    // 鼠标释放时停止拖拽，恢复原始颜色
+    $(document).mouseup(function() {
+        if (isDragging) {
+            $("#dragButton").css("background-color", "gray");
+        }
+        isDragging = false;
+
+        setIframeReadonly(false)
+
+    });
+    
+    // 鼠标移开页面或失焦时停止拖拽，恢复原始颜色
+    $(document).mouseleave(function() {
+        if (isDragging) {
+            $("#dragButton").css("background-color", "gray");
+        }
+        isDragging = false;
+
+        setIframeReadonly(false)
+
+    });
+    
+    $(window).blur(function() {
+        if (isDragging) {
+            $("#dragButton").css("background-color", "gray");
+        }
+        isDragging = false;
+        setIframeReadonly(false)
+
+    });
+});
+
   }
 
   function submit_code() {
@@ -388,9 +479,9 @@ function selectMulti( num, answer){
                 });
 		const md = window.markdownit();
 		$(".md").each(function(){
-<?php if ($OJ_MARKDOWN===true||$OJ_MARKDOWN=="marked.js") {?>
+<?php if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="marked.js") {?>
 			$(this).html(marked.parse($(this).text()));
-<?php }else{?>
+<?php }else if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="markdown-it") {?>
 			$(this).html(md.render($(this).text()));
 <?php } ?>
 		});
@@ -453,24 +544,40 @@ function selectMulti( num, answer){
                 $(this).html(raw);
         });
 
-
-        $('span[class="md auto_select"]').each(function(){
-		let i=1;
-                let options=['A','B','C','D'];
-		$(this).find("ul").each(function(){
-                	let type="radio"
-                        if($(this).html().indexOf("多选")>0) type="checkbox";
-			let j=0;
-			$(this).find("li").each(function(){
+// subjective problems from hydroOJ markdown and embeded marks
+               $('span[class="md auto_select"]').each(function(){
+                let i=1;
+                let options=['A','B','C','D','E','F','G'];
+                $(this).find("ul").each(function(){
+                        let type="radio";
+                        let ol=$(this).prev("ol");
+                        if(ol!=undefined||ol.attr("start")!=undefined) i=ol.attr("start");
+                        console.log("id["+i+"]");
+                        if($(this).html().indexOf("多选")>0|| (ol!=undefined && ol.html()!=undefined && ol.html().indexOf("multiselect")>0)) type="checkbox";
+                        let j=0;
+                        $(this).find("li").each(function(){
                                 let option=options[j];
-				let disp="<input type=\""+type+"\" name=\""+i+"\" value=\""+option+"\" />"+option+".";
-				$(this).prepend(disp);
-				console.log(options[j]);
-				j++;
-			});
-			i++;
-		});
-	});
+                                let disp="<input type=\""+type+"\" name=\""+i+"\" value=\""+option+"\" />"+option+".";
+                                $(this).prepend(disp);
+                                //console.log(options[j]);
+                                j++;
+                        });
+                        i++;
+                });
+                let html=$(this).html();
+                for(;i>0;i--){
+                        console.log("searching..."+i);
+                        html=html.replace("{{ input("+i+") }}","<input type='text' size=5 name='"+i+"' placeholder='第"+i+"题' ><br>");
+                }
+                html=html.replaceAll("＜","&lt;");
+                html=html.replaceAll("＞","&gt;");
+                $(this).html(html);
+        });
+
+
+        $(".auto_select").find('input[type="text"]').change(function(){
+                selectOne($(this).attr("name"),$(this).val());
+        });
 
 
         $('input[type="radio"]').click(function(){

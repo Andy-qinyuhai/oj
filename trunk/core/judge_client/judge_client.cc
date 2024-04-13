@@ -197,7 +197,7 @@ static int auto_result = OJ_AC ;
 
 int num_of_test = 0;
 //static int sleep_tmp;
-
+size_t prelen=16;
 static int py2=1; // caution: py2=1 means default using py3
 
 #define ZOJ_COM
@@ -1392,7 +1392,7 @@ int compile(int lang, char *work_dir)
 		execute_cmd("/bin/chown judge %s ", work_dir);
 		execute_cmd("/bin/chmod 750 %s ", work_dir);
 
-		if (compile_chroot && lang != 3 && lang != 9 && lang != 6 && lang != 11 && lang != 5 && lang != LANG_R )
+		if (compile_chroot && lang != LANG_JAVA && lang != LANG_CSHARP && lang != LANG_PYTHON && lang != LANG_FREEBASIC && lang != LANG_BASH && lang != LANG_R )
 		{
 			 if (access("usr", F_OK ) == -1){
 				execute_cmd("mkdir -p root/.cache/go-build usr etc/alternatives proc tmp dev");
@@ -2930,7 +2930,7 @@ void watch_solution(pid_t pidApp, char *infile, int &ACflg, int spj,
                         if(exitcode){
 				ACflg=OJ_RE;
                         	sprintf(error, "\t    non-zero return = %d \n", exitcode);
-                        	print_runtimeerror(infile+strlen(oj_home)+5,error);
+                        	print_runtimeerror(infile+prelen,error);
 			}
                         break;
                 }
@@ -2989,7 +2989,7 @@ void watch_solution(pid_t pidApp, char *infile, int &ACflg, int spj,
 				default:
 					ACflg = OJ_RE;
 				}
-				print_runtimeerror(infile+strlen(oj_home)+5,strsignal(exitcode));
+				print_runtimeerror(infile+prelen,strsignal(exitcode));
 				sprintf(buf,"adding: ' white_code[%d]=1; ' after judge_client:2836 for ",exitcode);
                                 print_runtimeerror(buf,strsignal(exitcode));
 
@@ -3032,7 +3032,7 @@ void watch_solution(pid_t pidApp, char *infile, int &ACflg, int spj,
 				default:
 					ACflg = OJ_RE;
 				}
-				print_runtimeerror(infile+strlen(oj_home)+5,strsignal(sig));
+				print_runtimeerror(infile+prelen,strsignal(sig));
 			}
 			break;
 		}
@@ -3102,7 +3102,7 @@ void watch_solution(pid_t pidApp, char *infile, int &ACflg, int spj,
 						solution_id, call_id,(unsigned int)reg.REG_SYSCALL);
 
 				write_log(error);
-				print_runtimeerror(infile+strlen(oj_home)+5,error);
+				print_runtimeerror(infile+prelen,error);
 				//ptrace(PTRACE_SYSCALL, pidApp, NULL, NULL);
 				//continue;
 				ptrace(PTRACE_KILL, pidApp, NULL, NULL);
@@ -3150,7 +3150,7 @@ void init_parameters(int argc, char **argv, int &solution_id,
 {
 	if (argc < 3)
 	{
-		fprintf(stderr,"HUSTOJ judge_client ver 20230823\n\n");
+		fprintf(stderr,"HUSTOJ judge_client ver 20240407\n\n");
 		fprintf(stderr, "Normal Usage:\n\t%s <solution_id> <runner_id>\n\n", argv[0]);
 		fprintf(stderr, "Multi OJ with Specific home :\n\t%s <solution_id> <runner_id> [judge_base_path].\n\n",
 				argv[0]);
@@ -3403,7 +3403,7 @@ int main(int argc, char **argv)
 	get_solution(solution_id, work_dir, lang);
 
 	//java and other VM language are lucky to have the global bonus in judge.conf
-	if (lang >= LANG_JAVA && lang != LANG_OBJC && lang != LANG_CLANG && lang != LANG_CLANGPP )
+	if (lang >= LANG_JAVA && lang != LANG_OBJC && lang != LANG_CLANG && lang != LANG_CLANGPP  && lang != LANG_GO )
 	{ //ObjectivC Clang Clang++ Go not VM or Script
 		// the limit for java
 		time_lmt = time_lmt + java_time_bonus;
@@ -3599,6 +3599,11 @@ int main(int argc, char **argv)
 	}
 	char last_name[BUFFER_SIZE];
 	int minus_mark=0;
+	char path_buf[BUFFER_SIZE];
+	sprintf(path_buf,"%s/data/%d/",oj_home,p_id);
+	prelen=strlen(path_buf);
+	if (prelen<strlen(oj_home)+6) prelen=strlen(oj_home)+6;
+
 	for (int i=0 ; (oi_mode || ACflg == OJ_AC || ACflg == OJ_PE) && i < namelist_len ;i++)
 	{
 		dirp=namelist[i];
@@ -3618,7 +3623,7 @@ int main(int argc, char **argv)
 			//out file does not exist
 			char error[BUFFER_SIZE];
 			sprintf(error, "missing out file %s, report to system administrator!\n", basename(outfile));
-			print_runtimeerror(infile+strlen(oj_home)+5,error);
+			print_runtimeerror(infile+prelen,error);
 			ACflg = OJ_RE;
 		}
 
@@ -3643,7 +3648,7 @@ int main(int argc, char **argv)
 						   solution_id, lang, topmemory, mem_lmt, usedtime, time_lmt,
 						   p_id, PEflg, work_dir);
 			kill(pidApp,9);
-			printf("%s: mem=%d time=%d\n",infile+strlen(oj_home)+5,topmemory,usedtime);	
+			printf("%s: mem=%d time=%d\n",infile+prelen,topmemory,usedtime);	
 			total_time+=usedtime;
 			printf("time:%d/%d\n",usedtime,total_time);
 			//判断用户程序输出是否正确，给出结果
@@ -3655,7 +3660,8 @@ int main(int argc, char **argv)
 					usedtime = time_lmt * 1000;
 			}
 			*/
-			time_space_index+=sprintf(time_space_table+time_space_index,"%s:%s mem=%dk time=%dms\n",infile+strlen(oj_home)+5,jresult[ACflg],topmemory/1024,usedtime);
+			
+			time_space_index+=sprintf(time_space_table+time_space_index,"%s %ld bytes :%s mem=%dk time=%dms\n",infile+prelen,get_file_size(infile),jresult[ACflg],topmemory/1024,usedtime);
 			/*   // full diff code backup
 			 if( ACflg != OJ_AC ){
                                 FILE *DF=fopen("diff.out","a");

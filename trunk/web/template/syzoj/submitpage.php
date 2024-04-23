@@ -21,7 +21,11 @@
 <center>
 
 <script src="<?php echo $OJ_CDN_URL?>include/checksource.js"></script>
-<form id=frmSolution action="submit.php<?php if (isset($_GET['spa'])) echo "?spa" ?>" method="post" onsubmit='do_submit()'>
+<form id=frmSolution action="submit.php<?php if (isset($_GET['spa'])) echo "?spa" ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data" >
+<?php if (!isset($_GET['spa'])) {?>
+        <input type='file' name='answer' placeholder='Upload answer file' >
+<?php } ?>
+
 <?php if (isset($id)){?>
 <span style="color:#0000ff">Problem <b><?php echo $id?></b></span>
 <input id=problem_id type='hidden' value='<?php echo $id?>' name="id" >
@@ -345,16 +349,19 @@ function switchLang(lang){
 
 }
 function reloadtemplate(lang){
-   console.log("lang="+lang);
-   document.cookie="lastlang="+lang.value;
-   //alert(document.cookie);
+   if(lang==undefined){
+        switchLang(1);
+           return;
+   }
+   console.log("reload:<?php echo $lastlang?> -->"+lang);
+   document.cookie="lastlang="+lang;
    var url=window.location.href;
    var i=url.indexOf("sid=");
-   if(i!=-1) url=url.substring(0,i-1);
- //  if(confirm("<?php echo  $MSG_LOAD_TEMPLATE_CONFIRM?>"))
- //       document.location.href=url;
    switchLang(lang);
+   if(lang!=<?php echo $lastlang?>)
+        document.location.href=url;
 }
+
 function openBlockly(){
    $("#source").hide();
    $("#TestRun").hide();

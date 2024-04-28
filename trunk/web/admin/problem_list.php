@@ -111,9 +111,12 @@ echo "</select>";
       echo "<tr>";
         echo "<td>".$row['problem_id']." <input type=checkbox style='vertical-align:2px;' name='pid[]' value='".$row['problem_id']."'></td>";
         echo "<td><a href='../problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
-               if(!empty($row['remote_oj']))echo "&nbsp;<a href='".$row['source']."' target=_blank>  ".$row['remote_oj'].$row['remote_id']."</a>";
-    
-    	$cats=explode(" ",$row['source']);
+               if(!empty($row['remote_oj']))echo "&nbsp;<a href='".$row['source']."' target=_blank>  ".$row['remote_oj'].$row['remote_id']."</a>";   	
+        echo "</td>";
+        echo "<td>".$row['accepted']."</td>";
+        echo "<td>".$row['in_date']."</td>";
+		echo "<td>";//分类
+		$cats=explode(" ",$row['source']);
     	foreach($cats as $cat){
             if(trim($cat)=="") continue;
             $label_theme=$color[$tcolor%count($color)];
@@ -129,10 +132,7 @@ echo "</select>";
             </a>
     		<?php 
     	}
-        echo "</td>";
-        echo "<td>".$row['accepted']."</td>";
-        echo "<td>".$row['in_date']."</td>";
-		echo "<td>".$row['source']."</td>"; //分类
+		echo "</td>";
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
           if(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
             echo "<td><a href=problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".($row['defunct']=="N"?"<span titlc='click to reserve it' class=green>$MSG_AVAILABLE</span>":"<span class=red title='click to be available'>$MSG_RESERVED</span>")."</a><td>";

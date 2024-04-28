@@ -99,7 +99,7 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
         <style>
             .button, input, optgroup, select, textarea {
     font-family: sans-serif;
-    font-size: 150%;
+    font-size: 100%;
     line-height: 1.15;
     margin: 0;
     background: border-box;

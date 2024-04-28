@@ -175,6 +175,9 @@
  $MSG_PRIVILEGE_TYPE =" тип привилегии ";
  $MSG_NEWS_MENU = " Показывать ли в меню ";
  $MSG_LAST_LOGIN="Last Login";
+ $MSG_OFFLINE_ZIP_IMPORT="Import a offline contest ZIP file, which using the following structure: ";
+ $MSG_OFFLINE="Offline";
+
 
  //конкурс.php
  $MSG_PRIVATE_WARNING =" Конкурс еще не начался или является закрытым, поэтому вопросы не могут быть просмотрены. ";

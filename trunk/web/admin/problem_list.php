@@ -107,6 +107,7 @@ echo "</select>";
     <?php
     $color=array("blue","teal","orange","pink","olive","red","violet","yellow","green","purple");
     $tcolor=0;
+	$view = "";
     foreach($result as $row){
       echo "<tr>";
         echo "<td>".$row['problem_id']." <input type=checkbox style='vertical-align:2px;' name='pid[]' value='".$row['problem_id']."'></td>";
@@ -133,7 +134,7 @@ echo "</select>";
 				continue;
 
 			$hash_num = hexdec(substr(md5($cat),0,7));
-			$label_theme = $color_theme[$hash_num%count($color_theme)];
+			$label_theme = $color_theme[$hash_num%count($color)];
 
 			if ($label_theme=="") $label_theme = "default";
 			$view .= "<a title='".htmlentities($cat,ENT_QUOTES,'UTF-8')."' class='label label-$label_theme' style='display: inline-block;' href='problem_list.php?keyword=".htmlentities(urlencode($cat),ENT_QUOTES,'UTF-8')."'>".mb_substr($cat,0,10,'utf8')."</a>&nbsp;";

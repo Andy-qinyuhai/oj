@@ -118,8 +118,6 @@ echo "</select>";
         echo "<td>".$row['in_date']."</td>";
 		echo "<td>";//分类
 		
-		//$cats=explode(" ",$row['source']);
-		
 		$category = array();
 	    $cate = explode(" ",$row['source']);
 	    foreach($cate as $cat){

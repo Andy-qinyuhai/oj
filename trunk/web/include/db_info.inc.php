@@ -2,9 +2,9 @@
 //ini_set("display_errors", "Off");  //set this to "On" for debugging  ,especially when no reason blank shows up.
 //error_reporting(E_ALL);
 //header('X-Frame-Options:SAMEORIGIN');
-//for people using hustoj out of China , be careful of the last two line of this file !
 
 date_default_timezone_set('Asia/Shanghai');//'Asia/Shanghai' 亚洲/上海
+//for people using hustoj out of China , try using translator program with the comments
 // 本文件是系统配置文件，全局包含，修改时请慎重保存，千万不要少分号，少引号，出现语法错误可导致全站无法打开。若遇到此种情况，可以备份后删除本文件，用/home/judge/src/install/fixing.sh脚本修复生成。
 // connect db 
 static 	$DB_HOST="localhost";  //数据库服务器ip或域名
@@ -81,7 +81,7 @@ static  $OJ_CONTEST_LIMIT_KEYWORD="限时"; //比赛中个人限时关键词。
 static  $OJ_OFFLINE_ZIP_CCF_DIRNAME=true; // 是否强制判断导入离线比赛时，按CCF规则要求提交答案的目录名。
 static  $OJ_BEIAN="苏ICP备2021045986号";  // 如果有备案号，填写备案号,没有填false
 static  $OJ_RANK_HIDDEN="'admin','zhblue'";  // 管理员不显示在排名中
-static  $OJ_FRIENDLY_LEVEL=1; //系统友好级别，暂定0-9级，级别越高越傻瓜，系统易用度高的同时将降低安全性，仅供非专业用途，造成泄题、抄袭概不负责。
+static  $OJ_FRIENDLY_LEVEL=0; //系统友好级别，暂定0-9级，级别越高越傻瓜，系统易用度高的同时将降低安全性，仅供非专业用途，造成泄题、抄袭概不负责。
 static  $OJ_FREE_PRACTICE=false; //自由练习，不受比赛作业用题限制
 static  $OJ_SUBMIT_COOLDOWN_TIME=10; //提交冷却时间，连续两次提交的最小间隔，单位秒。
 static  $OJ_POISON_BOT_COUNT=10; //给机器人账号投毒的起始AC数。例如设为10，则认为一个账号对某个题提交了10次正确之后还在提交，就是机器人行为，开始给出随机答复。

@@ -3,6 +3,7 @@
 <?php
 require_once("discuss_func.inc.php");
 require_once("include/db_info.inc.php");
+require_once("include/my_func.inc.php");
 
 if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))
 {
@@ -10,7 +11,7 @@ if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))
 
   echo "<a href=loginpage.php>Please Login First</a>";
   
-  require_once("../oj-footer.php");
+ // require_once("../oj-footer.php");
   exit(0);
 }
 
@@ -18,7 +19,22 @@ if(strlen($_POST['content'])>5000)
 {
   require_once("oj-header.php");
   echo "Your contents is too long!";
-  require_once("../oj-footer.php");
+//  require_once("../oj-footer.php");
+  exit(0);
+}
+
+if(has_bad_words($_POST['content']))
+{
+  require_once("oj-header.php");
+  echo "Your contents is too Bad!";
+//  require_once("../oj-footer.php");
+  exit(0);
+}
+if(has_bad_words($_POST['title']))
+{
+  require_once("oj-header.php");
+  echo "Your title is too Bad!";
+//  require_once("../oj-footer.php");
   exit(0);
 }
 
@@ -26,27 +42,9 @@ if(strlen($_POST['title'])>60)
 {
   require_once("oj-header.php");
   echo "Your title is too long!";
-  require_once("../oj-footer.php");
+ // require_once("../oj-footer.php");
   exit(0);
 }
-
-$vcode = "";
-if($OJ_VCODE)
-{
-  if(isset($_POST['vcode']))
-    $vcode = trim($_POST['vcode']);
-
-  if($OJ_VCODE && ($vcode!=$_SESSION[$OJ_NAME.'_'."vcode"] || $vcode=="" || $vcode==null))
-  {
-    $_SESSION[$OJ_NAME.'_'."vfail"] = true;
-    echo "<script language='javascript'>\n";
-    echo "alert('Verify Code Wrong!');\n";
-    echo "history.go(-1);\n";
-    echo "</script>";
-    exit( 0 );
-  }
-}
-
 
 $tid = null;
 if($_REQUEST['action']=='new')

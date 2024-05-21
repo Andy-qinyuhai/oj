@@ -42,9 +42,9 @@ Problem <span class=blue><b><?php echo chr($pid+ord('A'))?></b></span> of Contes
 <?php
 $lang_count=count($language_ext);
 if(isset($_GET['langmask']))
-$langmask=$_GET['langmask'];
-else
-$langmask=$OJ_LANGMASK;
+	$langmask=$_GET['langmask'];
+$langmask|=$OJ_LANGMASK;
+
 $lang=(~((int)$langmask))&((1<<($lang_count))-1);
 //$lastlang=$_COOKIE['lastlang'];
 //if($lastlang=="undefined") $lastlang=1;
@@ -139,15 +139,14 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 
           <textarea style="
           width:100%;background-color: white;
-          " cols=10 rows=5 id="out" name="out" disabled="true" >SHOULD BE:</textarea>    
+          " cols=10 rows=5 id="out" name="out" disabled="true" placeholder='<?php echo htmlentities($view_sample_output,ENT_QUOTES,'UTF8')?>' ></textarea>    
      </div>
 <?php } ?>
 <?php if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN){?>
         <!--运行按钮-->
             <input style="
-            margin-top: 30px;
-            margin-left: 10px;
-            
+             margin-top: 30px;
+            margin-left: 0 auto;
             width: 7%;background-color: #22ba46a3;border-color: #00fff470;height: 130px;
             " id="TestRun" class="btn btn-info" type=button value="<?php echo $MSG_TR?>" onclick=do_test_run();>
             

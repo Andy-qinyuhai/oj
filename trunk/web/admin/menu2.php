@@ -111,7 +111,7 @@
       <a class="dropdown-item btn-sm" href="update_db.php" target="main" title="<?php echo $MSG_HELP_UPDATE_DATABASE?>"><b><?php echo $MSG_SYSTEM."-".$MSG_UPDATE_DATABASE?></b></a>
       <a class="dropdown-item btn-sm" href="backup.php" target="main" title="<?php echo $MSG_HELP_BACKUP_DATABASE?>"><b><?php echo $MSG_SYSTEM."-".$MSG_BACKUP_DATABASE?></b></a>
       <a class="dropdown-item btn-sm" href="ranklist_export.php" target="main" title="<?php echo $MSG_EXPORT.$MSG_RANKLIST ?>"><b><?php echo  $MSG_EXPORT.$MSG_RANKLIST ?></b></a>
-    
+      <a class="dropdown-item btn-sm" href="db_modify.php" target="main" title="<?php echo "Modify database fields" ?>"><b><?php echo  "DB_Modify" ?></b></a>
     </div>
   </div>
 <?php }?>

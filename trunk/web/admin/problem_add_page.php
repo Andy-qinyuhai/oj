@@ -193,7 +193,7 @@
  
    $(document).ready(function(){
             // 默认开启预览功能
-            transform();
+            // transform();
             
             // 监听checkbox的点击事件
             $('#preview-toggle').change(function() {

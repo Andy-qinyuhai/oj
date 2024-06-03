@@ -7,7 +7,7 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
 	require_once("../include/check_post_key.php");
 	$sql=$_POST['sql'];	
 	echo $sql."<br />";
-	echo pdo_query($sql)."***query finished!***";
+	echo "Result code:".pdo_query($sql)."<br />***query finished!***";
 	
 }
 ?>

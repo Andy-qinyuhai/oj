@@ -14,7 +14,7 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
 <div class="container">
 <form action='db_modify.php' method=post>
 	<b>Database Modify:</b><br />
-	SQL:<input type=text size=40 name="sql" value=""><br />	
+	SQL:<input class="input input-xxlarge" style="width:100%;" type=text name="sql" value=""><br />	
 	<input type='hidden' name='do' value='do'>
 	
 	<?php require_once("../include/set_post_key.php");?>

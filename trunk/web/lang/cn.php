@@ -230,7 +230,10 @@
   $MSG_Ended="已结束";
   $MSG_Login="请登录后继续操作";
   $MSG_JUDGER="判题机";
-
+  $MSG_DOWNLOAD="下载";
+  $MSG_SHOW="显示";
+  $MSG_HIDE="隐藏";
+  
   $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="考试期间，不能查阅以前提交的代码。";
   $MSG_BBS_NOT_ALLOWED_FOR_EXAM="考试期间,讨论版禁用。";
   $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM="考试期间,禁止修改帐号信息。";
@@ -304,6 +307,7 @@
   $MSG_HELP_SPJ="特殊裁判的使用，请参考<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>搜索hustoj special judge</a>"; 
   $MSG_HELP_BALLOON_SCHOOL="打印，气球帐号的School字段用于过滤任务列表，例如填[东校区]则只显示帐号为[东校区]开头的任务";
   $MSG_HELP_BACKUP_DATABASE="备份数据库,测试数据和图片到0题目录";
+  $MSG_HELP_LEFT_EMPTY="无需修改密码，请勿填写此项";
 
   $MSG_WARNING_LOGIN_FROM_DIFF_IP="从不同的ip地址登录";
   $MSG_WARNING_DURING_EXAM_NOT_ALLOWED=" 在考试期间不被允许 ";
@@ -468,7 +472,24 @@
   // sourcecompare.php
   $MSG_Source_Compare="源代码对比";
   $MSG_BACK="返回上一页";
+  $MSG_NEXT_PAGE="下一页";
+  $MSG_PREV_PAGE="上一页";
   
   //email
   $MSG_SYS_WARN="系统警告！";
   $MSG_IS_ROBOT="疑似机器人，注意封禁！";
+
+  //SaaS friendly
+  $MSG_TEMPLATE="模板";
+  $MSG_FRIENDLY_LEVEL="友善级别";
+  $MSG_FRIENDLY_L0="不友善";
+  $MSG_FRIENDLY_L1="中国时区";
+  $MSG_FRIENDLY_L2="强制中文";
+  $MSG_FRIENDLY_L3="显示对比,关闭验证码";
+  $MSG_FRIENDLY_L4="开启内邮,代码自动分享";
+  $MSG_FRIENDLY_L5="开启测试运行";
+  $MSG_FRIENDLY_L6="保持登陆状态";
+  $MSG_FRIENDLY_L7="开启讨论版";
+  $MSG_FRIENDLY_L8="可以下载测试数据";
+  $MSG_FRIENDLY_L9="允许访客提交";
+

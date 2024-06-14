@@ -208,7 +208,10 @@
   $MSG_Ended="Finished";
   $MSG_Login="Please Login";
   $MSG_JUDGER="Judger";
-  
+  $MSG_DOWNLOAD="Download";
+  $MSG_SHOW="Show";
+  $MSG_HIDE="Hide";
+
   $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="You can't browse early code during examing .";
   $MSG_BBS_NOT_ALLOWED_FOR_EXAM="You can't use bbs during examing.";
   $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM="You can't change password during examing or contest on site.";
@@ -275,7 +278,7 @@
 	$MSG_HELP_HUSTOJ="<sub><a target='_blank' href='https://github.com/zhblue/hustoj'><span class='glyphicon glyphicon-heart' aria-hidden='true'></span> Please give us a <span class='glyphicon glyphicon-star' aria-hidden='true'></span>Star @HUSTOJ Github!</a></sub>";
   $MSG_HELP_SPJ="<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>search hustoj special judge</a>for more details"; 
   $MSG_HELP_BALLOON_SCHOOL="School Field of the Printer/Balloon privileged Accout, will be used as filter in task list.";
-  
+  $MSG_HELP_LEFT_EMPTY="If you don't want to modify, please left this empty.";
   $MSG_WARNING_LOGIN_FROM_DIFF_IP="Login from a diffrent ip ";
   $MSG_WARNING_DURING_EXAM_NOT_ALLOWED=" during exam is not allowed ";
   $MSG_WARNING_ACCESS_DENIED="I am sorry, You could not view this message! Because it's not belong to you, or Administrator won't show you.";
@@ -427,6 +430,21 @@
 	// sourcecompare.php
 	$MSG_Source_Compare="Source Code Comparation";
 	$MSG_BACK="Return to Last Page";
+	$MSG_NEXT_PAGE="Next Page";
+	$MSG_PREV_PAGE="Prev Page";
  	//email
 	$MSG_SYS_WARN="System Warning!";
 	$MSG_IS_ROBOT="could be a robot , verify and disable it !";
+//SaaS friendly
+ $MSG_TEMPLATE="Template";
+  $MSG_FRIENDLY_LEVEL="Friendly Level";
+  $MSG_FRIENDLY_L0="Not friendly at all";
+  $MSG_FRIENDLY_L1="Using UTC+8 TimeZone";
+  $MSG_FRIENDLY_L2="Using Chinese UI";
+  $MSG_FRIENDLY_L3="Show differ,No Verify Code";
+  $MSG_FRIENDLY_L4="Using mail,Code auto share";
+  $MSG_FRIENDLY_L5="Allow test running";
+  $MSG_FRIENDLY_L6="Keep long login";
+  $MSG_FRIENDLY_L7="Enable discus";
+  $MSG_FRIENDLY_L8="Allow download test data";
+  $MSG_FRIENDLY_L9="Allow guest to submit";

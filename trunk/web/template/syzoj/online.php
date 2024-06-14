@@ -1,4 +1,4 @@
-<?php $show_title="在线信息 - $OJ_NAME"; ?>
+<?php $show_title="$MSG_HELP_ONLINE - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
 <div class="padding">
@@ -8,7 +8,7 @@
   <form class="ui mini form" role="form" style="margin-bottom: 25px; text-align: right; ">
     <div class="ui action left icon input inline" style="width: 180px; margin-right: 77px; ">
       <i class="search icon"></i><input name="search" placeholder="IP" type="text">
-      <button class="ui mini button" type="submit">查找</button>
+      <button class="ui mini button" type="submit"><?php echo $MSG_SEARCH ?></button>
     </div>
   </form>
 	<?php
@@ -22,14 +22,14 @@
 			<th>url</th>
 			<th>refer</th>
 			<th>stay time</th>
-			<th>user agent</th>
+			<th>UA</th>
 	        </tr>
 	        </thead>
 	        <tbody>
 
 		<?php 
 		foreach($users as $u){
-			 if(is_array($u)){
+			 if(!empty($u)){
 		?>
 		<tr>
 			<td><?php $l = $ip->getlocation($u['ip']);
@@ -58,7 +58,7 @@
 	    <table class="ui very basic center aligned table" style="table-layout: fixed; ">
 	        <thead>
 	        <tr>
-         		<th>UserID</th>
+         		<th><?php echo $MSG_USER ?></th>
 			<th>Password</th>
 			<th>IP</th>
 			<th>Time</th>

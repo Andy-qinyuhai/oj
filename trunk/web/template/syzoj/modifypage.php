@@ -1,31 +1,31 @@
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <div class="padding">
-  <h1>修改用户信息</h1>
+  <h1><?php echo $MSG_USERINFO ?></h1>
   <div class="ui error message" id="error" data-am-alert hidden>
     <p id="error_info"></p>
   </div>
           <form action="modify.php" method="post" role="form" class="ui form">
                 <div class="field">
                     <label for="username"><?php echo $MSG_USER_ID?></label>
-                    <input class="form-control" placeholder="请输入用户名"  disabled="disabled" type="text" value="<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>">
+                    <input class="form-control" placeholder="<?php echo $MSG_Input.$MSG_USER_ID?>"  disabled="disabled" type="text" value="<?php echo $_SESSION[$OJ_NAME.'_'.'user_id']?>">
                 </div>
                 <?php require_once('./include/set_post_key.php');?>
                 <div class="field">
                     <label for="username"><?php echo $MSG_NICK?>*</label>
-                    <input name="nick" placeholder="请输入昵称" type="text" value="<?php echo htmlentities($row['nick'],ENT_QUOTES,"UTF-8")?>">
+                    <input name="nick" placeholder="<?php echo $MSG_Input.$MSG_NICK?>" type="text" value="<?php echo htmlentities($row['nick'],ENT_QUOTES,"UTF-8")?>">
                 </div>
                 <div class="field">
                     <label class="ui header"><?php echo $MSG_PASSWORD?>*</label>
-                      <input name="opassword" placeholder="请输入密码" type="password">
+                      <input name="opassword" placeholder="<?php echo $MSG_Input.$MSG_PASSWORD?>" type="password">
                     </div>
                 <div class="two fields">
                     <div class="field">
                     <label class="ui header"><?php echo $MSG_PASSWORD?></label>
-                      <input name="npassword" placeholder="无需修改密码，请勿填写此项" type="password">
+                      <input name="npassword" placeholder="<?php echo $MSG_HELP_LEFT_EMPTY ?>" type="password">
                     </div>
                     <div class="field">
                       <label class="ui header"><?php echo $MSG_REPEAT_PASSWORD?></label>
-                      <input name="rptpassword" placeholder="无需修改密码，请勿填写此项" type="password">
+                      <input name="rptpassword" placeholder="<?php echo $MSG_HELP_LEFT_EMPTY ?>" type="password">
                     </div>
                 </div>
                 <div class="field">
@@ -51,7 +51,7 @@
   <div class="center"> <a name='MyOJ'>&nbsp;</a> <label >My OJ:</label>
           <form action="saasinit.php" method="post" role="form" class="ui form">
                 <div class="field">
-                    <label for="template">模板</label>
+                    <label for="template"><?php echo $MSG_TEMPLATE ?></label>
                     <select name="template" class="form-control" >
                                 <option>bs3</option>
                                 <option>mdui</option>
@@ -63,18 +63,18 @@
                 </div>
 
                 <div class="field">
-                    <label for="friendly">友善级别</label>
+                    <label for="friendly"><?php echo $MSG_FRIENDLY_LEVEL ?></label>
                     <select name="friendly" class="form-control" >
-                                <option value=0>0=不友善</option>
-                                <option value=1>1=0+中国时区</option>
-                                <option value=2>2=1+强制中文</option>
-                                <option value=3>3=2+显示对比,关闭验证码</option>
-                                <option value=4>4=3+开启内邮,代码自动分享</option>
-                                <option value=5>5=4+开启测试运行</option>
-                                <option value=6>6=5+保持登陆状态</option>
-                                <option value=7>7=6+开启讨论版</option>
-                                <option value=8>8=7+可以下载测试数据</option>
-                                <option value=9>9=8+允许访客提交</option>
+                                <option value=0>0=<?php echo   $MSG_FRIENDLY_L0 ?></option>
+                                <option value=1>1=0+<?php echo   $MSG_FRIENDLY_L1 ?></option>
+                                <option value=2>2=1+<?php echo   $MSG_FRIENDLY_L2 ?></option>
+                                <option value=3>3=2+<?php echo   $MSG_FRIENDLY_L3 ?></option>
+                                <option value=4>4=3+<?php echo   $MSG_FRIENDLY_L4 ?></option>
+                                <option value=5>5=4+<?php echo   $MSG_FRIENDLY_L5 ?></option>
+                                <option value=6>6=5+<?php echo   $MSG_FRIENDLY_L6 ?></option>
+                                <option value=7>7=6+<?php echo   $MSG_FRIENDLY_L7 ?></option>
+                                <option value=8>8=7+<?php echo   $MSG_FRIENDLY_L8 ?></option>
+                                <option value=9>9=8+<?php echo   $MSG_FRIENDLY_L9 ?></option>
                     </select>
                 </div>
                 <button name="submit" type="submit" class="ui button">重新初始化</button>

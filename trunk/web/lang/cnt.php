@@ -221,7 +221,10 @@
  $MSG_Ended ="已結束";
  $MSG_Login ="請登錄後繼續操作";
  $MSG_JUDGER ="判題機";
- 
+ $MSG_DOWNLOAD="下載";
+ $MSG_SHOW="顯示";
+ $MSG_HIDE="隱藏";
+
  $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM ="考試期間，不能查閱以前提交的代碼。 ";
  $MSG_BBS_NOT_ALLOWED_FOR_EXAM ="考試期間,討論版禁用。 ";
  $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM ="考試期間,禁止修改帳號信息。 ";
@@ -293,7 +296,8 @@
  $MSG_HELP_SPJ ="特殊裁判的使用，請參考<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>搜索hustoj special judge</a> ";
  $MSG_HELP_BALLOON_SCHOOL ="打印，氣球帳號的School字段用於過濾任務列表，例如填zjicm則只顯示帳號為zjicm開頭的任務";
  $MSG_HRLP_BACKUP_DATABASE ="備份數據庫,測試數據和圖片到0題目錄";
- 
+ $MSG_HELP_LEFT_EMPTY="無需修改密碼，請勿填寫此項";
+
  $MSG_WARNING_LOGIN_FROM_DIFF_IP ="從不同的ip地址登錄";
  $MSG_WARNING_DURING_EXAM_NOT_ALLOWED ="在考試期間不被允許";
  $MSG_WARNING_ACCESS_DENIED ="抱歉，您無法查看此消息！因為它不屬於您，或者管理員設定係統狀態為不顯示此類信息。 ";
@@ -452,6 +456,21 @@
  // sourcecompare.php
  $MSG_Source_Compare ="源代碼對比";
  $MSG_BACK ="返回上一頁";
+  $MSG_NEXT_PAGE="下一頁";
+  $MSG_PREV_PAGE="上一頁";
  //email
   $MSG_SYS_WARN="系統警告！";
   $MSG_IS_ROBOT="疑似機器人，註意封禁！";
+  //SaaS friendly
+  $MSG_TEMPLATE="模板";
+  $MSG_FRIENDLY_LEVEL="友善級別";
+  $MSG_FRIENDLY_L0="不友善";
+  $MSG_FRIENDLY_L1="中國時區";
+  $MSG_FRIENDLY_L2="強制中文";
+  $MSG_FRIENDLY_L3="顯示對比,關閉驗證碼";
+  $MSG_FRIENDLY_L4="開啓內郵,代碼自動分享";
+  $MSG_FRIENDLY_L5="開啓測試運行";
+  $MSG_FRIENDLY_L6="保持登陸狀態";
+  $MSG_FRIENDLY_L7="開啓討論版";
+  $MSG_FRIENDLY_L8="可以下載測試數據";
+  $MSG_FRIENDLY_L9="允許訪客提交";

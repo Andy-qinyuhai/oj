@@ -221,7 +221,7 @@ if (isset($_GET['user_id'])) {
       $sql = $sql."AND `user_id`=? ";
       if ($str2!="")
       		$str2 = $str2."&";
-      $str2 = $str2."user_id=".urlencode($user_id);
+      $str2 = $str2."&user_id=".urlencode($user_id);
   }
   else{
 	  $user_id = "";
@@ -483,8 +483,8 @@ for ($i=0; $i<$rows_cnt; $i++) {
 	)
         $view_status[$i][6] = "<a target=_self href=showsource.php?id=".$row['solution_id'].">".$language_name[$row['language']]."</a>";
       else
-        $view_status[$i][6] = $language_name[$row['language']];
-      if($OJ_TEMPLATE=="syzoj" || $OJ_TEMPLATE=="bs3" ) {
+        $view_status[$i][6] = $language_name[$row['language']];        
+      if( (!(isset($OJ_OLD_FASHINED) && $OJ_OLD_FASHINED )) && ($OJ_TEMPLATE=="syzoj" || $OJ_TEMPLATE=="bs3" ) ) {
             $edit_link="problem.php";
       }else {
             $edit_link="submitpage.php";

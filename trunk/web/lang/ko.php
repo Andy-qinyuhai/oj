@@ -212,7 +212,10 @@
 	$MSG_Ended="대회종료";
 	$MSG_Login="로그인하세요.";
 	$MSG_JUDGER="채점서버";
-
+$MSG_DOWNLOAD="Download";
+$MSG_SHOW="Show";
+$MSG_HIDE="Hide";
+  
 	$MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="대회중에는 이전에 제출했던 코드를 볼 수 없습니다.";
 	$MSG_BBS_NOT_ALLOWED_FOR_EXAM="대회중에는 게시판을 사용할 수 없습니다.";
 	$MSG_MODIFY_NOT_ALLOWED_FOR_EXAM="대회중에는 비밀번호를 변경할 수 없습니다.";
@@ -280,6 +283,7 @@
 	$MSG_HELP_HUSTOJ="<sub><a target='_blank' href='https://github.com/zhblue/hustoj'><span class='glyphicon glyphicon-heart' aria-hidden='true'></span> HUSTOJ Github 에서 <span class='glyphicon glyphicon-star' aria-hidden='true'></span>Star를 부탁드립니다!</a></sub>";
 	$MSG_HELP_SPJ="자세한 내용은 <a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>search hustoj special judge</a>"; 
 	$MSG_HELP_BALLOON_SCHOOL="인쇄, 풍선 계정의 학교 필드는 작업 목록을 필터링하는 데 사용됩니다. 예를 들어 [동부 캠퍼스]를 채우면 계정이 [동부 캠퍼스]로 시작하는 작업만 표시됩니다.";	
+        $MSG_HELP_LEFT_EMPTY="If you don't want to modify, please left this empty.";
 
 	$MSG_WARNING_LOGIN_FROM_DIFF_IP="다른 컴퓨터/IP로 로그인했습니다.";
 	$MSG_WARNING_DURING_EXAM_NOT_ALLOWED="시험중에는 허용되지 않습니다.";
@@ -437,6 +441,21 @@
 	// sourcecompare.php
 	$MSG_Source_Compare="소스 코드 비교";
 	$MSG_BACK="이전 페이지로 돌아가기";
+	$MSG_NEXT_PAGE="Next Page";
+	$MSG_PREV_PAGE="Prev Page";
 	//email
 	$MSG_SYS_WARN="시스템 경고!";
 	$MSG_IS_ROBOT="봇으로 추정됩니다. 확인 후 비활성화하시기 바랍니다.";
+//SaaS friendly
+ $MSG_TEMPLATE="Template";
+  $MSG_FRIENDLY_LEVEL="Friendly Level";
+  $MSG_FRIENDLY_L0="Not friendly at all";
+  $MSG_FRIENDLY_L1="Using UTC+8 TimeZone";
+  $MSG_FRIENDLY_L2="Using Chinese UI";
+  $MSG_FRIENDLY_L3="Show differ,No Verify Code";
+  $MSG_FRIENDLY_L4="Using mail,Code auto share";
+  $MSG_FRIENDLY_L5="Allow test running";
+  $MSG_FRIENDLY_L6="Keep long login";
+  $MSG_FRIENDLY_L7="Enable discus";
+  $MSG_FRIENDLY_L8="Allow download test data";
+  $MSG_FRIENDLY_L9="Allow guest to submit";

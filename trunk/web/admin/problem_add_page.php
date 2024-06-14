@@ -19,7 +19,7 @@
   echo "<center><h3>".$MSG_PROBLEM."-".$MSG_ADD."</h3></center>";
   include_once("kindeditor.php") ;
   $source=pdo_query("select source from problem order by problem_id desc limit 1"); //默认续用最后一次的分类标签
-  if(is_array($source)&&isset($source[0]))$source=$source[0][0];else $source="";
+  if(!empty($source)&&isset($source[0]))$source=$source[0][0];else $source="";
 ?>
 
 <hr>
@@ -189,7 +189,7 @@
  
    $(document).ready(function(){
             // 默认开启预览功能
-            transform();
+           <?php if (!(isset($OJ_OLD_FASHINED) && $OJ_OLD_FASHINED )) echo " transform();" ?>
             
             // 监听checkbox的点击事件
             $('#preview-toggle').change(function() {

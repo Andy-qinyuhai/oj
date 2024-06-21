@@ -184,7 +184,7 @@
 	preview.find("#hint .md").each(function(){
 		$(this).html(marked.parse($(this).html()));
 	});
-	$("#previewFrame")[0].contentWindow.MathJax.typeset();
+	if($("#previewFrame")[0] != undefined) $("#previewFrame")[0].contentWindow.MathJax.typeset();
   }
  
    $(document).ready(function(){

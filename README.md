@@ -98,13 +98,14 @@ HUSTOJ is an [GPL](https://github.com/zhblue/hustoj/blob/master/trunk/web/gpl-2.
 
 HUSTOJ 是采用 GPL 的自由软件。(仅限原创部分代码，其中使用了其他开源项目的组件，请遵循原组件的协议。)
 
+<details>
+	
 ## 感谢下述及其他被使用到的开源代码项目贡献者，来自这些项目的代码及衍生代码遵循其原有开源协议，不受本项目的GPL授权影响。
 
 * masteroj uoj loj syzoj zoj qduoj openJudger [scratch-run](https://github.com/VNOI-Admin/scratch-run)
 * linux apache nginx php mysql mariadb memcached
 * bootstrap kindeditor ACEeditor blockly codemirror katex phpfilemanager mdui
 * sim gcc clang openjdk freepascal mono docker SyntaxHighlighter
-  
 
 排名不分先后本列表欢迎补充
 
@@ -124,6 +125,7 @@ HUSTOJ 是采用 GPL 的自由软件。(仅限原创部分代码，其中使用�
 
 如果您在淘宝购买了本系统的二次开发产品，请注意索取未加密的源代码，如商家拒绝提供，可以找店小二投诉，要求退款。
  
+</details>
 
 有关安装、使用问题请先查阅 **[FAQ常见问答](http://hustoj.com)** 和 **[文档](https://zhblue.github.io/hustoj)** 或使用搜索引擎。 
 
@@ -364,7 +366,7 @@ Star us, please!
 
 ### 视频教程
 
-Ubuntu 18.04 安装 (https://www.bilibili.com/video/BV1Mp4y1C7Xx)
+[Ubuntu 安装](https://www.bilibili.com/video/BV1Mp4y1C7Xx) 视频中以18.04安装，不代表推荐使用18.04，推荐用最新Ubuntu LTS版本，如24.04 22.04 。
 
 ### 注意事项
 
@@ -385,24 +387,23 @@ Ubuntu 18.04 安装 (https://www.bilibili.com/video/BV1Mp4y1C7Xx)
 **各类公有云首选, 最容易，成功率最高，近期部署数量最多，开发者原型机**
 	
 **仅支持原生Ubuntu系统，不支持WSL和docker中的Ubuntu系统**
+	
+### 基于 Ubuntu 24.04 安装	
+	
+**仅支持原生Ubuntu系统，不支持WSL和docker中的Ubuntu系统**	
+
+### 基于 Debian12  安装	
+
+**支持各类虚拟机、云服务、物理机**
+
+### 以上三种环境都用下面的脚本
+
+```bash
+wget http://dl.hustoj.com/install.sh
+sudo bash install.sh
+```
 
 **建议服务器配置双核2G内存以上**
-	
-```bash
-wget http://dl.hustoj.com/install.sh
-sudo bash install.sh
-```
-
-### 基于 Ubuntu 20.04 安装	
-	
-**仅支持原生Ubuntu系统，不支持WSL和docker中的Ubuntu系统**
-	
-**建议服务器配置单核2G内存以上**
-
-```bash
-wget http://dl.hustoj.com/install.sh
-sudo bash install.sh
-```
 	
 脚本运行完成直接浏览器输入ip地址即可访问，如不能打开请检查**访问策略**、**防火墙**设置是否打开80端口。
 	
@@ -410,13 +411,6 @@ sudo bash install.sh
 可能的解决方案1:安装docker(运行judge_client目录下的docker.sh)并启用OJ_USE_DOCKER=1
 或2:[卸载阿里云盾](#卸载阿里云盾)。**
 
-	
-### 基于 Ubuntu 18.04 安装   即将脱离维护期，不推荐
-
-```bash
-wget http://dl.hustoj.com/install.sh
-sudo bash install.sh
-```
 	
 ### 校园网安装
 
@@ -646,12 +640,13 @@ sudo bash /home/judge/src/install/fixing.sh
 
 ## 系统演示
 
-[前台演示](http://hustoj.com/oj/)
-[龙芯部署](http://loongson.hustoj.com/)
+[前台演示](http://demo.hustoj.com/)
+[龙芯部署](http://my.hustoj.com/)
 
 ## 后台功能
 
-<img src="https://raw.githubusercontent.com/zhblue/hustoj/master/wiki/menu.png" />
+![image](https://github.com/zhblue/hustoj/assets/3926566/01746a51-02e4-4252-83c1-653b787b1214)
+
 
 ## 硬件需求
 

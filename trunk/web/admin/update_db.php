@@ -88,7 +88,7 @@ $csql[9]="CREATE TABLE $DB_NAME. `runtimeinfo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ";
 $tsql[10]="select pass_rate from $DB_NAME.solution limit 1";
-$csql[10]="ALTER TABLE $DB_NAME.`solution` ADD COLUMN `pass_rate` DECIMAL(3,2) UNSIGNED NOT NULL DEFAULT 0 AFTER `judgetime`;";
+$csql[10]="ALTER TABLE $DB_NAME.`solution` ADD COLUMN `pass_rate` DECIMAL(4,3) UNSIGNED NOT NULL DEFAULT 0 AFTER `judgetime`;";
 
 $csql[11]="";
 $tsql[11]="ALTER TABLE $DB_NAME.`users` MODIFY COLUMN `user_id` varchar(48) NOT NULL DEFAULT ''  COMMENT 'user_id';";
@@ -133,7 +133,7 @@ $csql[22]="";
 $tsql[23]="select judger from $DB_NAME.solution limit 1 ";
 $csql[23]="ALTER TABLE $DB_NAME.`solution` ADD `judger` CHAR(16) NOT NULL DEFAULT 'LOCAL' ;  ";
 
-$tsql[24]="alter table $DB_NAME.solution modify column pass_rate decimal(3,2) NOT NULL DEFAULT 0;";
+$tsql[24]="alter table $DB_NAME.solution modify column pass_rate decimal(4,3) NOT NULL DEFAULT 0;";
 $csql[24]="";
 
 $csql[25]="";
@@ -212,6 +212,10 @@ $tsql[47]="alter table $DB_NAME.users add column activecode varchar(16) not null
 $csql[47]="";
 $tsql[48]="alter table $DB_NAME.users add column group_name varchar(16) not null default '' after school;";
 $csql[48]="";
+
+
+// 删除6个月以前的非正确源码，优化数据库空间。
+// delete from source_code  where solution_id in (select solution_id from solution where result>4 and  in_date<date_sub(now(),interval 6 month) ); //
 
 if(isset($_POST['do'])){
 	require_once("../include/check_post_key.php");

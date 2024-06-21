@@ -9,7 +9,13 @@ done
 
 cat > /etc/docker/daemon.json <<EOF
 {
-	"registry-mirrors": ["https://y0qd3iq.mirror.aliyuncs.com"],
+	"registry-mirrors": [
+ 				"https://yczv4b52.mirror.aliyuncs.com",
+				"https://docker.m.daocloud.io",
+				"https://huecker.io",
+				"https://dockerhub.timeweb.cloud",
+			        "https://registry.cn-hangzhou.aliyuncs.com"
+    	],
 	"live-restore": true,
 	"log-opts": {
 		"max-size": "512m",

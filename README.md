@@ -74,8 +74,9 @@
 
 **[求助 报错](https://github.com/zhblue/hustoj/issues/new/choose)**
 
-如果您喜欢在线聊天，希望问题获得及时反馈，不介意付费获得服务，请加官方QQ群 `23361372` ：[点我加群](https://shang.qq.com/wpa/qunwpa?idkey=d52c3b12ddaffb43420d308d39118fafe5313e271769277a5ac49a6fae63cf7a)
+**如果您喜欢在线聊天，希望问题获得及时反馈，不介意付费获得服务，请加官方QQ群 `23361372` ：[点我加群](https://shang.qq.com/wpa/qunwpa?idkey=d52c3b12ddaffb43420d308d39118fafe5313e271769277a5ac49a6fae63cf7a)**
 
+**如有远程协助需求，请提前安装[向日葵](https://sunlogin.oray.com/)，或准备好公网可连接的SSH账号。**
 
 ## 自带的5种模板演示
 
@@ -147,6 +148,8 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+07-03 | 更新 | 调整策略，在CPU核心数大于7的机器上，增加判题的反应速度，减少平均等待时间。
+06-29 | 更新 | 调整一本通检测URL，导出xml时增加markdown标记中的图片打包。
 06-22 | 更新 | 适当重构状态页，增加学校班级过滤条件。
 06-12 | 更新 | 增加导入zip压缩的.md文件为题目的功能。
 06-11 | 补丁 | 修补syzoj中部分中文为国际化文本常量。
@@ -579,18 +582,18 @@ sudo bash /home/judge/src/install/backup+.sh  #备份后的归档在 `/home/judg
 
 首先在新服务器上做全新安装和测试，没有问题后，再迁移数据。
 
-将你需要迁移的归档复制到目标系统的`/home/judge/backup`目录下，执行下面的脚本进行恢复
+将你需要迁移的归档复制到目标系统的/home/judge/src/install目录下，执行下面的脚本进行恢复（ 脚本的第一个参数为恢复的目标归档，20221026 指你实际复制过来的文件名中的日期数字）。
 
 ```shell
 cd /home/judge/backup
-sudo bash /home/judge/src/install/restore.sh hustoj_%Y%m%d.tar.bz2
+sudo bash /home/judge/src/install/restore.sh hustoj_20221026.tar.bz2
 ```
 脚本的第一个参数为恢复的目标归档，如果没有参数则默认为按名字排序后字典序最大的归档
 
 *如果是backup+.sh备份的.tar.gz文件，用restore+.sh还原。
 ```shell
 cd /home/judge/backup
-sudo bash /home/judge/src/install/restore+.sh +%Y-%m-%d-%H-%M-%S.tar.gz
+sudo bash /home/judge/src/install/restore+.sh 备份文件的文件名
 ```
 
 ## 更新升级

@@ -59,6 +59,8 @@ $result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
 $error_count = $result[0][items];
 
 $isAC = $row['result']==4 ;
+$mark=$row['pass_rate']*100;
+if($isAC) $mark=100;
 
 if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
 {
@@ -66,7 +68,7 @@ if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESS
 }
 $spj=pdo_query("select spj from problem where problem_id=?",$row['problem_id']);
 if(!empty($spj)&&$spj[0][0]==2 && $OJ_HIDE_RIGHT_ANSWER && !isset($_SESSION[$OJ_NAME.'_'.'source_browser']) ){
-    echo $MSG_WARNING_ACCESS_DENIED;
+    $view_errors = "<h1>$MSG_MARK:$mark</h1><br>";
     $ok = false;
 }
 $view_reinfo = "";
@@ -97,10 +99,7 @@ if(  ($ok && $OJ_FRIENDLY_LEVEL>2) ||
   else if(strpos($row['error'],"PASS")!==false) $view_reinfo =  "error3";
   else if($OJ_SHOW_DIFF && $row && ($ok||$isRE) && ($OJ_TEST_RUN||is_valid($row['error'])||$ok)){ 
     $view_reinfo = htmlentities(str_replace("\n\r","\n",$row['error']),ENT_QUOTES,"UTF-8");
-    $sql="select pass_rate*100 from solution where solution_id=?";
-    $result = pdo_query($sql,$id);
-    if(count($result)>0) $mark=$result[0][0];
-    if($isAC) $mark=100;
+
     $view_reinfo .="<br>$MSG_MARK:$mark";
 
   }
@@ -110,7 +109,7 @@ if(  ($ok && $OJ_FRIENDLY_LEVEL>2) ||
   }
 }
 else{
-  $view_errors = $MSG_WARNING_ACCESS_DENIED;
+  if($spj[0][0]!=2) $view_errors .= $MSG_WARNING_ACCESS_DENIED;
   require("template/".$OJ_TEMPLATE."/error.php");
   exit(0);
 }

@@ -54,7 +54,7 @@ static 	$OJ_BG="/image/background.jpg";  //双引号里面填写背景图片的u
 // $OJ_BG="/image/bing".date('H').".jpg";  //每个整点更换壁纸，例如准备bing[00~23].jpg在image目录。
 static  $OJ_LOGIN_MOD="hustoj"; //需要在include目录下配置login-xxxx.php来调用其他登录模块。
 static  $OJ_REGISTER=true; //允许注册新用户
-static  $OJ_REG_NEED_CONFIRM=false; //新注册用户需要审核
+static  $OJ_REG_NEED_CONFIRM=true; //新注册用户需要审核
 static  $OJ_EMAIL_CONFIRM=false; //允许邮件激活账号
 
 static  $OJ_NEED_LOGIN=false; //需要登录才能访问

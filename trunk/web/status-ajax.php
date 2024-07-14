@@ -22,7 +22,7 @@ if (isset($_GET['solution_id'])) {
 $sql = "select * from solution where solution_id=? LIMIT 1";
 $result = pdo_query($sql,$solution_id);
 		
-if (count($result)>0) {
+if (!empty($result)) {
 	$row = $result[0];
 	  if (isset($_GET['tr'])&&($row['problem_id']==0||($row['problem_id']>0&&$OJ_SHOW_DIFF)) && 
 	      (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&& $_SESSION[$OJ_NAME.'_'.'user_id']== $row['user_id'] ) ) {
@@ -59,7 +59,7 @@ if (count($result)>0) {
 		if (isset($_GET['q']) && "user_id"==$_GET['q']) {
 			echo $row['user_id']."[".$row['nick']."]";      // ajax onmouseover show who was copycated or shared the code to him
 		}
-		else {
+		else if(( isset($OJ_PUBLIC_STATUS) && !$OJ_PUBLIC_STATUS ) ||( isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $_SESSION[$OJ_NAME.'_'.'user_id']== $row['user_id']) || isset($_SESSION[$OJ_NAME.'_'.'source_browser'])  ) {
 			$contest_id = $row['contest_id'];
 			
 			if ($contest_id>0) {

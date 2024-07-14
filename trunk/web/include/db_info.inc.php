@@ -33,7 +33,7 @@ static  $OJ_APPENDCODE=true;  // 代码预定模板
 if (!$OJ_APPENDCODE) 	ini_set("session.cookie_httponly", 1);   // APPENDCODE模式需要允许javascript操作cookie保存当前语言。
 @session_start();
 static  $OJ_CE_PENALTY=false;  // 编译错误是否罚时
-static  $OJ_PRINTER=false;  //启用打印服务
+static  $OJ_PRINTER=true;  //启用打印服务
 static  $OJ_MAIL=false; //内邮
 static  $OJ_MARK="mark"; // "mark" 显示正确得分， "percent" 显示错误比率
 static  $OJ_MEMCACHE=false;  //使用内存缓存

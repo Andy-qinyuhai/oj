@@ -349,8 +349,8 @@ function et($tag){
     $en['Random-data'] = 'Random-data generator';
     $en['GenerateOut'] = 'Generate Out files';
     $en['Ans2out'] = '*.ans -> *.out';
-    $cn['IOFilename'] = 'Generate input.name/output.name ';
-    
+    $en['IOFilename'] = 'Specify IOFilename';
+    $en['SolutionFilename'] = 'Specify Solution filename';
     // chinese
 	$cn['Version'] = '版本';
     $cn['DocRoot'] = '根目录';
@@ -462,6 +462,7 @@ function et($tag){
     $cn['GenerateOut'] = '用标程Main.c/Main.cc覆盖生成Out文件';
     $cn['Ans2out'] = '.ans改名.out';
     $cn['IOFilename'] = '指定输入输出文件名';
+    $cn['SolutionFilename'] = '指定NOIP提交代码文件名';
 
     // Portuguese by - Fabricio Seger Kolling
     $pt['Version'] = 'Versão';
@@ -571,7 +572,9 @@ function et($tag){
     $pt['RenderTime'] = 'Tempo para gerar esta página';
     $pt['Seconds'] = 'seg';
     $pt['ErrorReport'] = 'Error Reporting';
-
+   $pt['IOFilename'] = 'Specify IOFilename';
+    $pt['SolutionFilename'] = 'Specify Solution filename';
+ 
 	// Spanish - by Sh Studios
     $es['Version'] = 'Versión';
     $es['DocRoot'] = 'Raiz del programa';
@@ -680,7 +683,9 @@ function et($tag){
     $es['RenderTime'] = 'Generado en';
     $es['Seconds'] = 'seg';
     $es['ErrorReport'] = 'Reporte de error';
-
+   $es['IOFilename'] = 'Specify IOFilename';
+    $es['SolutionFilename'] = 'Specify Solution filename';
+ 
 	// Korean - by Airplanez
     $kr['Version'] = '버전';
     $kr['DocRoot'] = '웹서버 루트';
@@ -780,7 +785,9 @@ function et($tag){
     $kr['SelAll'] = '모든';
     $kr['SelNone'] = '제로';
     $kr['SelInverse'] = '역';
-
+    $kr['IOFilename'] = 'Specify IOFilename';
+    $kr['SolutionFilename'] = 'Specify Solution filename';
+ 
     // German - by Guido Ogrzal
     $de1['Version'] = 'Version';
     $de1['DocRoot'] = 'Dokument Wurzelverzeichnis';
@@ -889,7 +896,9 @@ function et($tag){
     $de1['RenderTime'] = 'Zeit, um die Seite anzuzeigen';
     $de1['Seconds'] = 's';
     $de1['ErrorReport'] = 'Fehlerreport';
-
+    $de1['IOFilename'] = 'Specify IOFilename';
+    $de1['SolutionFilename'] = 'Specify Solution filename';
+ 
     // German - by AXL
     $de2['Version'] = 'Version';
     $de2['DocRoot'] = 'Document Stammverzeichnis';
@@ -998,7 +1007,9 @@ function et($tag){
     $de2['RenderTime'] = 'Zeit zum Erzeugen der Seite';
     $de2['Seconds'] = 'Sekunden';
     $de2['ErrorReport'] = 'Fehler berichten';
-
+   $de2['IOFilename'] = 'Specify IOFilename';
+    $de2['SolutionFilename'] = 'Specify Solution filename';
+ 
 	// German - by Mathias Rothe
     $de3['Version'] = 'Version';
     $de3['DocRoot'] = 'Dokumenten Root';
@@ -1107,7 +1118,9 @@ function et($tag){
     $de3['RenderTime'] = 'Zeit zur Erzeugung dieser Seite';
     $de3['Seconds'] = 'sec';
     $de3['ErrorReport'] = 'Fehlermeldungen';
-
+   $de3['IOFilename'] = 'Specify IOFilename';
+    $de3['SolutionFilename'] = 'Specify Solution filename';
+ 
     // French - by Jean Bilwes
     $fr1['Version'] = 'Version';
     $fr1['DocRoot'] = 'Racine des documents';
@@ -1216,7 +1229,9 @@ function et($tag){
     $fr1['RenderTime'] = 'Temps pour afficher cette page';
     $fr1['Seconds'] = 'sec';
     $fr1['ErrorReport'] = 'Rapport d\'erreur';
-
+    $fr1['IOFilename'] = 'Specify IOFilename';
+    $fr1['SolutionFilename'] = 'Specify Solution filename';
+ 
 	// French - by Sharky
     $fr2['Version'] = 'Version';
     $fr2['DocRoot'] = 'Racine document';
@@ -2834,7 +2849,7 @@ function tree($dir_before,$dir_current,$indice){
                 }
                 for ($x=0;$x<count($mat_dir);$x++){
                     if (($dir_before == $dir_current)||(strstr($expanded_dir_list,":$dir_current/$dir_name"))){
-                        tree($dir_current."/",$dir_current."/".$mat_dir[$x],$indice);
+                       // tree($dir_current."/",$dir_current."/".$mat_dir[$x],$indice);
                     } else flush();
                 }
             } else {
@@ -3371,6 +3386,8 @@ function dir_list_form() {
                 document.form_action.cmd_arg.value = prompt('".et('TypeArq').".');
             } else if (arg == 21){
                 document.form_action.cmd_arg.value = prompt('".et('IOFilename').".');
+            } else if (arg == 22){
+                document.form_action.cmd_arg.value = prompt('".et('SolutionFilename').".');
             } else if (arg == 71){
                 if (!is_anything_selected()) erro = '".et('NoSel').".';
                 else document.form_action.cmd_arg.value = prompt('".et('TypeArqComp')."');
@@ -3462,6 +3479,7 @@ function dir_list_form() {
 	if(!$OJ_SaaS_ENABLE)$out.="<input type=button onclick=\"generate()\" value=\"".et('GenerateOut')."\">";
 	$out.="<input type=button onclick=\"ans2out()\" value=\"".et('Ans2out')."\">";
 	$out.="<input type=button onclick=\"test_prompt(21)\" value=\"".et('IOFilename')."\">";
+	$out.="<input type=button onclick=\"test_prompt(22)\" value=\"".et('SolutionFilename')."\">";
 	if(isset($_GET['pid'])){
                 $pid=intval($_GET['pid']);
                 $_SESSION[$OJ_NAME."_PID"]=$pid;
@@ -4479,6 +4497,15 @@ function frame3(){
                 $filename = $current_dir."output.name";
 		if ($fh = @fopen($filename, "w")){
 		        fprintf($fh,"%s.out\n",$cmd_arg);	
+                        @fclose($fh);
+                }
+                @chmod($filename,0644);
+            }
+	    case 22: // create SolutionFilename
+            if (strlen($cmd_arg)){
+                $filename = $current_dir."solution.name";
+		if ($fh = @fopen($filename, "w")){
+		        fprintf($fh,"%s\n",$cmd_arg);	
                         @fclose($fh);
                 }
                 @chmod($filename,0644);

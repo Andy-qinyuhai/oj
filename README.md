@@ -82,6 +82,8 @@
 
 [syzoj主题](http://demo.hustoj.com/)  added by[@renbaoshuo](https://github.com/renbaoshuo)
 
+[sidebar主题](http://demo.hustoj.com/?tp=sidebar)
+
 [bs3原版](http://demo.hustoj.com/?tp=bs3)
 
 [sweet主题](http://demo.hustoj.com/?tp=sweet)
@@ -148,6 +150,11 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+07-25 | 更新 | 增加problem表、contest表索引。
+07-24 | 更新 | syzoj强制提交文件名，solution.name。
+07-22 | 更新 | 基于syzoj修改增加侧边栏皮肤sidebar。
+07-20 | 更新 | 增加[待完成的任务](https://mp.weixin.qq.com/s?__biz=MzI1MTAwMTI2NA==&mid=2656403434&idx=1&sn=d974b097b3849f1b5d567b0bad03771c&chksm=f2587f35c52ff6232c6e0676a3009e543cd40ed0b9ac77116ef9bbc4bfb1237f7d920352c9ef&token=2034119594&lang=zh_CN#rd)功能页。
+07-19 | 更新 | 允许参加私有比赛的人在比赛结束后补题，免开自由练习模式。
 07-13 | 更新 | 给syzoj增加打印服务功能页。
 07-03 | 更新 | 调整策略，在CPU核心数大于7的机器上，增加判题的反应速度，减少平均等待时间。
 06-29 | 更新 | 调整一本通检测URL，导出xml时增加markdown标记中的图片打包。

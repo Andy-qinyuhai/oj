@@ -2976,7 +2976,7 @@ function getmicrotime(){
    return ((float)$usec + (float)$sec);
 }
 function dir_list_form() {
-    global $fm_current_root,$current_dir,$quota_mb,$resolveIDs,$order_dir_list_by,$islinux,$cmd_name,$ip,$path_info,$fm_color;
+    global $fm_current_root,$current_dir,$quota_mb,$resolveIDs,$order_dir_list_by,$islinux,$cmd_name,$ip,$path_info,$fm_color,$pid;
     $ti = getmicrotime();
     clearstatcache();
     $out = "<table border=0 cellspacing=1 cellpadding=4 width=\"100%\" bgcolor=\"#eeeeee\">\n";
@@ -3686,7 +3686,7 @@ subtask的题目中也可以有不跟其他数据绑定的，认为是自己一�
     echo $out;
 }
 function upload_form(){
-    global $_FILES,$current_dir,$dir_dest,$fechar,$quota_mb,$path_info;
+    global $_FILES,$current_dir,$dir_dest,$fechar,$quota_mb,$path_info,$pid;
     $num_uploads = 5;
     html_header();
     echo "<body marginwidth=\"0\" marginheight=\"0\">";
@@ -4032,7 +4032,7 @@ function get_mime_type($ext = ''){
     return (!isset($mimes[lowercase($ext)])) ? 'application/octet-stream' : $mimes[lowercase($ext)];
 }
 function view(){
-    global $doc_root,$path_info,$url_info,$current_dir,$islinux,$filename,$passthru;
+    global $doc_root,$path_info,$url_info,$current_dir,$islinux,$filename,$passthru,$pid;
 	if (intval($passthru)){
     $filename = remove_special_chars($filename);
 	    $file = $current_dir.$filename;
@@ -4094,7 +4094,7 @@ function view(){
 	}
 }
 function edit_file_form(){
-    global $current_dir,$filename,$file_data,$save_file,$path_info;
+    global $current_dir,$filename,$file_data,$save_file,$path_info,$pid;
     $filename=remove_special_chars($filename);
    // echo "[$filename]";
     $file = $current_dir.$filename;
@@ -4145,7 +4145,7 @@ function edit_file_form(){
 function config_form(){
     global $cfg;
     global $current_dir,$fm_self,$doc_root,$path_info,$fm_current_root,$lang,$error_reporting,$version;
-    global $config_action,$newpass,$newlang,$newerror,$newfm_root;
+    global $config_action,$newpass,$newlang,$newerror,$newfm_root,$pid;
     $Warning = "";
     switch ($config_action){
         case 1:
@@ -4698,7 +4698,7 @@ function frame2(){
     show_tree();
 }
 function frameset(){
-    global $path_info,$leftFrameWidth;
+    global $path_info,$leftFrameWidth,$pid;
     if (!isset($leftFrameWidth)) $leftFrameWidth = 300;
     html_header();
     echo "

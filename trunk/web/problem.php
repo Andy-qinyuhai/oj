@@ -59,7 +59,7 @@ require_once("contest-check.php");
 		$sql = "SELECT langmask,private,defunct FROM `contest` WHERE `defunct`='N' AND `contest_id`=? AND (`start_time`<='$now' AND ('$now'<`end_time` or private='N') )";
 
 	$result = pdo_query($sql,$cid);
-	$rows_cnt = count($result);
+	$rows_cnt =empty($result)?0:count($result);
 	if (empty($result) && !$OJ_FREE_PRACTICE && !isset($_SESSION[$OJ_NAME.'_administrator']) && !isset($_SESSION[$OJ_NAME."_c".$cid]) ) {
 		$view_errors = "<title>$MSG_CONTEST</title><h2>No such Contest!</h2>";
 		require("template/".$OJ_TEMPLATE."/error.php");
@@ -156,7 +156,7 @@ if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD ){
 //$now =  date('Y-m-d H:i', time());
 	$sql = "select 1 from `contest_problem` where (`problem_id`= ? ) and `contest_id` IN (select `contest_id` from `contest` where `start_time` < ? and `end_time` > ? and `title` like ?)";
 	$rrs = pdo_query($sql, $id ,$now , $now , "%$OJ_NOIP_KEYWORD%");
-	$flag = count($rrs) > 0 ;
+	$flag = !empty($rrs) ;
 	if($flag)
 	{	
 		$row[ 'accepted' ] = '<font color="red"> ? </font>';		

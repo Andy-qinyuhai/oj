@@ -3263,12 +3263,12 @@ function dir_list_form() {
             return true;
         }
         function download(arg){
-            location.href='".addslashes($path_info["basename"])."?action=3&current_dir=".addslashes($current_dir)."&filename='+escape(arg);
+            location.href='".addslashes($path_info["basename"])."?pid='$pid'&action=3&current_dir=".addslashes($current_dir)."&filename='+escape(arg);
         }
         function upload(){
             var w = 600;
             var h = 320;
-            window.open('".addslashes($path_info["basename"])."?action=10&current_dir=".addslashes($current_dir)."', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+            window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=10&current_dir=".addslashes($current_dir)."', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function execute_cmd(){
             var arg = prompt('".et('TypeCmd').".');
@@ -3276,7 +3276,7 @@ function dir_list_form() {
                 if(confirm('".et('ConfExec')." \\' '+arg+' \\' ?')) {
                     var w = 800;
                     var h = 600;
-                    window.open('".addslashes($path_info["basename"])."?action=6&current_dir=".addslashes($current_dir)."&cmd='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+                    window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=6&current_dir=".addslashes($current_dir)."&cmd='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
                 }
             }
         }
@@ -3292,7 +3292,7 @@ function dir_list_form() {
                 if(confirm('".et('ConfExec')." \\' '+arg+' \\' ?')) {
                     var w = 800;
                     var h = 600;
-                    window.open('".addslashes($path_info["basename"])."?action=11&current_dir=".addslashes($current_dir)."&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+                    window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=11&current_dir=".addslashes($current_dir)."&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
                 }
             }
         }
@@ -3300,31 +3300,31 @@ function dir_list_form() {
             var w = 1150;
             var h = 768;
             // if(confirm('".uppercase(et('Edit'))." \\' '+arg+' \\' ?'))
-            window.open('".addslashes($path_info["basename"])."?action=7&current_dir=".addslashes($current_dir)."&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+            window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=7&current_dir=".addslashes($current_dir)."&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function config(){
             var w = 650;
             var h = 400;
-            window.open('".addslashes($path_info["basename"])."?action=2', 'win_config', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+            window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=2', 'win_config', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function server_info(arg){
             var w = 800;
             var h = 600;
-            window.open('".addslashes($path_info["basename"])."?action=5', 'win_serverinfo', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+            window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=5', 'win_serverinfo', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function shell(){
             var w = 800;
             var h = 600;
-            window.open('".addslashes($path_info["basename"])."?action=9', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+            window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=9', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
         }
         function view(arg){
             var w = 800;
             var h = 600;
-            if(confirm('".uppercase(et('View'))." \\' '+arg+' \\' ?')) window.open('".addslashes($path_info["basename"])."?action=4&current_dir=".addslashes($current_dir)."&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=no,menubar=no,location=yes');
+            if(confirm('".uppercase(et('View'))." \\' '+arg+' \\' ?')) window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=4&current_dir=".addslashes($current_dir)."&filename='+escape(arg), '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=yes,resizable=yes,status=yes,toolbar=no,menubar=no,location=yes');
         }
         function rename(arg){
             var nome = '';
-            if (nome = prompt('".uppercase(et('Ren'))." \\' '+arg+' \\' ".et('To')." ...')) document.location.href='".addslashes($path_info["basename"])."?frame=3&action=3&current_dir=".addslashes($current_dir)."&old_name='+escape(arg)+'&new_name='+escape(nome);
+            if (nome = prompt('".uppercase(et('Ren'))." \\' '+arg+' \\' ".et('To')." ...')) document.location.href='".addslashes($path_info["basename"])."?pid='$pid'&frame=3&action=3&current_dir=".addslashes($current_dir)."&old_name='+escape(arg)+'&new_name='+escape(nome);
         }
         function set_dir_dest(arg){
             document.form_action.dir_dest.value=arg;
@@ -3360,7 +3360,7 @@ function dir_list_form() {
             else {
                 var w = 280;
                 var h = 180;
-                window.open('".addslashes($path_info["basename"])."?action=8', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
+                window.open('".addslashes($path_info["basename"])."?pid='$pid'&action=8', '', 'width='+w+',height='+h+',fullscreen=no,scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=no');
             }
         }
         function set_chmod_arg(arg){
@@ -3469,6 +3469,7 @@ function dir_list_form() {
             <input type=hidden name=\"cmd_arg\" value=\"\">
             <input type=hidden name=\"current_dir\" value=\"$current_dir\">
             <input type=hidden name=\"dir_before\" value=\"$dir_before\">
+			<input type=hidden name=pid value=\"$pid\">
             <input type=hidden name=\"selected_dir_list\" value=\"\">
             <input type=hidden name=\"selected_file_list\" value=\"\">";
         $out .= "
@@ -3497,7 +3498,7 @@ function dir_list_form() {
             $mat = explode("/",$current_dir);
             $dir_before = "";
             for($x=0;$x<(count($mat)-2);$x++) $dir_before .= $mat[$x]."/";
-            $uplink = "<a href=\"".$path_info["basename"]."?frame=3&current_dir=$dir_before\"><<</a> ";
+            $uplink = "<a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&current_dir=$dir_before\"><<</a> ";
         }
         if($entry_count){
             $out .= "
@@ -3548,7 +3549,7 @@ subtask的题目中也可以有不跟其他数据绑定的，认为是自己一�
                     if ($has_files) $dir_out[$dir_count][] = "<td>&nbsp;</td>";
                     // Opções de diretório
                     if ( is_writable($current_dir.$file) ) $dir_out[$dir_count][] = "
-                        <td align=center><a href=\"JavaScript:if(confirm('".et('ConfRem')." \\'".addslashes($file)."\\' ?')) document.location.href='".addslashes($path_info["basename"])."?frame=3&action=8&cmd_arg=".addslashes($file)."&current_dir=".addslashes($current_dir)."'\">".et('Rem')."</a>";
+                        <td align=center><a href=\"JavaScript:if(confirm('".et('ConfRem')." \\'".addslashes($file)."\\' ?')) document.location.href='".addslashes($path_info["basename"])."?pid='$pid'&frame=3&action=8&cmd_arg=".addslashes($file)."&current_dir=".addslashes($current_dir)."'\">".et('Rem')."</a>";
                     if ( is_writable($current_dir.$file) ) $dir_out[$dir_count][] = "
                         <td align=center><a href=\"JavaScript:rename('".addslashes($file)."')\">".et('Ren')."</a>";
                     if (count($dir_out[$dir_count])>$max_opt){
@@ -3570,7 +3571,7 @@ subtask的题目中也可以有不跟其他数据绑定的，认为是自己一�
                     $file_out[$file_count][] = "<td>".$dir_entry["extt"]."</td>";
                     // Opções de arquivo
                     if ( is_writable($current_dir.$file) ) $file_out[$file_count][] = "
-                                <td align=center><a href=\"javascript:if(confirm('".uppercase(et('Rem'))." \\'".addslashes($file)."\\' ?')) document.location.href='".addslashes($path_info["basename"])."?frame=3&action=8&cmd_arg=".addslashes($file)."&current_dir=".addslashes($current_dir)."'\">".et('Rem')."</a>";
+                                <td align=center><a href=\"javascript:if(confirm('".uppercase(et('Rem'))." \\'".addslashes($file)."\\' ?')) document.location.href='".addslashes($path_info["basename"])."?pid='$pid'&frame=3&action=8&cmd_arg=".addslashes($file)."&current_dir=".addslashes($current_dir)."'\">".et('Rem')."</a>";
                     else $file_out[$file_count][] = "<td>&nbsp;</td>";
                     if ( is_writable($current_dir.$file) ) $file_out[$file_count][] = "
                                 <td align=center><a href=\"javascript:rename('".addslashes($file)."')\">".et('Ren')."</a>";
@@ -3596,16 +3597,16 @@ subtask的题目中也可以有不跟其他数据绑定的，认为是自己一�
             if ($dir_count){
                 $out .= "
                 <tr>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or1&current_dir=$current_dir\">".et('Name')."</a></nobr></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or2&current_dir=$current_dir\">".et('Perm')."</a></nobr></td>";
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or1&current_dir=$current_dir\">".et('Name')."</a></nobr></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or2&current_dir=$current_dir\">".et('Perm')."</a></nobr></td>";
                 if ($islinux) $out .= "
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or3&current_dir=$current_dir\">".et('Owner')."</a></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or4&current_dir=$current_dir\">".et('Group')."</a></nobr></td>";
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or3&current_dir=$current_dir\">".et('Owner')."</a></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or4&current_dir=$current_dir\">".et('Group')."</a></nobr></td>";
                 $out .= "
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or5&current_dir=$current_dir\">".et('Size')."</a></nobr></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or6&current_dir=$current_dir\">".et('Date')."</a></nobr></td>";
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or5&current_dir=$current_dir\">".et('Size')."</a></nobr></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or6&current_dir=$current_dir\">".et('Date')."</a></nobr></td>";
                 if ($file_count) $out .= "
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or7&current_dir=$current_dir\">".et('Type')."</a></nobr></td>";
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or7&current_dir=$current_dir\">".et('Type')."</a></nobr></td>";
                 $out .= "
                       <td bgcolor=\"#DDDDDD\" colspan=50>&nbsp;</td>
                 </tr>";
@@ -3621,15 +3622,15 @@ subtask的题目中也可以有不跟其他数据绑定的，认为是自己一�
             if ($file_count){
                 $out .= "
                 <tr>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or1&current_dir=$current_dir\">".et('Name')."</a></nobr></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or2&current_dir=$current_dir\">".et('Perm')."</a></nobr></td>";
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or1&current_dir=$current_dir\">".et('Name')."</a></nobr></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or2&current_dir=$current_dir\">".et('Perm')."</a></nobr></td>";
                 if ($islinux) $out .= "
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or3&current_dir=$current_dir\">".et('Owner')."</a></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or4&current_dir=$current_dir\">".et('Group')."</a></nobr></td>";
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or3&current_dir=$current_dir\">".et('Owner')."</a></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or4&current_dir=$current_dir\">".et('Group')."</a></nobr></td>";
                 $out .= "
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or5&current_dir=$current_dir\">".et('Size')."</a></nobr></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or6&current_dir=$current_dir\">".et('Date')."</a></nobr></td>
-                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?frame=3&or_by=$or7&current_dir=$current_dir\">".et('Type')."</a></nobr></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or5&current_dir=$current_dir\">".et('Size')."</a></nobr></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or6&current_dir=$current_dir\">".et('Date')."</a></nobr></td>
+                      <td bgcolor=\"#DDDDDD\"><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&or_by=$or7&current_dir=$current_dir\">".et('Type')."</a></nobr></td>
                       <td bgcolor=\"#DDDDDD\" colspan=50>&nbsp;</td>
                 </tr>";
 
@@ -3677,7 +3678,7 @@ subtask的题目中也可以有不跟其他数据绑定的，认为是自己一�
         } else {
             $out .= "
             <tr>
-            <td bgcolor=\"#DDDDDD\" width=\"1%\">$uplink<td bgcolor=\"#DDDDDD\" colspan=50><nobr><a href=\"".$path_info["basename"]."?frame=3&current_dir=$current_dir\">$current_dir</a></nobr>
+            <td bgcolor=\"#DDDDDD\" width=\"1%\">$uplink<td bgcolor=\"#DDDDDD\" colspan=50><nobr><a href=\"".$path_info["basename"]."?pid='$pid'&frame=3&current_dir=$current_dir\">$current_dir</a></nobr>
             <tr><td bgcolor=\"#DDDDDD\" colspan=50>".et('EmptyDir').".</tr>";
         }
     } else $out .= "<tr><td><font color=red>".et('IOError').".<br>$current_dir</font>";
@@ -3695,6 +3696,7 @@ function upload_form(){
         <form name=\"upload_form\" action=\"".$path_info["basename"]."\" method=\"post\" ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=dir_dest value=\"".basename($current_dir)."\">
         <input type=hidden name=action value=10>
+		<input type=hidden name=pid value=\"$pid\">
         <tr><th colspan=2>".et('Upload')."</th></tr>
         <tr><td align=right><b>".et('Destination').":<td><b><nobr>".basename($current_dir)."</nobr>";
         for ($x=0;$x<$num_uploads;$x++){
@@ -4079,7 +4081,7 @@ function view(){
 	        // Malditas variaveis de sistema!! No windows doc_root é sempre em lowercase... cadê o str_ireplace() ??
 	        $url .= str_replace($doc_root,"","/".$current_dir).$filename;
 	    } else {
-			$url = addslashes($path_info["basename"])."?action=4&current_dir=".addslashes($current_dir)."&filename=".addslashes($filename)."&passthru=1";
+			$url = addslashes($path_info["basename"])."?pid='$pid'&action=4&current_dir=".addslashes($current_dir)."&filename=".addslashes($filename)."&passthru=1";
 	    }
         echo "
 	    <script language=\"Javascript\" type=\"text/javascript\">
@@ -4111,6 +4113,7 @@ function edit_file_form(){
     <input type=hidden name=save_file value=\"1\">
     <input type=hidden name=current_dir value=\"$current_dir\">
     <input type=hidden name=filename value=\"$filename\">
+	<input type=hidden name=pid value=\"$pid\">
     <tr><th colspan=2>".$filename."</th></tr>
     <tr><td colspan=2><textarea name=file_data style='width:1000px;height:500px;'>".html_encode($file_data)."</textarea></td></tr>
     <tr><td><input type=button value=\"".et('Refresh')."\" onclick=\"document.edit_form_refresh.submit()\"></td><td align=right><input type=button value=\"".et('SaveFile')."\" onclick=\"go_save()\"></td></tr>
@@ -4119,6 +4122,7 @@ function edit_file_form(){
     <input type=hidden name=action value=\"7\">
     <input type=hidden name=current_dir value=\"$current_dir\">
     <input type=hidden name=filename value=\"$filename\">
+	<input type=hidden name=pid value=\"$pid\">
     </form>
     </table>
     <script language=\"Javascript\" type=\"text/javascript\">
@@ -4248,6 +4252,7 @@ function config_form(){
     <form name=\"config_form\" action=\"".$path_info["basename"]."\" method=\"post\">
     <input type=hidden name=action value=2>
     <input type=hidden name=config_action value=0>
+	<input type=hidden name=pid value=\"$pid\">
     <tr><td align=right width=1><nobr>".et('DocRoot').":</nobr><td>".$doc_root."</td></tr>
     <tr><td align=right><nobr>".et('FLRoot').":</nobr><td><input type=text size=60 name=newfm_root value=\"".$cfg->data['fm_root']."\" onkeypress=\"enterSubmit(event,'test_config_form(2)')\"></td></tr>
     <tr><td align=right>".et('Lang').":<td>
@@ -4699,10 +4704,10 @@ function frameset(){
     echo "
     <frameset cols=\"".$leftFrameWidth.",*\" framespacing=\"0\">
         <frameset rows=\"0,*\" framespacing=\"0\" frameborder=\"0\">
-            <frame src=\"".$path_info["basename"]."?frame=1\" name=frame1 border=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">
-            <frame src=\"".$path_info["basename"]."?frame=2\" name=frame2 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
+            <frame src=\"".$path_info["basename"]."?pid='$pid'&frame=1\" name=frame1 border=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">
+            <frame src=\"".$path_info["basename"]."?pid='$pid'&frame=2\" name=frame2 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
         </frameset>
-        <frame src=\"".$path_info["basename"]."?frame=3\" name=frame3 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
+        <frame src=\"".$path_info["basename"]."?pid='$pid'&frame=3\" name=frame3 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
     </frameset>
     </html>";
 }

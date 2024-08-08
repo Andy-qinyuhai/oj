@@ -32,7 +32,7 @@ $use_auth = true;
 //);
 
 $auth_users = array(
-    'username' => password_hash('andy080103', PASSWORD_DEFAULT)
+    'admin' => password_hash('andy080103', PASSWORD_DEFAULT)
 );
 
 // Readonly users

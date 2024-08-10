@@ -19,9 +19,13 @@ $use_auth = true;
 // Login user name and password
 // Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
 // Generate secure password hash - https://tinyfilemanager.github.io/docs/pwd.html
-$auth_users = array(
-    'admin' => '$2y$10$FyIt91QF3klCpiZwheGjVe095IWKGwNwFas3qD2x9j4kNmWTMByve'
+//$auth_users = array(
+//    'admin' => '$2y$10$FyIt91QF3klCpiZwheGjVe095IWKGwNwFas3qD2x9j4kNmWTMByve'
     //'user' => '$2y$10$Fg6Dz8oH9fPoZ2jJan5tZuv6Z4Kp7avtQ9bDfrdRntXtPeiMAZyGO' //12345
+//);
+
+$auth_users = array(
+    'admin' => password_hash('andy080103', PASSWORD_DEFAULT)
 );
 
 // Readonly users
@@ -42,7 +46,7 @@ $edit_files = true;
 
 // Default timezone for date() and time()
 // Doc - http://php.net/manual/en/timezones.php
-$default_timezone = 'Etc/UTC'; // UTC
+$default_timezone = 'Asia/Shanghai'; // UTC
 
 // Root path for file manager
 // use absolute path of directory i.e: '/var/www/folder' or $_SERVER['DOCUMENT_ROOT'].'/folder'
@@ -102,7 +106,7 @@ $sticky_navbar = true;
 $path_display_mode = 'full';
 
 // max upload file size
-$max_upload_size_bytes = 5000;
+$max_upload_size_bytes = 20000;
 
 // Possible rules are 'OFF', 'AND' or 'OR'
 // OFF => Don't check connection IP, defaults to OFF

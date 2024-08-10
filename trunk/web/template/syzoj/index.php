@@ -42,8 +42,8 @@
                     </thead>
                     <tbody>
                     <?php
-                        $sql_problems = "select * FROM `problem` ORDER BY `problem_id` DESC LIMIT 5";
-                        //$sql_problems = "select * FROM `problem` where defunct='N' ORDER BY `problem_id` DESC LIMIT 5";
+                        //$sql_problems = "select * FROM `problem` ORDER BY `problem_id` DESC LIMIT 5";
+                        $sql_problems = "select * FROM `problem` where defunct='N' ORDER BY `problem_id` DESC LIMIT 5"; //隐藏未公开的题
                         $result_problems = mysql_query_cache( $sql_problems );
                         if ( $result_problems ) {                            
                             foreach ( $result_problems as $row ) {

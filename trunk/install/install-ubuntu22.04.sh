@@ -7,12 +7,12 @@ if [ -d /mnt/c ]; then
 fi
 MEM=`free -m|grep Mem|awk '{print $2}'`
 
-if [ "$MEM" -lt "1000" ] ; then
-        echo "Memory size less than 1GB."
+if [ "$MEM" -lt "2000" ] ; then
+        echo "Memory size less than 2GB."
         if grep 'swap' /etc/fstab ; then
                 echo "already has swap"
         else
-                dd if=/dev/zero of=/swap bs=1M count=1024
+                dd if=/dev/zero of=/swap bs=2M count=1024
                 chmod 600 /swap
                 mkswap /swap
                 swapon /swap
@@ -28,6 +28,7 @@ sed -i 's/tencentyun/aliyun/g' /etc/apt/sources.list
 sed -i 's/cn.archive.ubuntu/mirrors.aliyun/g' /etc/apt/sources.list
 sed -i "s|#\$nrconf{restart} = 'i'|\$nrconf{restart} = 'a'|g" /etc/needrestart/needrestart.conf
 
+apt autoremove -y --purge needrestart
 
 apt-get update && apt-get -y upgrade
 
@@ -134,6 +135,7 @@ chmod 750 -R data
 if grep "client_max_body_size" /etc/nginx/nginx.conf ; then
         echo "client_max_body_size already added" ;
 else
+        sed -i 's/# multi_accept on;/ multi_accept on;/' /etc/nginx/nginx.conf
         sed -i "s:include /etc/nginx/mime.types;:client_max_body_size    500m;\n\tinclude /etc/nginx/mime.types;:g" /etc/nginx/nginx.conf
 fi
 

@@ -68,7 +68,7 @@ if (!empty($result)) {
 				
 				if (stripos($contest_title,$OJ_NOIP_KEYWORD)!==false) {
 					echo "$OJ_NOIP_KEYWORD";
-					//exit(0);
+					exit(0);
 				}
 			}
 			if($row['result']==4) $row['pass_rate']=1;  // stop students asking about why not 100 on AC

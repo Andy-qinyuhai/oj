@@ -156,7 +156,8 @@
                 echo "'$result',";
         } ?>
         ''];
-   <?php echo " var oj_mark='$OJ_MARK'; ";?>
+		var oj_mark= <?php echo "'$OJ_MARK'";?>;
+   //<?php echo " var oj_mark='$OJ_MARK'; ";?>
 </script>
         <script src="template/syzoj/auto_refresh.js?v=0.52" ></script>
 

@@ -71,7 +71,7 @@ function fresh_result(solution_id) {
                                 window.setTimeout("fresh_result("+solution_id+")",interval);
                         }
                         else {
-                                //console.log(ra[0]);
+                                console.log(ra[0]);
                                 switch (ra[0]) {
                                         case  4:
                                         case 14:

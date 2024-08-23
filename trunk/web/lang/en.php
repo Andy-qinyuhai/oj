@@ -18,6 +18,7 @@
 	$MSG_STATISTICS="Statistics";
 	$MSG_USERINFO="User Information";
 	$MSG_MAIL="Mail";
+	$MSG_TODO="ToDo";
 
 	//status.php
 	$MSG_Pending="Pending";
@@ -212,6 +213,9 @@
   $MSG_Ended="Finished";
   $MSG_Login="Please Login";
   $MSG_JUDGER="Judger";
+  $MSG_DOWNLOAD="Download";
+  $MSG_SHOW="Show";
+  $MSG_HIDE="Hide";
   
   $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="You can't browse early code during examing .";
   $MSG_BBS_NOT_ALLOWED_FOR_EXAM="You can't use bbs during examing.";
@@ -266,7 +270,7 @@
 	$MSG_HELP_GIVESOURCE=" transfers the label of the import system to the designated account number, which is used to assist the person who has not passed the training after the training. ";
 	$MSG_HELP_EXPORT_PROBLEM= "export the problems of the system in the form of fps.xml file. ";
 	$MSG_HELP_IMPORT_PROBLEM=" import fps.xml files downloaded from internet or tk.hustoj.com. ";
-	$MSG_HELP_UPDATE_DATABASE= "update the database structure, after each upgrade (sudo update-hustoj), run it once. ";
+	$MSG_HELP_UPDATE_DATABASE= "update the database structure, after each upgrade (sudo bash fixing.sh), run it once. ";
 	$MSG_HELP_ONLINE= "view online users";
   $MSG_HELP_AC="Congratulations!"; 
   $MSG_HELP_PE="Your output format is not exactly the same as the judge's output, although your answer to the problem is correct. Check your output for spaces, blank lines,etc against the problem output specification"; 
@@ -283,7 +287,8 @@
   $MSG_HELP_SPJ="<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>search hustoj special judge</a>for more details"; 
   $MSG_HELP_BALLOON_SCHOOL="School Field of the Printer/Balloon privileged Accout, will be used as filter in task list.";
   $MSG_HRLP_BACKUP_DATABASE="Backup Database , TestData and Pictures to the 0 problem testdata directory";
-
+  $MSG_HELP_LEFT_EMPTY="If you don't want to modify, please left this empty.";
+  $MSG_HELP_LOCAL_EMPTY="Left empty for local problem.";
   
   $MSG_WARNING_LOGIN_FROM_DIFF_IP="Login from a diffrent ip ";
   $MSG_WARNING_DURING_EXAM_NOT_ALLOWED=" during exam is not allowed ";
@@ -443,6 +448,21 @@
 	// sourcecompare.php
 	$MSG_Source_Compare="Source Code Comparation";
 	$MSG_BACK="Return to Last Page";
+	$MSG_NEXT_PAGE="Next Page";
+	$MSG_PREV_PAGE="Prev Page";
  	//email
 	$MSG_SYS_WARN="System Warning!";
 	$MSG_IS_ROBOT="could be a robot , verify and disable it !";
+  //SaaS friendly
+  $MSG_TEMPLATE="Template";
+  $MSG_FRIENDLY_LEVEL="Friendly Level";
+  $MSG_FRIENDLY_L0="Not friendly at all";
+  $MSG_FRIENDLY_L1="Using UTC+8 TimeZone";
+  $MSG_FRIENDLY_L2="Using Chinese UI";
+  $MSG_FRIENDLY_L3="Show differ,No Verify Code";
+  $MSG_FRIENDLY_L4="Using mail,Code auto share";
+  $MSG_FRIENDLY_L5="Allow test running";
+  $MSG_FRIENDLY_L6="Keep long login";
+  $MSG_FRIENDLY_L7="Enable discus";
+  $MSG_FRIENDLY_L8="Allow download test data";
+  $MSG_FRIENDLY_L9="Allow guest to submit";

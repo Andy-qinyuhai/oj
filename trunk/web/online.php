@@ -13,16 +13,11 @@ $OJ_CACHE_SHARE=false;
 	$ip = new IpLocation();
 	$users = $on->getAll();
 	
-?>
-
-
-
-<?php 
 $view_online=Array();
 		
 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 
-			$sql="SELECT * FROM `loginlog`";
+			$sql="SELECT user_id,password,ip,time FROM `loginlog`";
 			$search=$_GET['search'];
 			if ($search!=''){
 				$sql=$sql." WHERE ip like ? ";
@@ -31,12 +26,12 @@ if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 				$sql=$sql." where user_id<>? ";
 				$search=$_SESSION[$OJ_NAME.'_'.'user_id'];
 			}
-			$sql=$sql."  order by `time` desc LIMIT 0,50";
+			$sql=$sql."  order by `log_id` desc LIMIT 0,50";
 
 			$result=pdo_query($sql,$search) ;
 			$i=0;
 }else{
-	$sql="SELECT * FROM `loginlog`";
+	$sql="SELECT user_id,password,ip,time FROM `loginlog` order by log_id desc limit 20";
 	$result=pdo_query($sql) ;
 }
 

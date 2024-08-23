@@ -51,15 +51,15 @@ else if (isset($_GET['cid']) && isset($_GET['pid'])) {
 	//contest
 	$cid = intval($_GET['cid']);
 	$pid = intval($_GET['pid']);
-
+require_once("contest-check.php");
 	if (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
 		$sql = "SELECT langmask,private,defunct FROM `contest` WHERE `contest_id`=?";
 	else
 		$sql = "SELECT langmask,private,defunct FROM `contest` WHERE `defunct`='N' AND `contest_id`=? AND (`start_time`<='$now' AND ('$now'<`end_time` or private='N') )";
 
 	$result = pdo_query($sql,$cid);
-	$rows_cnt = count($result);
-	if ($rows_cnt==0 && !$OJ_FREE_PRACTICE && !isset($_SESSION[$OJ_NAME.'_administrator']) && !isset($_SESSION[$OJ_NAME."_c".$cid]) ) {
+	$rows_cnt =empty($result)?0:count($result);
+	if (empty($result) && !$OJ_FREE_PRACTICE && !isset($_SESSION[$OJ_NAME.'_administrator']) && !isset($_SESSION[$OJ_NAME."_c".$cid]) ) {
 		$view_errors = "<title>$MSG_CONTEST</title><h2>No such Contest!</h2>";
 		require("template/".$OJ_TEMPLATE."/error.php");
 		exit(0);
@@ -140,9 +140,10 @@ if (count($result)!=1) {
 		$view_title = "<title>$MSG_NO_SUCH_PROBLEM!</title>";
 		$view_errors .= "<h2>$MSG_NO_SUCH_PROBLEM!</h2>";
 	}
-
-	require("template/".$OJ_TEMPLATE."/error.php");
-	exit(0);
+	if(!(isset($_SESSION[$OJ_NAME.'_administrator'])||isset($_SESSION[$OJ_NAME.'_problem_editor']))){
+		require("template/".$OJ_TEMPLATE."/error.php");
+		exit(0);
+	}
 }
 else {
 	$row = $result[0];
@@ -153,17 +154,16 @@ if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD ){
 //$now =  date('Y-m-d H:i', time());
 	$sql = "select 1 from `contest_problem` where (`problem_id`= ? ) and `contest_id` IN (select `contest_id` from `contest` where `start_time` < ? and `end_time` > ? and `title` like ?)";
 	$rrs = pdo_query($sql, $id ,$now , $now , "%$OJ_NOIP_KEYWORD%");
-	$flag = count($rrs) > 0 ;
-	if($flag)
-	{	
+	$flag = !empty($rrs) ;
+	if($flag){	
 		$row[ 'accepted' ] = '<font color="red"> ? </font>';
 		
-        // 使用$OJ_NOIP_TISHI 条件语句确定是否显示提示信息
-        if (isset($OJ_NOIP_TISHI) && $OJ_NOIP_TISHI) {
-            //$row['hint'] = $MSG_NOIP_NOHINT;
-        } else {
-            $row['hint'] = $MSG_NOIP_NOHINT;
-        }
+	        // 使用$OJ_NOIP_TISHI 条件语句确定是否显示提示信息
+	        if (isset($OJ_NOIP_HINT) && $OJ_NOIP_HINT) {
+	            //$row['hint'] = $MSG_NOIP_NOHINT;
+	        } else {
+	            $row['hint'] = $MSG_NOIP_NOHINT;
+	        }
 	}
 }
 /////////////////////////Template

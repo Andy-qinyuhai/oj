@@ -2,24 +2,24 @@
 
 #detect and refuse to run under WSL
 if [ -d /mnt/c ]; then
-    echo "WSL is NOT supported."
-    exit 1
+     echo "WSL is NOT recommended."
+#    exit 1
 fi
 MEM=`free -m|grep Mem|awk '{print $2}'`
 
-if [ "$MEM" -lt "1000" ] ; then
-        echo "Memory size less than 1GB."
+if [ "$MEM" -lt "2000" ] ; then
+        echo "Memory size less than 2GB."
         if grep 'swap' /etc/fstab ; then
                 echo "already has swap"
         else
-                dd if=/dev/zero of=/swap bs=1M count=1024
+                dd if=/dev/zero of=/swap bs=2M count=1024
                 chmod 600 /swap
                 mkswap /swap
                 swapon /swap
                 echo "/swap none swap defaults 0 0 " >> /etc/fstab 
                 /etc/init.d/multipath-tools stop
-                screen -d -m watch pkill -9 snapd
-                screen -d -m watch pkill -9 ds-identify
+                pkill -9 snapd
+                pkill -9 ds-identify
          fi
 else
         echo "Memory size : $MEM MB"
@@ -28,6 +28,7 @@ sed -i 's/tencentyun/aliyun/g' /etc/apt/sources.list
 sed -i 's/cn.archive.ubuntu/mirrors.aliyun/g' /etc/apt/sources.list
 sed -i "s|#\$nrconf{restart} = 'i'|\$nrconf{restart} = 'a'|g" /etc/needrestart/needrestart.conf
 
+apt autoremove -y --purge needrestart
 
 apt-get update && apt-get -y upgrade
 
@@ -134,6 +135,7 @@ chmod 750 -R data
 if grep "client_max_body_size" /etc/nginx/nginx.conf ; then
         echo "client_max_body_size already added" ;
 else
+        sed -i 's/# multi_accept on;/ multi_accept on;/' /etc/nginx/nginx.conf
         sed -i "s:include /etc/nginx/mime.types;:client_max_body_size    500m;\n\tinclude /etc/nginx/mime.types;:g" /etc/nginx/nginx.conf
 fi
 
@@ -144,6 +146,8 @@ if grep "added by hustoj" /etc/nginx/sites-enabled/default ; then
         echo "default site modified!"
 else
         echo "modify the default site"
+        
+        sed -i "s#listen 80 default_server;#listen 80 default_server backlog=4096;#g" /etc/nginx/sites-enabled/default
         sed -i "s#root /var/www/html;#root /home/judge/src/web;#g" /etc/nginx/sites-enabled/default
         sed -i "s:index index.html:index index.php:g" /etc/nginx/sites-enabled/default
         sed -i "s:#location ~ \\\.php\\$:location ~ \\\.php\\$:g" /etc/nginx/sites-enabled/default
@@ -165,6 +169,7 @@ fi
 WWW_CONF=$(find /etc/php -name www.conf)
 sed -i 's/;request_terminate_timeout = 0/request_terminate_timeout = 128/g' "$WWW_CONF"
 sed -i 's/pm.max_children = 5/pm.max_children = 600/g' "$WWW_CONF"
+sed -i 's/;listen.backlog = 511/listen.backlog = 4096/g' "$WWW_CONF"
 
 COMPENSATION=$(grep 'mips' /proc/cpuinfo|head -1|awk -F: '{printf("%.2f",$2/3000)}')
 sed -i "s/OJ_CPU_COMPENSATION=1.0/OJ_CPU_COMPENSATION=$COMPENSATION/g" etc/judge.conf

@@ -84,7 +84,7 @@ div[class*=ace_br] {
       </div>
       <div class="row" style="margin-top: -23px">
         <!--   <span class="ui label">题目类型：传统</span> -->
-          <span class="ui label"><?php echo $MSG_JUDGE_STYLE ?>：<?php if($row['spj']) echo "$MSG_SPJ"; else echo "$MSG_TEXT_COMPARE" ; ?></span>
+          <span class="ui label"><?php echo $MSG_JUDGE_STYLE ?>：<?php echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; ?> </span>
           <span class="ui label"><?php echo $MSG_Creator ?>：<span id='creator'></span></span>
       </div>
       <div class="row" style="margin-top: -23px">
@@ -105,8 +105,11 @@ div[class*=ace_br] {
 	      if($OJ_BBS)echo "<a class=\"small ui red button\" href=\"discuss.php?pid=$id\">$MSG_BBS</a>";
             }else{
               echo "<a href=\"contest.php?cid=$cid\" class=\"ui orange button\">$MSG_RETURN_CONTEST</a>";
-              echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
-              echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_GLOBAL$MSG_SUBMIT_RECORD</a>";
+              if($contest_is_over)
+                        echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?id=$id\">$MSG_SUBMIT</a>";
+              else
+                        echo "<a id='submit'  class=\"small ui primary button\" href=\"submitpage.php?cid=$cid&pid=$pid&langmask=$langmask\">$MSG_SUBMIT</a>";
+ 	      echo "<a class=\"small ui positive button\" href=\"status.php?problem_id=$id\">$MSG_GLOBAL$MSG_SUBMIT_RECORD</a>";
               echo "<a class=\"small ui orange button\" href=\"status.php?problem_id=$PID[$pid]&cid=$cid\">$MSG_THIS_CONTEST$MSG_SUBMIT_RECORD</a>";
 
             }
@@ -132,23 +135,23 @@ div[class*=ace_br] {
   <div class="row">
     <div class="column">
       <h4 class="ui top attached block header"><?php echo $MSG_Description?></h4>
-      <div class="ui bottom attached segment font-content">
+      <div id="description" class="ui bottom attached segment font-content">
 		<?php if (str_contains($row['description'],"md auto_select"))echo $row['description']; else echo  bbcode_to_html($row['description']); ?></div>
     </div>
   </div>
-  <?php if($row['input']){ ?>
+  <?php if($row['input']||isset($_GET['spa'])){ ?>
     <div class="row">
       <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Input?></h4>
-          <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['input']); ?></div>
+          <div id='input' class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['input']); ?></div>
       </div>
     </div>
   <?php }?>
-  <?php if($row['output']){ ?>
+  <?php if($row['output']||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Output?></h4>
-          <div class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['output']); ?></div>
+          <div id='output' class="ui bottom attached segment font-content"><?php echo bbcode_to_html($row['output']); ?></div>
         </div>
     </div>
   <?php }?>
@@ -159,7 +162,7 @@ div[class*=ace_br] {
     $soutput=str_replace("<","&lt;",$row['sample_output']);
     $soutput=str_replace(">","&gt;",$soutput);
   ?>
-  <?php if(strlen($sinput)>0 && $sinput!="\n"){ ?>
+  <?php if(strlen($sinput)>0 && $sinput!="\n"||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
@@ -168,12 +171,12 @@ div[class*=ace_br] {
           <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
             <!-- <pre><?php echo ($sinput); ?></pre> -->
-            <pre style="margin-top: 0; margin-bottom: 0; "><code class="lang-plain"><?php echo ($sinput); ?></code></pre>
+            <pre style="margin-top: 0; margin-bottom: 0; "><code id='sinput' class="lang-plain"><?php echo ($sinput); ?></code></pre>
           </div>
         </div>
     </div>
   <?php }?>
-  <?php if(strlen($soutput)>0 && $soutput!="\n"){ ?>
+  <?php if(strlen($soutput)>0 && $soutput!="\n"||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
@@ -182,17 +185,17 @@ div[class*=ace_br] {
           <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
             <!-- <div class="ui existing segment"> -->
-              <pre style="margin-top: 0; margin-bottom: 0; "><code class="lang-plain"><?php echo ($soutput); ?></code></pre>
+              <pre style="margin-top: 0; margin-bottom: 0; "><code id='soutput' class="lang-plain"><?php echo ($soutput); ?></code></pre>
             <!-- </div> -->
           </div>
         </div>
     </div>
   <?php }?>
-  <?php if($row['hint']){ ?>
+  <?php if($row['hint']||isset($_GET['spa'])){ ?>
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_HINT?></h4>
-          <div class="ui bottom attached segment font-content hint"><?php echo bbcode_to_html($row['hint']); ?></div>
+          <div id='hint' class="ui bottom attached segment font-content hint"><?php echo bbcode_to_html($row['hint']); ?></div>
         </div>
     </div>
   <?php }?>
@@ -547,7 +550,7 @@ function selectMulti( num, answer){
         $('input[type="radio"]').click(function(){
                 if ($(this).is(':checked'))
                    selectOne($(this).attr("name"),$(this).val());
-        });
+        }).css("width","24px").css("height","21px");
 	$('input[type="checkbox"]').click(function(){
                 let num=$(this).attr("name");
                 let answer="";
@@ -556,7 +559,7 @@ function selectMulti( num, answer){
                                 answer+=$(this).val();
                 });
                 selectMulti(num,answer);
-        });
+        }).css("width","24px").css("height","21px");
 	<?php if ($row['spj']>1 || isset($_GET['sid']) || (isset($OJ_AUTO_SHOW_OFF)&&$OJ_AUTO_SHOW_OFF)){?>
 	    transform();
 	<?php }?>

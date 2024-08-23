@@ -39,7 +39,7 @@ if (!$OJ_BENCHMARK_MODE) {
 
   if ($OJ_VCODE && ($_SESSION[$OJ_NAME.'_'."vcode"]==null || $vcode!=$_SESSION[$OJ_NAME.'_'."vcode"] || $vcode=="" || $vcode==null)) {
     $_SESSION[$OJ_NAME.'_'."vcode"] = null;
-    $err_str = $err_str.$MSG_VCODE_WRONG."\\n";
+    $err_str = $err_str.$MSG_VCODE_WRONG."\n";
     $err_cnt++;
     $view_errors = $err_str;
     $_SESSION[ $OJ_NAME . '_' . "vfail" ]=true;
@@ -201,8 +201,6 @@ if (isset($_POST['encoded_submit'])) {
 }
 
 $input_text = preg_replace("(\r\n)", "\n", $input_text);
-$source = $source;
-$input_text = $input_text;
 
 if ($test_run) {
   $id = -$id;
@@ -218,6 +216,14 @@ if($tempfile!=""){
 	}else{
 		$source="Main.sb3";
 	}
+}
+$origin_name=trim($_FILES ["answer"]['name']);
+$solution_file = "$OJ_DATA/$id/solution.name";
+if(file_exists($solution_file)){
+        $solution_name=trim(file_get_contents($solution_file));
+        if($origin_name!=$solution_name){
+                $source="file name not: $solution_name ";
+        }
 }
 
 $source_user = $source;
@@ -282,25 +288,31 @@ if (!$OJ_BENCHMARK_MODE) {
   $sql = "SELECT `in_date`,solution_id FROM `solution` WHERE `user_id`=? AND in_date>? ORDER BY `in_date` DESC LIMIT 1";
   $res = pdo_query($sql, $user_id, $now);
 
-  if (count($res)>=1) {
+  if (!empty($res)) {
     /*
     $view_errors = $MSG_BREAK_TIME."<br>";
     require "template/".$OJ_TEMPLATE."/error.php";
     exit(0);
        // 预防WAF抽风
     */
-	$statusURI = "status.php?user_id=".$_SESSION[$OJ_NAME.'_'.'user_id'];
-	if (isset($cid)) {
-		if(isset($_GET['spa'])) $statusURI .="&spa";
-		$statusURI .= "&cid=$cid&fixed=";
-	}
-	if (!$test_run) {
-		header("Location: $statusURI");
-	} else {
-		echo $res[0][1];
-	}
-	exit();
+        if(isset($_GET['ajax'])){
+                echo -1;
+        }else{
+                $statusURI = "status.php?user_id=".$_SESSION[$OJ_NAME.'_'.'user_id'];
+                if (isset($cid)) {
+                        if(isset($_GET['spa'])) $statusURI .="&spa";
+                        $statusURI .= "&cid=$cid&fixed=";
+                }
+                if (!$test_run) {
+                        header("Location: $statusURI");
+                } else {
+                        echo $res[0][1];
+                }
+        }
+        exit();
+
    }
+
 }
 
 if (~$OJ_LANGMASK&(1<<$language)) {

@@ -16,7 +16,7 @@ if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 		exit(0);
 	}
 }
-
+$langmask=$OJ_LANGMASK;
 $problem_id = 1000;
 if (isset($_GET['id'])) {
 	$id = intval($_GET['id']);
@@ -24,6 +24,7 @@ if (isset($_GET['id'])) {
 else if (isset($_GET['cid']) && isset($_GET['pid'])) {
 	$cid = intval($_GET['cid']);
 	$pid = intval($_GET['pid']);
+	require_once("contest-check.php");
 	$psql = "SELECT problem_id FROM contest_problem WHERE contest_id=? AND num=?";
 	$data = pdo_query($psql,$cid,$pid);
 	$row = $data[0];
@@ -135,8 +136,10 @@ if (isset($_GET['sid'])) {
                         $result = pdo_query($sql,$cid);
                         $row = $result[0];
 
-                        if ($row)
+                        if (count($row)>0){
                                 $_GET['langmask'] = $row['langmask'];
+				$langmask= $row['langmask'];
+			}
                 }
                 $sql="select language from solution where solution_id=?";
                 $result=pdo_query($sql,$sid);
@@ -155,7 +158,8 @@ if (isset($id))
 $view_sample_input = "1 2";
 $view_sample_output = "3";
 $spj=0;
-$sample_sql = "SELECT sample_input,sample_output,problem_id,spj FROM problem WHERE problem_id = ?";
+$sample_sql = "SELECT sample_input,sample_output,problem_id,spj,remote_oj FROM problem WHERE problem_id = ?";
+$remote_oj = "";
 if (isset($sample_sql)) {
 	//echo $sample_sql;
 	if (isset($_GET['id'])) {
@@ -175,7 +179,15 @@ if (isset($sample_sql)) {
 	$view_sample_output = $row['sample_output'];
 	$problem_id = $row['problem_id'];
 	$spj=$row['spj'];
+	$remote_oj= $row['remote_oj'];
 	if($spj>1) $OJ_ACE_EDITOR=false;
+}
+
+$solution_file = "$OJ_DATA/$problem_id/solution.name";
+if(file_exists($solution_file)){
+        $solution_name=file_get_contents($solution_file);
+}else{
+        $solution_name=false;
 }
 
   

@@ -1,4 +1,4 @@
-<?php $show_title="用户信息 - $OJ_NAME"; ?>
+<?php $show_title="$MSG_USERINFO - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 <style>
 #avatar_container:before {
@@ -131,8 +131,8 @@
                             <div class="ui bottom attached segment">
                                 <script language='javascript'>
                                     function p(id, c) {
-                                        if(c>0)document.write("<a href=problem.php?id=" + id + " class=\"ui green basic label\" id=\"show-problem-id\">" + id + " </a>");
-                                        else document.write("<a href=problem.php?id=" + id + " class=\"ui red basic label\" id=\"show-problem-id\">" + id + " </a>");
+                                        if(c>0)document.write("<a title=\"U've Passed!\" href=problem.php?id=" + id + " class=\"ui green basic label\" id=\"show-problem-id\">" + id + " </a>");
+                                        else document.write("<a title=\"U've Not Passed Yet!\" href=problem.php?id=" + id + " class=\"ui red basic label\" id=\"show-problem-id\">" + id + " </a>");
                                     }
 
                                     function ptot(len) {

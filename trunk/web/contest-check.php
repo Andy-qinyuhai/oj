@@ -2,6 +2,7 @@
   require_once("include/curl.php");
   $unixnow = time();
   $cid = intval($_GET['cid']);
+  if ($cid<0) $cid=-$cid;
         $view_cid = $cid;
         //print $cid;
         //check contest valid
@@ -47,6 +48,9 @@
 
                 if (isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']))
                         $contest_ok = true;
+          
+                if ($unixnow>$end_time) $contest_is_over=true;    // 已经结束的比赛，按练习方式提交
+                else $contest_is_over=false;
 
                 if (!isset($_SESSION[$OJ_NAME.'_'.'administrator']) && $unixnow<$start_time) {
                         $view_errors = "<center>";
@@ -62,14 +66,14 @@
                 }
         }
         if(!isset($OJ_CONTEST_LIMIT_KEYWORD)) $OJ_CONTEST_LIMIT_KEYWORD="限时";
-        if(str_contains($view_description,$OJ_CONTEST_LIMIT_KEYWORD)&&isset($_SESSION[$OJ_NAME."_user_id"])){
+        if($contest_ok && str_contains($view_description,$OJ_CONTEST_LIMIT_KEYWORD)&&isset($_SESSION[$OJ_NAME."_user_id"])){
                 echo "<!-- 个人限时赛  -->";
                 $contest_limit_minutes=intval(getPartByMark($view_description,$OJ_CONTEST_LIMIT_KEYWORD,"分钟"));  //允许比赛描述中用 "限时xx分钟" 规定个人做题时间。
                 if($contest_limit_minutes==0) $contest_limit_minutes=120;
                 echo "<!-- $contest_limit_minutes mins -->";
                 $user_id=$_SESSION[$OJ_NAME."_user_id"];
                 $first_login_contest=pdo_query("select time from loginlog where user_id=? and password=?",$user_id,"c".$cid);
-                if(is_array($first_login_contest)&&count($first_login_contest)==0){
+                if(empty($first_login_contest)){
                         echo "<!-- 首次访问  -->";
                                 $ip = ($_SERVER['REMOTE_ADDR']);
                                 if( isset($_SERVER['HTTP_X_FORWARDED_FOR'] )&&!empty( trim( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ){
@@ -81,7 +85,7 @@
                                     $tmp_ip=explode(',',$REMOTE_ADDR);
                                     $ip =(htmlentities($tmp_ip[0],ENT_QUOTES,"UTF-8"));
                                 }
-                                $sql="INSERT INTO `loginlog` VALUES(?,?,?,NOW())";
+                                $sql="INSERT INTO `loginlog`(user_id,password,ip,time) VALUES(?,?,?,NOW())";
                                 pdo_query($sql,$user_id,"c".$cid,$ip);
                          $first_login_contest=time();
                 }else{

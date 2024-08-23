@@ -1,9 +1,7 @@
 <?php
 ini_set("display_errors","Off");
-		header ( "content-type:   application/excel" );
-		
-?>
-<?php require_once("./include/db_info.inc.php");
+header ( "content-type:   application/excel" );
+require_once("./include/db_info.inc.php");
 global $mark_base,$mark_per_problem,$mark_per_punish;
  $mark_start=60;
  $mark_end=100;
@@ -132,9 +130,10 @@ if ($rows_cnt>0){
 	$start_time=strtotime($row[0]);
 	$title=$row[1];
 	$end_time=strtotime($row[2]);
-	
-	$ftitle=rawurlencode(preg_replace('/\.|\\\|\\/|\:|\*|\?|\"|\<|\>|\|/','',$title));
-	header ( "content-disposition:   attachment;   filename=contest".$cid."_".$ftitle.".xls" );
+        $ftitle=mb_substr($title,0,32);
+        $ftitle=rawurlencode(preg_replace('/\.|\\\|\\/|\:|\*|\?|\"|\<|\>|\|/','',str_replace(' ','',"C$cid-".$ftitle)).".xls");
+        header ( "Content-Disposition: attachment; filename*=utf-8''".$ftitle );
+
 }
 
 if ($start_time==0){
@@ -202,6 +201,14 @@ $U=array();
 }
 
 usort($U,"s_cmp");
+$absentList=pdo_query("select user_id,nick from users where user_id in (select user_id from privilege where rightstr='c$cid' and user_id not in (select distinct user_id from solution where contest_id=?))",$cid);
+foreach ($absentList as $row){
+         $U[$user_cnt]=new TM();
+         $U[$user_cnt]->user_id=$row['user_id'];
+         $U[$user_cnt]->nick=$row['nick'];
+         $user_cnt++;
+}
+
 $rank=1;
 //echo "<style> td{font-size:14} </style>";
 //echo "<title>Contest RankList -- $title</title>";

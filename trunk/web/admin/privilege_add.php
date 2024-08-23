@@ -32,7 +32,7 @@ if (isset($_POST['do'])) {
 	$link= 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['REQUEST_URI']);
         $msg = $_SESSION[$OJ_NAME.'_user_id']." $MSG_ADD $rightstr [$valuestr] $MSG_PRIVILEGE -> $user_id @  ".date('Y-m-d h:i:s a', time());
         $msg .="\n\nmessage from site: $link";
-        $rows = pdo_query($sql,$user_id,$rightstr,$valuestr);
+        if(!empty($user_id)) $rows = pdo_query($sql,$user_id,$rightstr,$valuestr);
         if ($OJ_ADMIN=="root@localhost"){
                 $sql="select email from users where user_id=? ";
                 $OJ_ADMIN=pdo_query($sql,$_SESSION[$OJ_NAME.'_user_id'])[0][0];
@@ -63,7 +63,7 @@ if (isset($_POST['do'])) {
 		<label class="col-sm-offset-3 col-sm-3 control-label"><?php echo $MSG_PRIVILEGE_TYPE?></label>
 		<select class="col-sm-3" name="rightstr" onchange="show_value_input(this.value)" >
 		<?php
-			$rightarray = array("administrator","problem_editor","source_browser","contest_creator","user_adder","http_judge","password_setter","printer","balloon","vip",'problem_start','problem_end');
+			$rightarray = array("administrator","problem_editor","problem_importer","source_browser","contest_creator","user_adder","http_judge","password_setter","printer","balloon","vip",'problem_start','problem_end');
 			while ($val=current($rightarray)) {
                                 $key=key($rightarray);
                                 if (isset($rightstr) && ($rightstr == $val)) {

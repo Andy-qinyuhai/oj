@@ -1,12 +1,25 @@
 <?php
 require_once(dirname(__FILE__)."/curl.php");
+require_once(dirname(__FILE__)."/const.inc.php");
+function has_bad_words($words){
+        global $bad_words;
+        foreach($bad_words as $bad){
+                if(stristr($words,$bad) === FALSE){
+                        continue;
+                }else{
+                       // echo $bad;
+                        return true;
+                }
+        }
+        return false;
+}
 function create_subdomain($user_id,$template="bs3",$friendly="0"){
         $user_id=strtolower($user_id);
         global $DB_NAME,$DB_USER,$DB_PASS,$DOMAIN;
         $NEW_USER="hustoj_".$user_id;
         $NEW_PASS=substr(pwGen($user_id),10);
         $FARMBASE="/home/saas";
-        $templates=array("bs3","mdui","bshark","sweet","syzoj","mario");
+        $templates=array("bs3","mdui","bshark","sweet","syzoj","sidebar");
         if(!in_array($template,$templates)) $template="bs3";
         pdo_query("create database `jol_$user_id`;\n");
         pdo_query("drop USER '$NEW_USER'@'localhost';");
@@ -26,6 +39,7 @@ function create_subdomain($user_id,$template="bs3",$friendly="0"){
         $CONF_STR.="\$OJ_JUDGE_HUB_PATH='$user_id';\n";  //:OJ在farmpath中的子目录名
         $CONF_STR.="\$OJ_LANGMASK=2097084;\n";  //:语言类型
         $CONF_STR.="\$OJ_TEMPLATE='$template';\n";  //:模板名
+        $CONF_STR.="\$OJ_REG_NEED_CONFIRM=false;\n";  //:允许注册
         $CONF_STR.="\$OJ_FRIENDLY_LEVEL=$friendly;\n";  //友善级别
 
         $CONF_FILE=realpath(dirname(__FILE__)."/../")."/SaaS/$user_id.".$DOMAIN.".php";

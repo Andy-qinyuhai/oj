@@ -2,7 +2,7 @@
 require_once ("admin-header.php");
 //require_once("../include/check_post_key.php");
 
-if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_problem_editor'])  )) {
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_problem_importer'])  )) {
   echo "<a href='../loginpage.php'>Please Login First!</a>";
   exit(1);
 }
@@ -13,6 +13,20 @@ if (isset($OJ_LANG)) {
 
 require_once ("../include/const.inc.php");
 require_once ("../include/problem.php");
+function replaceLT($string) {
+    // 正则表达式匹配两个美元符号包裹的内容
+    $pattern = '/(\$.*?)(<)(.*?\$)/';
+    // 替换小于号为\lt
+    $replacement = '$1 \\lt $3';
+
+    // 使用preg_replace进行替换
+    $ret= preg_replace($pattern, $replacement, $string);
+    if (strlen($string)==strlen($ret))
+    	return $ret;
+    else
+    	return preg_replace($pattern, $replacement, $ret);    //递归到不再发生变化
+}
+
 ?>
 
 <?php
@@ -126,6 +140,7 @@ else {
     $i = 1;
     $pid=$title=$description=$input=$output=$sample_input=$sample_output=$hint=$source=$spj="";
     $type="normal";
+    $inserted=array();
     while ($dir_resource = zip_read($resource)) {
       if (zip_entry_open($resource,$dir_resource)) {
         $file_name = $path.zip_entry_name($dir_resource);
@@ -140,16 +155,19 @@ else {
 			$title=$hydrop['title'];	
 			$source=implode(" ",$hydrop['tag']);	
 			echo "<hr>".htmlentities($file_name." $title $source");
+			if(!in_array($title,$inserted)){
+				$pid = addproblem($title,1,128, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
+                                mkdir($OJ_DATA."/$pid/");	
+				array_push($inserted,$title);
+			}
 		}else if(basename($file_name)=="problem_zh.md"||basename($file_name)=="problem.md"){
 			
 			$regex = '/<(?!div)/';
-			$file_content = preg_replace($regex, '＜',$file_content);
+		//	$file_content = preg_replace($regex, '＜',$file_content);
 			$regex = '/(?<!div)>\s?/';
-			$file_content = preg_replace($regex, '＞', $file_content);
-			//$file_content = str_replace("&", '＆', $file_content);
-//			if(strpos($file_content,"##")===false) 
-//				$description=$file_content;
-  //                      else 
+		//	$file_content = preg_replace($regex, '＞', $file_content);
+			$file_content = replaceLT( $file_content);
+			
 			if($type=="normal")$description="<span class=\"md\">".$file_content."</span>";
 			else $description="<span class=\"md auto_select\">".$file_content."</span>";
 			$description=preg_replace('/{{ select\(\d+\) }}/', "", $description); 
@@ -160,9 +178,10 @@ else {
 			}
 
 			//echo htmlentities("$description");
-			if(!hasProblem($title)){
+			if($title!="" && (!in_array($title,$inserted)) && !hasProblem($title)){
     				$pid = addproblem($title,1,128, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj, $OJ_DATA);
 				mkdir($OJ_DATA."/$pid/");
+				array_push($inserted,$title);
 			}else{
 				echo "skiped $title";
 				$pid=0;

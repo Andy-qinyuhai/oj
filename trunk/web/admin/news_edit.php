@@ -34,7 +34,8 @@ if(isset($_POST['news_id'])){
   $sql = "UPDATE `news` SET `title`=?,`time`=now(),`content`=?,user_id=?,`menu`=? WHERE `news_id`=?";
   //echo $sql;
   pdo_query($sql,$title,$content,$user_id,$menu,$news_id);
-
+  $sessionDataKey = $OJ_NAME.'_'."_MENU_NEWS_CACHE";
+  unset($_SESSION[$sessionDataKey]);
   header("location:news_list.php");
   exit();
 }else{
@@ -66,8 +67,7 @@ if(isset($_POST['news_id'])){
       </label>
     </p>
     <p align=left>
-      <textarea class=kindeditor name=content rows=41 >
-        <?php echo htmlentities($content,ENT_QUOTES,"UTF-8")?>
+      <textarea class=kindeditor name=content rows=41 ><?php echo htmlentities($content,ENT_QUOTES,"UTF-8")?>
       </textarea>
     </p>
     <?php require_once("../include/set_post_key.php");?>

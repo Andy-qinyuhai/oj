@@ -52,7 +52,7 @@
 				<?php
 				if ( $pr_flag ) {
 					echo "<title>$MSG_PROBLEM" . $row[ 'problem_id' ] . "--" . $row[ 'title' ] . "</title>";
-					echo "<center><h3>$id: " . $row[ 'title' ] . "</h3></center>";
+					echo "<center><h1>$id: " . $row[ 'title' ] . "</h1></center>";
 					echo "<div align=right><sub>[$MSG_Creator : <span id='creator'></span>]</sub></div>";
 				} else {
 					//$PID="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -65,14 +65,17 @@
 				echo "<span class=green>$MSG_Time_Limit : </span><span><span fd='time_limit' pid='".$row['problem_id']."'  >" . $row[ 'time_limit' ] . "</span></span> sec&nbsp;&nbsp;";
 				echo "<span class=green>$MSG_Memory_Limit : </span>" . $row[ 'memory_limit' ] . " MiB";
 
-				if ( $row[ 'spj' ] )echo "&nbsp;&nbsp;<span class=red>Special Judge</span>";
+				echo array($MSG_NJ,$MSG_SPJ,$MSG_RTJ)[$row['spj']] ; 
 				echo "<br><br>";
 					echo "<div class='btn-group' role='group'>";
         if($pr_flag){
 					echo "<a id='submit' class='btn btn-info btn-sm' href='submitpage.php?id=$id' role='button'>$MSG_SUBMIT</a>";
         }else{
-					echo "<a id='submit' class='btn btn-info btn-sm' href='submitpage.php?cid=$cid&pid=$pid&langmask=$langmask' role='button'>$MSG_SUBMIT</a>";
-  					echo "<a class='btn btn-primary btn-sm' role='button' href='contest.php?cid=$cid'>$MSG_PROBLEM$MSG_LIST</a>";
+	      if($contest_is_over)
+                       echo "<a id='submit' class='btn btn-info btn-sm' href='submitpage.php?id=$id' role='button'>$MSG_SUBMIT</a>";
+              else
+                       echo "<a id='submit' class='btn btn-info btn-sm' href='submitpage.php?cid=$cid&pid=$pid&langmask=$langmask' role='button'>$MSG_SUBMIT</a>";
+  	      echo "<a class='btn btn-primary btn-sm' role='button' href='contest.php?cid=$cid'>$MSG_PROBLEM$MSG_LIST</a>";
         }
 				if (isset($OJ_OI_MODE)&&$OJ_OI_MODE) {
 				} else {
@@ -111,7 +114,7 @@
 								<?php echo $MSG_Description?>
 							</h4>
 						</div>
-						<div class='panel-body content'>
+						<div id="description" class='panel-body content'>
 							<?php echo bbcode_to_html($row['description'])?>
 						</div>
 					</div>
@@ -124,7 +127,7 @@
 								<?php echo $MSG_Input?>
 							</h4>
 						</div>
-						<div class='panel-body content'>
+						<div id="input"  class='panel-body content'>
 							<?php echo bbcode_to_html($row['input'])?>
 						</div>
 					</div>
@@ -136,7 +139,7 @@
 								<?php echo $MSG_Output?>
 							</h4>
 						</div>
-						<div class='panel-body content'>
+						<div id="output"  class='panel-body content'>
 							<?php echo bbcode_to_html($row['output'])?>
 						</div>
 					</div>
@@ -154,7 +157,7 @@
 								<a href="javascript:CopyToClipboard($('#sampleinput').text())">Copy</a>
 							</h4>
 						</div>
-						<div class='panel-body'><pre class=content><span id="sampleinput" class=sampledata><?php echo $sinput?></span></pre>
+						<div class='panel-body'><pre  id="sinput" class=content><span id="sampleinput" class=sampledata><?php echo $sinput?></span></pre>
 						</div>
 					</div>
 					<?php }
@@ -167,7 +170,7 @@
 								<a href="javascript:CopyToClipboard($('#sampleoutput').text())">Copy</a>
 							</h4>
 						</div>
-						<div class='panel-body'><pre class=content><span id='sampleoutput' class=sampledata><?php echo $soutput?></span></pre>
+						<div class='panel-body'><pre  id="soutput" class=content ><span id='sampleoutput' class=sampledata><?php echo $soutput?></span></pre>
 						</div>
 					</div>
 					<?php }
@@ -179,7 +182,7 @@
 								<?php echo $MSG_HINT?>
 							</h4>
 						</div>
-						<div class='panel-body content hint'>
+						<div  id="hint" class='panel-body content hint'>
 							<?php echo bbcode_to_html($row['hint'])?>
 						</div>
 					</div>

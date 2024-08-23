@@ -1,4 +1,4 @@
-<?php $show_title="提交 - $OJ_NAME"; ?>
+<?php $show_title="$MSG_SUBMIT - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
 
   <style>
@@ -22,7 +22,7 @@
 
 <script src="<?php echo $OJ_CDN_URL?>include/checksource.js"></script>
 <form id=frmSolution action="submit.php<?php if (isset($_GET['spa'])) echo "?spa" ?>" method="post" onsubmit='do_submit()' enctype="multipart/form-data" >
-<?php if (!isset($_GET['spa'])) {?>
+<?php if (!isset($_GET['spa']) || $solution_name ) {?>
         <input type='file' name='answer' placeholder='Upload answer file' >
 <?php } ?>
 
@@ -42,9 +42,9 @@ Problem <span class=blue><b><?php echo chr($pid+ord('A'))?></b></span> of Contes
 <?php
 $lang_count=count($language_ext);
 if(isset($_GET['langmask']))
-$langmask=$_GET['langmask'];
-else
-$langmask=$OJ_LANGMASK;
+	$langmask=$_GET['langmask'];
+$langmask|=$OJ_LANGMASK;
+
 $lang=(~((int)$langmask))&((1<<($lang_count))-1);
 //$lastlang=$_COOKIE['lastlang'];
 //if($lastlang=="undefined") $lastlang=1;
@@ -58,7 +58,7 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 </select>
 <?php if($OJ_VCODE){?>
 <?php echo $MSG_VCODE?>:
-<input name="vcode" size=4 type=text><img id="vcode" alt="click to change" src="vcode.php" onclick="this.src='vcode.php?'+Math.random()">
+<input name="vcode" size=4 type=text autocomplete=off ><img id="vcode" alt="click to change" src="vcode.php" onclick="this.src='vcode.php?'+Math.random()">
 <?php }?>
 <button  id="Submit" type="button" class="ui primary icon button"  onclick="do_submit();"><?php echo $MSG_SUBMIT?></button>
 <?php if (isset($OJ_ENCODE_SUBMIT)&&$OJ_ENCODE_SUBMIT){?>
@@ -67,10 +67,10 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 <?php }?>
 <!--选择题状态-->
 <?php if ($spj>1 || !$OJ_TEST_RUN ){?>
-<span class="btn" id=result>状态</span>	
+<span class="btn" id=result><?php echo $MSG_STATUS?></span>	
 <?php }?>
 </span>
-<?php if($spj <= 1): ?>
+<?php if($spj <= 1 &&  !$solution_name){ ?>
     <button onclick="toggleTheme(event)" style="background-color: bisque; position: absolute; top: 5px; right:70px;" v-if="false">
         <i>🌗</i>
     </button>
@@ -80,23 +80,30 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
     <button onclick="decreaseFontSize(event)" style="background-color: bisque; position: absolute; top: 5px; right:10px;" v-if="false">
         <i>➖</i>
     </button>
-<?php endif; ?>
+<?php } ?>
 
-<?php if($OJ_ACE_EDITOR){ 
+<?php 
+        if(!$solution_name){
+                if($OJ_ACE_EDITOR){
+                        if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN)
+                                $height="400px";
+                        else
+                                $height="500px";
+                ?>
+                <pre style="width:90%;height:<?php echo $height?>" cols=180 rows=16 id="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></pre>
+                <input type=hidden id="hide_source" name="source" value=""/>
 
-			if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN) $height="400px";else $height="500px";
+        <?php }else{ ?>
+                <textarea style="width:80%;height:600" cols=180 rows=30 id="source" name="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></textarea>
+        <?php }
+
+        }else{
+                echo "<br><h2>指定上传文件：$solution_name</h2>";
+
+        }
+
 	?>
-		        	
-
-   
-	<pre style="width:90%;height:<?php echo $height?>" cols=180 rows=16 id="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></pre>
-	<input type=hidden id="hide_source" name="source" value=""/>
-
-<?php }else{ ?>
-	<textarea style="width:80%;height:600" cols=180 rows=30 id="source" name="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></textarea>
-<?php }?>
-
-        <style>
+<style>
             .button, input, optgroup, select, textarea {
     font-family: sans-serif;
     font-size: 150%;
@@ -107,7 +114,7 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
         </style>
          <div class="row">
             <div class="column" style="display: flex;">
-<?php if ( isset($OJ_TEST_RUN) && $OJ_TEST_RUN && $spj<=1 ){?>
+<?php if ( isset($OJ_TEST_RUN) && $OJ_TEST_RUN && $spj<=1 && !$solution_name  ){?>
 <div style="
    
      margin-left: 60px;
@@ -119,7 +126,7 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
    
     border-radius: 8px;
     
-    background-color: rgb(255,255,255,0.4);" id="language_span">输入</div>
+    background-color: rgb(255,255,255,0.4);" id="language_span"><?php echo $MSG_Input?></div>
          <textarea style="width:100%" cols=40 rows=5 id="input_text" name="input_text" ><?php echo $view_sample_input?></textarea>
     </div>
     <div style="
@@ -130,24 +137,23 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
          <div style="    display: flex;
    
     border-radius: 8px;
-    background-color: rgb(255,255,255,0.4);justify-content: space-between;" id="language_span">输出
+    background-color: rgb(255,255,255,0.4);justify-content: space-between;" id="language_span"><?php echo $MSG_Output ?>
     
-   <span class="btn" id=result>状态</span>	
+   <span class="btn" id=result><?php echo $MSG_STATUS?></span>	
     
     </div>
 
 
           <textarea style="
           width:100%;background-color: white;
-          " cols=10 rows=5 id="out" name="out" disabled="true" >SHOULD BE:</textarea>    
+          " cols=10 rows=5 id="out" name="out" disabled="true" placeholder='<?php echo htmlentities($view_sample_output,ENT_QUOTES,'UTF-8')?>' ></textarea>    
      </div>
 <?php } ?>
-<?php if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN){?>
+<?php if (isset($OJ_TEST_RUN)&&$OJ_TEST_RUN && $spj<=1 && !$solution_name  ){?>
         <!--运行按钮-->
             <input style="
-            margin-top: 30px;
-            margin-left: 10px;
-            
+             margin-top: 30px;
+            margin-left: 0 auto;
             width: 7%;background-color: #22ba46a3;border-color: #00fff470;height: 130px;
             " id="TestRun" class="btn btn-info" type=button value="<?php echo $MSG_TR?>" onclick=do_test_run();>
             
@@ -188,7 +194,14 @@ function fresh_result(solution_id)
 		if($("#vcode")!=null) $("#vcode").click();
 		return ;
 	}
-	sid=solution_id;
+	
+	sid=parseInt(solution_id);
+        if(sid<=0){
+                tb.innerHTML="<?php echo  str_replace("10",$OJ_SUBMIT_COOLDOWN_TIME,$MSG_BREAK_TIME) ?>";
+                if($("#vcode")!=null) $("#vcode").click();
+                return ;
+        }
+
 	var xmlhttp;
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -397,6 +410,10 @@ function loadFromBlockly(){
 }
 </script>
 <script language="Javascript" type="text/javascript" src="<?php echo $OJ_CDN_URL?>include/base64.js"></script>
+<?php if (!empty($remote_oj)){
+                echo "<iframe src=remote.php height=0px width=0px ></iframe>";
+      }
+?>
 <?php if($OJ_ACE_EDITOR){ ?>
 <script src="<?php echo $OJ_CDN_URL?>ace/ace.js"></script>
 <script src="<?php echo $OJ_CDN_URL?>ace/ext-language_tools.js"></script>
@@ -427,6 +444,7 @@ function loadFromBlockly(){
    }
    $(document).ready(function(){
    	$("#source").css("height",window.innerHeight-180);  
+	if($("#vcode")!=undefined) $("#vcode").click();
 	if(!!localStorage){
 		let key="<?php echo $_SESSION[$OJ_NAME.'_user_id']?>source:"+location.href;
 		let saved=localStorage.getItem(key);

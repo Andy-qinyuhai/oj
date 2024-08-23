@@ -17,9 +17,14 @@ alter table problem add column remote_id varchar(32) default NULL after remote_o
 alter table solution add column remote_oj char(16) not null default '' after judger;
 alter table solution add column remote_id char(32) not null default '' after remote_oj;
 alter table news modify content mediumtext not null;
-alter table problem modify description mediumtext not null, modify input  mediumtext not null, modify output mediumtext not null;
+alter table problem modify description mediumtext not null, modify input  mediumtext not null, modify output mediumtext not null, modify hint mediumtext not null;
 alter table users add column activecode varchar(16) not null default '' after school;
 alter table users add column group_name varchar(16) not null default '' after school;
+alter table loginlog add column log_id int not null auto_increment primary key first;
+alter table problem add index key_p_def(defunct);
+alter table contest add index key_c_def(defunct);
+alter table contest add index key_c_end(end_time);
+alter table contest add index key_c_dend(defunct,end_time);
 #create fulltext index problem_title_source_index on problem(title,source);
 
                                                                                                          

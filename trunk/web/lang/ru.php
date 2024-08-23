@@ -18,7 +18,7 @@
  $MSG_STATISTICS = " статистика ";
  $MSG_USERINFO = " Информация о пользователе ";
  $MSG_MAIL = " Короткое сообщение ";
- 
+ $MSG_TODO="ToDo";
  //status.php
  $MSG_Pending = " ожидание ";
  $MSG_Pending_Rejudging =" Ожидание повторного рассмотрения ";
@@ -220,7 +220,10 @@
  $MSG_Ended = " Завершено ";
  $MSG_Login =" Пожалуйста, войдите, чтобы продолжить ";
  $MSG_JUDGER = " Судебная машина ";
- 
+	$MSG_DOWNLOAD="Download";
+	$MSG_SHOW="Show";
+	$MSG_HIDE="Hide";
+
  $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM =" Во время экзамена вы не можете просматривать ранее отправленные коды. ";
  $MSG_BBS_NOT_ALLOWED_FOR_EXAM =" Во время экзамена дискуссионная доска отключена. ";
  $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM =" Во время экзамена запрещено изменять данные учетной записи. ";
@@ -291,6 +294,8 @@
  $MSG_HELP_SPJ =" Использование специальных судей, см. <a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>поиск специального судьи hustoj</ а> ";
  $MSG_HELP_BALLOON_SCHOOL = " Печать, поле School учетной записи балуна используется для фильтрации списка задач. Например, заполните zjicm, чтобы отобразить только задачи, номер учетной записи которых начинается с zjicm ";
  $MSG_HRLP_BACKUP_DATABASE =" Резервное копирование базы данных, тестовых данных и изображений в каталог с 0 вопросами ";
+ $MSG_HELP_LEFT_EMPTY="If you don't want to modify, please left this empty.";
+ $MSG_HELP_LOCAL_EMPTY="Left empty for local problem.";
  
  $MSG_WARNING_LOGIN_FROM_DIFF_IP =" войти с другого IP-адреса ";
  $MSG_WARNING_DURING_EXAM_NOT_ALLOWED =" Запрещено во время экзамена ";
@@ -450,6 +455,21 @@
  //sourcecompare.php
  $MSG_Source_Compare = " сравнение исходного кода ";
  $MSG_BACK = " Вернуться на предыдущую страницу ";
+	$MSG_NEXT_PAGE="Next Page";
+	$MSG_PREV_PAGE="Prev Page";
  	//email
 	$MSG_SYS_WARN="System Warning!";
 	$MSG_IS_ROBOT="could be a robot , verify and disable it !";
+//SaaS friendly
+ $MSG_TEMPLATE="Template";
+  $MSG_FRIENDLY_LEVEL="Friendly Level";
+  $MSG_FRIENDLY_L0="Not friendly at all";
+  $MSG_FRIENDLY_L1="Using UTC+8 TimeZone";
+  $MSG_FRIENDLY_L2="Using Chinese UI";
+  $MSG_FRIENDLY_L3="Show differ,No Verify Code";
+  $MSG_FRIENDLY_L4="Using mail,Code auto share";
+  $MSG_FRIENDLY_L5="Allow test running";
+  $MSG_FRIENDLY_L6="Keep long login";
+  $MSG_FRIENDLY_L7="Enable discus";
+  $MSG_FRIENDLY_L8="Allow download test data";
+  $MSG_FRIENDLY_L9="Allow guest to submit";

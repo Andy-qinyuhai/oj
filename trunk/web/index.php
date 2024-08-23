@@ -50,13 +50,15 @@ $view_news .= "</div>";
 $view_apc_info = "";
 $last_1000_id=0;
 $last_1000_id=pdo_query("select max(solution_id)-1000 from solution");
-if(is_array($last_1000_id))  $last_1000_id=$last_1000_id[0][0];
+if(!empty($last_1000_id))  $last_1000_id=$last_1000_id[0][0];
+if ($last_1000_id==NULL) $last_1000_id=0;
+
 
 $sql = "SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM (select * from solution where solution_id > $last_1000_id) solution  where result<13 and solution_id > $last_1000_id group by md order by md desc limit 200";
 $result = mysql_query_cache( $sql ); //mysql_escape_string($sql));
 $chart_data_all = array();
 //echo $sql;
-if(is_array($result))
+if(!empty($result))
 foreach ( $result as $row ) {
         array_push( $chart_data_all, array( $row[ 'md' ], $row[ 'c' ] ) );
 }
@@ -65,7 +67,7 @@ $sql = "SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM  (select * 
 $result = mysql_query_cache( $sql ); //mysql_escape_string($sql));
 $chart_data_ac = array();
 //echo $sql;
-if(is_array($result))
+if(!empty($result))
 foreach ( $result as $row ) {
         array_push( $chart_data_ac, array( $row[ 'md' ], $row[ 'c' ] ) );
 }

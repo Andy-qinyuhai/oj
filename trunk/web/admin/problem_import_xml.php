@@ -134,14 +134,14 @@ function get_extension($file) {
 }
 
 function import_fps($tempfile) {
-  global $OJ_DATA,$OJ_SAE,$OJ_REDIS,$OJ_REDISSERVER,$OJ_REDISPORT,$OJ_REDISQNAME,$domain,$DOMAIN;
+  global $OJ_DATA,$OJ_SAE,$OJ_REDIS,$OJ_REDISSERVER,$OJ_REDISPORT,$OJ_REDISQNAME,$domain,$DOMAIN,$OJ_NAME;
   $xmlDoc = simplexml_load_file($tempfile, 'SimpleXMLElement', LIBXML_PARSEHUGE);
   $searchNodes = $xmlDoc->xpath("/fps/item");
   $spid = 0;
   
   foreach ($searchNodes as $searchNode) {
     //echo $searchNode->title,"\n";
-    set_time_limit(60);
+    //set_time_limit(60);
     $title = $searchNode->title;
 
     $time_limit = $searchNode->time_limit;
@@ -174,6 +174,7 @@ function import_fps($tempfile) {
     $tpjcode = getValue ($searchNode,'tpj');
     if($tpjcode) $tpjlang=getAttribute($searchNode,'tpj','language');
     $spj = trim($spjcode.$tpjcode)?1:0;
+    if($spjlang=="Text") $spj=2;
     if(hasRemoteProblem($remote_oj,$remote_id)){
    	$sql="update problem set title=?,time_limit=?,memory_limit=?,description=?,input=?,output=?,sample_input=?,sample_output=?,hint=?,source=?,spj=? where remote_oj=? and remote_id=?";
         pdo_query($sql,$title, $time_limit, $memory_limit, $description, $input, $output, $sample_input, $sample_output, $hint, $source, $spj,$remote_oj,$remote_id);	
@@ -193,6 +194,9 @@ function import_fps($tempfile) {
       }
       if ($spid==0)
       	$spid = $pid;
+      $sql = "INSERT INTO `privilege` (`user_id`,`rightstr`) VALUES(?,?)";
+      pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'], "p$pid");
+      $_SESSION[$OJ_NAME.'_'."p$pid"] = true;
 
       $basedir = "$OJ_DATA/$pid";
       mkdir($basedir);
@@ -281,7 +285,7 @@ function import_fps($tempfile) {
       }
 
       if (!isset($OJ_SAE) || !$OJ_SAE) {
-        if ($spj) {
+        if ($spj==1) {
 		if($spjcode){
 		  if($spjlang=="C++"){
 			  $basedir = "$OJ_DATA/$pid";

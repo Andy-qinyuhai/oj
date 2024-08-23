@@ -18,7 +18,7 @@
 	$MSG_STATISTICS="سىتاتىستىكا";
 	$MSG_USERINFO="ئابونىت ئۇچۇرى";
 	$MSG_MAIL="ئېلخەت";
-
+        $MSG_TODO="ToDo";
 	//status.php
 	$MSG_Pending="كۈتۈۋاتىدۇ...";
 	$MSG_Pending_Rejudging="قايتا تەكشۈرۈشنى كۈتۈۋاتىدۇ...";
@@ -223,6 +223,10 @@ $MSG_ABSENT="Absent";
   $MSG_Login=" ئالدى بىلەن تىزىملاڭ ";
   $MSG_JUDGER=" تەكشۈرگۈچ ";
 
+  $MSG_DOWNLOAD="Download";
+  $MSG_SHOW="Show";
+  $MSG_HIDE="Hide";
+
   $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="سىناق مەزگىلىدە ئىلگىرىكى كودلارنى كۆرەلمەيسىز";
   $MSG_BBS_NOT_ALLOWED_FOR_EXAM="ئىمتاھان مەزگىلىدە مۇنازىرىلىشىشكە بولمايدۇ";
   $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM="ئىمتاھان مەزگىلىدە ئابۇنىت ئۇچۇرىنى ئۆزگەرتىشكە بولمايدۇ";
@@ -290,7 +294,9 @@ $MSG_ABSENT="Absent";
 	$MSG_HELP_HUSTOJ="<sub><a target='_blank' href='https://github.com/zhblue/hustoj'><span class='glyphicon glyphicon-heart' aria-hidden='true'></span> Please give us a <span class='glyphicon glyphicon-star' aria-hidden='true'></span>Star @HUSTOJ Github!</a></sub>";
   $MSG_HELP_SPJ="<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>ئىزدەڭ hustoj special judge</a>تېخىمۇ كۆپ تەپسىلات ";
   $MSG_HELP_BALLOON_SCHOOL="پىرىنتېر ۋە شار ئۈچۈن مەكتەپ نامى سۈزۈۋىتىلىدۇ";
-
+  $MSG_HELP_LEFT_EMPTY="If you don't want to modify, please left this empty.";
+  $MSG_HELP_LOCAL_EMPTY="Left empty for local problem.";
+ 
   $MSG_WARNING_LOGIN_FROM_DIFF_IP="ئادىرىستىن تىزىملاپ كىرىشip ئوخشىمىغان";
   $MSG_WARNING_DURING_EXAM_NOT_ALLOWED=" ئىمتاھان ۋاقتىدا رۇخسەت يوق  ";
   $MSG_WARNING_ACCESS_DENIED="كەچۈرۈڭ، سىز بۇ خەۋەرنى تەكشۈرۈشكە ئامالسىز. چۈنكى ئۇ سىزگە تەۋە ئەمەس، ياكى باشقۇرغۇچى سېستىما ھالىتىنى بەلگىلەپ بۇ تۈردىكى ئۇچۇرلارنى كۆرسەتمەيدۇ.";
@@ -448,6 +454,21 @@ $MSG_ABSENT="Absent";
 	// sourcecompare.php
 	$MSG_Source_Compare="Source Code Comparation";
 	$MSG_BACK="Return to Last Page";
+	$MSG_NEXT_PAGE="Next Page";
+	$MSG_PREV_PAGE="Prev Page";
  	//email
 	$MSG_SYS_WARN="System Warning!";
 	$MSG_IS_ROBOT="could be a robot , verify and disable it !";
+//SaaS friendly
+ $MSG_TEMPLATE="Template";
+  $MSG_FRIENDLY_LEVEL="Friendly Level";
+  $MSG_FRIENDLY_L0="Not friendly at all";
+  $MSG_FRIENDLY_L1="Using UTC+8 TimeZone";
+  $MSG_FRIENDLY_L2="Using Chinese UI";
+  $MSG_FRIENDLY_L3="Show differ,No Verify Code";
+  $MSG_FRIENDLY_L4="Using mail,Code auto share";
+  $MSG_FRIENDLY_L5="Allow test running";
+  $MSG_FRIENDLY_L6="Keep long login";
+  $MSG_FRIENDLY_L7="Enable discus";
+  $MSG_FRIENDLY_L8="Allow download test data";
+  $MSG_FRIENDLY_L9="Allow guest to submit";

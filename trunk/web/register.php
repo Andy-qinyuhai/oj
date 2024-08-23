@@ -41,6 +41,20 @@ if ($len>20){
 	$err_str=$err_str."Nick Name Too Long!\\n";
 	$err_cnt++;
 }else if ($len==0) $nick=$user_id;
+
+if(has_bad_words($user_id)){
+        $err_str=$err_str.$MSG_USER_ID." Too Bad!\\n";
+        $err_cnt++;
+}
+if(has_bad_words($school)){
+        $err_str=$err_str.$MSG_SCHOOL." Too Bad!\\n";
+        $err_cnt++;
+}
+if(has_bad_words($nick)){
+        $err_str=$err_str.$MSG_NICK." Too Bad!\\n";
+        $err_cnt++;
+}
+
 if (strcmp($_POST['password'],$_POST['rptpassword'])!=0){
 	$err_str=$err_str."$MSG_WARNING_REPEAT_PASSWORD_DIFF!\\n";
 	$err_cnt++;
@@ -136,7 +150,7 @@ if (isset($OJ_EMAIL_CONFIRM) && $OJ_EMAIL_CONFIRM ) {
         require("template/".$OJ_TEMPLATE."/error.php");
 	exit(0);
 }
-$sql="INSERT INTO `loginlog` VALUES(?,?,?,NOW())";
+$sql="INSERT INTO `loginlog`(user_id,password,ip,time) VALUES(?,?,?,NOW())";
 pdo_query($sql,$user_id,"no save",$ip);
 
 if(!isset($OJ_REG_NEED_CONFIRM)||!$OJ_REG_NEED_CONFIRM){

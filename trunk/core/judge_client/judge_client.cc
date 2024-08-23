@@ -2663,16 +2663,17 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, float *total_
         size_t ans_length=4095;
         float m[total+1];
         char * ans[total+1];
-	*total_mark=0;
+        *total_mark=0;
         for(int i=1;i<=total;i++){
                 ans[i]=(char *)malloc(4096);
                 if(fscanf(out,"%d",&num)!=1) return -2;
                 if(i==num){
                         if(fscanf(out,"%*[^\[][%f]",&m[num])!=1) return -3;
-			*total_mark+=m[num];
+                        *total_mark+=m[num];
                         ans_length=getline(&ans[i],&ans_length,out);
                         for(int j=ans_length-1;'\n'==ans[i][j]||'\r'==ans[i][j];j--){
                                 ans[i][j]='\0';
+                                trim(ans[i]);
                         }
                 }else{
                 }
@@ -2686,12 +2687,13 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, float *total_
                 int j=0;
                 for(j=user_length-1;'\n'==user_answer[j]||'\r'==user_answer[j];j--){
                         user_answer[j]='\0';
+                        trim(user_answer);
                 }
                 if(num>0&&num<=total){
-                        if(strcasecmp(ans[num],user_answer)==0 || strcasecmp(ans[num],"*")==0){
+                        if(strcasecmp(ans[num],user_answer)==0 || strcasecmp(ans[num],"*")==0 || strcasecmp(ans[num]," *")==0){
                                 mark+=m[num];
                         }else{
-                              if(raw_text_diff) fprintf(df,"%d:%s[%s] -%.1f\n",i,ans[i],user_answer,m[i]);
+                              if(raw_text_diff) fprintf(df,"%d Answer:%s[You:%s] -%.1f\n",i,ans[i],user_answer,m[i]);
                         }
                         m[num]=0;
                 }
@@ -3007,7 +3009,7 @@ void watch_solution(pid_t pidApp, char *infile, int &ACflg, int spj,
 					ACflg = OJ_RE;
 				}
 				print_runtimeerror(infile+prelen,strsignal(exitcode));
-				sprintf(buf,"adding: ' white_code[%d]=1; ' after judge_client:2836 for ",exitcode);
+				sprintf(buf,"if you can confirm the code is right and your system is somehow different from others , try adding: ' white_code[%d]=1; ' after judge_client:2888 for it, but don't panic just for a Segmentfault. ",exitcode);
                                 print_runtimeerror(buf,strsignal(exitcode));
 
 			}

@@ -2,7 +2,20 @@
 require_once(dirname(__FILE__)."/pdo.php");
 require_once(dirname(__FILE__)."/memcache.php");
 
+//自动切换夜间模式
 //if(date('H')<5||date('H')>21||isset($_GET['dark'])) $OJ_CSS="dark.css";
+
+//允许用参数tp临时切换皮肤
+/*
+if(in_array($_GET['tp'],$OJ_TP)){
+    $OJ_TEMPLATE=$_GET['tp'];
+    setcookie("tp", $_GET['tp'], time()+3600);
+}else if (in_array($_COOKIE['tp'],$OJ_TP)){
+    $OJ_TEMPLATE=$_COOKIE['tp'];
+}
+*/
+
+//自动识别语言
 if (isset($_SESSION[$OJ_NAME . '_' . 'OJ_LANG'])) {
 	$OJ_LANG=$_SESSION[$OJ_NAME . '_' . 'OJ_LANG'];
 } else if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array("cn", "ug", "en", 'fa', 'ko', 'th'))) {
@@ -109,10 +122,10 @@ switch($OJ_FRIENDLY_LEVEL) {
 	case 2:
 	   $OJ_LANG="cn";
 	case 1:
-	   date_default_timezone_set("PRC");
+	   date_default_timezone_set("Asia/Shanghai");
 	   pdo_query("SET time_zone ='+8:00'");
 }
-
+if(!isset($OJ_SUBMIT_COOLDOWN_TIME)) $OJ_SUBMIT_COOLDOWN_TIME=3;
 // if using EXAM or ON site auto turn off free practice
 if(isset($OJ_ON_SITE_CONTEST_ID) || isset($OJ_EXAM_CONTEST_ID)) $OJ_FREE_PRACTICE=false;
 
@@ -152,4 +165,6 @@ if(isset($OJ_BG)&&$OJ_BG=="bing"){
    }
 
 }
-
+if (!empty($OJ_CDN_URL)) {
+        header('Access-Control-Allow-Origin:'.$OJ_CDN_URL);
+}

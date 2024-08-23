@@ -42,7 +42,7 @@ if($flag&&!isset($_SESSION[$OJ_NAME.'_'.'administrator'])) // administrator need
 }
 
 $view_title=$user ."@".$OJ_NAME;
-if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))
+if(isset($_SESSION[$OJ_NAME.'_'.'administrator']) || (isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $_SESSION[$OJ_NAME.'_'.'user_id']==$user) )
     $sql="SELECT `school`,`email`,`nick` FROM `users` WHERE `user_id`=? ";
 else 
     $sql="SELECT `school`,`email`,`nick` FROM `users` WHERE `user_id`=? and user_id not in ($OJ_RANK_HIDDEN) ";
@@ -79,10 +79,10 @@ $result=pdo_query($sql,$AC);
 $row=$result[0];
 $Rank=intval($row[0])+1;
 
- if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
-$sql="SELECT user_id,password,ip,`time` FROM `loginlog` WHERE `user_id`=? order by `time` desc LIMIT 0,10";
-$view_userinfo=pdo_query($sql,$user) ;
-echo "</table>";
+if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
+	$sql="SELECT user_id,password,ip,`time` FROM `loginlog` WHERE `user_id`=? order by `time` desc LIMIT 0,10";
+	$view_userinfo=pdo_query($sql,$user) ;
+//echo "</table>";
 
 }
 $sql="SELECT result,count(1) FROM solution WHERE `user_id`=? AND result>=4 group by result order by result";

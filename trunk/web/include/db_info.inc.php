@@ -5,7 +5,8 @@
 
 date_default_timezone_set('Asia/Shanghai');//'Asia/Shanghai' 亚洲/上海
 //for people using hustoj out of China , try using translator program with the comments
-// 本文件是系统配置文件，全局包含，修改时请慎重保存，千万不要少分号，少引号，出现语法错误可导致全站无法打开。若遇到此种情况，可以备份后删除本文件，用/home/judge/src/install/fixing.sh脚本修复生成。
+// 本文件是系统配置文件，全局包含，修改时请慎重保存，千万不要少分号，少引号，出现语法错误可导致全站无法打开。
+// 若遇到此种情况，可以备份后删除本文件，用/home/judge/src/install/fixing.sh脚本修复生成。
 // connect db 
 static 	$DB_HOST="localhost";  //数据库服务器ip或域名
 static 	$DB_NAME="jol";   //数据库名
@@ -28,7 +29,7 @@ static  $OJ_AUTO_SHARE=true; //true: 设为true则通过的题目可在统计页
 static  $OJ_CSS="white.css";  // bing.css | kawai.css | black.css | blue.css | green.css | hznu.css
 static  $OJ_SAE=false; //使用新浪引擎
 static  $OJ_VCODE=false;  //验证码
-static 	$OJ_REG_SPEED=0 ; //限制每小时同ip注册个数，0不限制
+static 	$OJ_REG_SPEED=60 ; //限制每小时同ip注册个数，0不限制
 static  $OJ_APPENDCODE=true;  // 代码预定模板
 if (!$OJ_APPENDCODE) 	ini_set("session.cookie_httponly", 1);   // APPENDCODE模式需要允许javascript操作cookie保存当前语言。
 @session_start();
@@ -48,7 +49,7 @@ static  $OJ_REDISSERVER="127.0.0.1";
 static  $OJ_REDISPORT=6379;
 static  $OJ_REDISQNAME="hustoj";
 static  $SAE_STORAGE_ROOT="http://hustoj-web.stor.sinaapp.com/";  //新浪云存储引擎
-static  $OJ_CDN_URL="";  // 如果服务器带宽较小，可选用他人同版本的OJ作为静态资源来源 http://cdn.hustoj.com/ 
+static  $OJ_CDN_URL="";  // 如果服务器带宽较小，可选用他人同版本的OJ作为静态资源来源 http://cdn.m.hustoj.com:8090/ 
 static  $OJ_TEMPLATE="syzoj"; //使用的默认模板,template目录下的每个子目录都是一个模板, [bs3 mdui sweet syzoj mario bshark] work with discuss3
 static 	$OJ_BG="/image/background.jpg";  //双引号里面填写背景图片的url。
 // $OJ_BG="/image/bing".date('H').".jpg";  //每个整点更换壁纸，例如准备bing[00~23].jpg在image目录。
@@ -74,7 +75,7 @@ static  $OJ_BLOCKLY=false; //是否启用Blockly界面 , remember to execute `wg
 static  $OJ_ENCODE_SUBMIT=false; //是否启用base64编码提交的功能，用来回避WAF防火墙误拦截。
 static  $OJ_OI_1_SOLUTION_ONLY=false; //比赛是否采用noip中的仅保留最后一次提交的规则。true则在新提交发生时，将本场比赛该题老的提交删除。
 static  $OJ_OI_MODE=true; //是否开启OI比赛模式，禁用排名、状态、统计、用户信息、内邮、论坛等。
-static  $OJ_BENCHMARK_MODE=false; //此选项将影响代码提交，不再有提交间隔限制，提交后会返回solution id
+static  $OJ_BENCHMARK_MODE=false; //此选项仅供测试用，不是正常功能，将影响代码提交，不确定请不要使用，修改提交间隔限制去设后面的OJ_SUBMIT_COOLDOWN_TIME
 static  $OJ_CONTEST_RANK_FIX_HEADER=false; //比赛排名水平滚动时固定名单
 static  $OJ_NOIP_KEYWORD="模拟";  // 标题包含此关键词，激活noip模式，赛中不显示结果，仅保留最后一次提交。
 static  $OJ_NOIP_TISHI=true;  //noip比赛中 设置为true则在noip比赛中显示题目提示，false不显示提示
@@ -94,7 +95,7 @@ static  $OJ_REMOTE_JUDGE=false; //是否启用Remote Judge ，启用哪些模块
 static  $OJ_NO_CONTEST_WATCHER=false ; //是否禁止无权限用户观战私有比赛
 static  $OJ_CONTEST_TOTAL_100=false; //是否让比赛按100分计分
 static  $OJ_OLD_FASHINED=false; //是否在状态页的编辑按钮、管理页的预览模式等方面保留原始版本的习惯。
-static  $OJ_AI_HTML=false; // 若想开启AI链接，可设为 '<a class="desktop-only item active" target="_blank" href="http://ai.hustoj.com"><i class="help icon"></i> 问问狗蛋</a>'
+static  $OJ_AI_HTML=false; // 若想开启AI链接，可设为 '<a class="desktop-only item active" target="_blank" href="http://ai.hustoj.com"><i class="help icon"></i> 问问狗蛋</a>';
 static  $OJ_PUBLIC_STATUS=true; //是否公开所有人的判题结果,设为false则除source_browser外，其他人只能看到自己提交的记录。
 //static  $OJ_EXAM_CONTEST_ID=1000; // 启用考试状态，填写考试比赛ID
 //static  $OJ_ON_SITE_CONTEST_ID=1000; //启用现场赛状态，填写现场赛比赛ID

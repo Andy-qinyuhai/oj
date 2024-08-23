@@ -2,8 +2,8 @@
 
 #detect and refuse to run under WSL
 if [ -d /mnt/c ]; then
-    echo "WSL is NOT supported."
-    exit 1
+    echo "WSL is NOT recommended."
+#    exit 1
 fi
 MEM=`free -m|grep Mem|awk '{print $2}'`
 
@@ -18,8 +18,8 @@ if [ "$MEM" -lt "1000" ] ; then
                 swapon /swap
                 echo "/swap none swap defaults 0 0 " >> /etc/fstab 
                 /etc/init.d/multipath-tools stop
-                screen -d -m watch pkill -9 snapd
-                screen -d -m watch pkill -9 ds-identify
+                pkill -9 snapd
+                pkill -9 ds-identify
          fi
 else
         echo "Memory size : $MEM MB"
@@ -145,6 +145,7 @@ if grep "added by hustoj" /etc/nginx/sites-enabled/default ; then
         echo "default site modified!"
 else
         echo "modify the default site"
+        sed -i "s#listen 80 default_server;#listen 80 default_server backlog=4096;#g" /etc/nginx/sites-enabled/default
         sed -i "s#root /var/www/html;#root /home/judge/src/web;#g" /etc/nginx/sites-enabled/default
         sed -i "s:index index.html:index index.php:g" /etc/nginx/sites-enabled/default
         sed -i "s:#location ~ \\\.php\\$:location ~ \\\.php\\$:g" /etc/nginx/sites-enabled/default
@@ -158,6 +159,11 @@ fi
 /etc/init.d/nginx restart
 sed -i "s/post_max_size = 8M/post_max_size = 500M/g" /etc/php/$PHP_VER/fpm/php.ini
 sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 500M/g" /etc/php/$PHP_VER/fpm/php.ini
+if grep 'date.timezone = PRC' /etc/php/$PHP_VER/fpm/php.ini ; then
+    echo "date.timezone = PRC is already set ... "
+else
+    sed -i 's/;date.timezone =/date.timezone = PRC/' /etc/php/$PHP_VER/fpm/php.ini 
+fi
 if grep "opcache.jit_buffer_size" /etc/php/$PHP_VER/fpm/php.ini ; then
     echo "opcache for jit is already enabled ... "
 else
@@ -166,6 +172,7 @@ fi
 WWW_CONF=$(find /etc/php -name www.conf)
 sed -i 's/;request_terminate_timeout = 0/request_terminate_timeout = 128/g' "$WWW_CONF"
 sed -i 's/pm.max_children = 5/pm.max_children = 600/g' "$WWW_CONF"
+sed -i 's/;listen.backlog = 511/listen.backlog = 4096/g' "$WWW_CONF"
 
 COMPENSATION=$(grep 'mips' /proc/cpuinfo|head -1|awk -F: '{printf("%.2f",$2/3000)}')
 sed -i "s/OJ_CPU_COMPENSATION=1.0/OJ_CPU_COMPENSATION=$COMPENSATION/g" etc/judge.conf

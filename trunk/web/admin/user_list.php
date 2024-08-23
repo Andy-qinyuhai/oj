@@ -1,50 +1,42 @@
 <?php
 require("admin-header.php");
 require_once("../include/set_get_key.php");
-
 if(!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'password_setter']))){
   echo "<a href='../loginpage.php'>Please Login First!</a>";
   exit(1);
 }
-
 if(isset($OJ_LANG)){
   require_once("../lang/$OJ_LANG.php");
 }
 ?>
-
 <title>User List</title>
 <hr>
 <center><h3><?php echo $MSG_USER."-".$MSG_LIST?></h3></center>
-
 <div class='container'>
-
 <?php
 $sql = "SELECT COUNT('user_id') AS ids FROM `users`";
 $result = pdo_query($sql);
 $row = $result[0];
-
 $ids = intval($row['ids']);
-
 $idsperpage = 25;
 $pages = intval(ceil($ids/$idsperpage));
-
-if(isset($_GET['page'])){ $page = intval($_GET['page']);}
-else{ $page = 1;}
-
+if(isset($_GET['page'])){ 
+  $page = intval($_GET['page']);
+}else{ 
+  $page = 1;
+}
 $pagesperframe = 5;
 $frame = intval(ceil($page/$pagesperframe));
-
 $spage = ($frame-1)*$pagesperframe+1;
 $epage = min($spage+$pagesperframe-1, $pages);
-
 $sid = ($page-1)*$idsperpage;
-
 $sql = "";
+$gkeyword="";
 if(isset($_GET['keyword']) && $_GET['keyword']!=""){
-  $keyword = $_GET['keyword'];
-  $keyword = "%$keyword%";
-  $sql = "SELECT `user_id`,`nick`,email,`accesstime`,`reg_time`,`ip`,`school`,`group_name`,`defunct` FROM `users` WHERE (user_id LIKE ?) OR (nick LIKE ?) OR (school LIKE ?) ORDER BY `user_id` DESC";
-  $result = pdo_query($sql,$keyword,$keyword,$keyword);
+  $gkeyword = $_GET['keyword'];
+  $keyword = "%$gkeyword%";
+  $sql = "SELECT `user_id`,`nick`,email,`accesstime`,`reg_time`,`ip`,`school`,`group_name`,`defunct` FROM `users` WHERE (user_id LIKE ?) OR (nick LIKE ?) OR (school LIKE ?) or (ip like ?) ORDER BY `user_id` DESC";
+  $result = pdo_query($sql,$keyword,$keyword,$keyword,$keyword);
 }else{
   $sql = "SELECT `user_id`,`nick`,email,`accesstime`,`reg_time`,`ip`,`school`,`group_name`,`defunct` FROM `users` ORDER BY `accesstime` DESC LIMIT $sid, $idsperpage";
   $result = pdo_query($sql);
@@ -53,7 +45,7 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
 
 <center>
 <form action=user_list.php class="form-search form-inline">
-  <input type="text" name=keyword class="form-control search-query" placeholder="<?php echo $MSG_USER_ID.', '.$MSG_NICK.', '.$MSG_SCHOOL?>">
+  <input type="text" name="keyword"  value="<?php echo htmlentities($gkeyword,ENT_QUOTES) ?>"  class="form-control search-query" placeholder="<?php echo $MSG_USER_ID.', '.$MSG_NICK.', '.$MSG_SCHOOL?>">
   <button type="submit" class="form-control"><?php echo $MSG_SEARCH?></button>
 </form>
 </center>
@@ -63,6 +55,7 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
     <tr>
     <td><?php echo $MSG_USER_ID?></td>
       <td><?php echo $MSG_NICK?></td>
+      <td>IP</td>
       <td><?php echo $MSG_EMAIL?></td>
       <td><?php echo $MSG_SCHOOL?></td>
       <td><?php echo $MSG_GROUP_NAME?></td>
@@ -77,6 +70,7 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
       echo "<tr>";
         echo "<td><a href='../userinfo.php?user=".$row['user_id']."'>".$row['user_id']."</a></td>";
         echo "<td><span fd='nick' user_id='".$row['user_id']."'>".$row['nick']."</span></td>";
+        echo "<td><a href='user_list.php?keyword=".htmlentities(urlencode($row['ip']))."' >".$row['ip']."</td>";
         if($OJ_SaaS_ENABLE && $domain == $DOMAIN){
                 echo "<td><a href='http://".$row['user_id'].".$DOMAIN' target=_blank >".$row['email']."&nbsp;</a></td>";
         }else{

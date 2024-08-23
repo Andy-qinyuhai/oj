@@ -122,7 +122,7 @@ switch($OJ_FRIENDLY_LEVEL) {
 	case 2:
 	   $OJ_LANG="cn";
 	case 1:
-	   date_default_timezone_set("PRC");
+	   date_default_timezone_set("Asia/Shanghai");
 	   pdo_query("SET time_zone ='+8:00'");
 }
 if(!isset($OJ_SUBMIT_COOLDOWN_TIME)) $OJ_SUBMIT_COOLDOWN_TIME=3;
@@ -165,4 +165,6 @@ if(isset($OJ_BG)&&$OJ_BG=="bing"){
    }
 
 }
-
+if (!empty($OJ_CDN_URL)) {
+        header('Access-Control-Allow-Origin:'.$OJ_CDN_URL);
+}

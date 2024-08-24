@@ -43,15 +43,15 @@
         </p>
         <p align=left>
           <?php echo "<h4>".$MSG_Description."(<64kB)</h4>"?>
-	  <textarea class="kindeditor" rows=13 name=description cols=80><span style="font-size:18px;"></span></textarea><br>
+	  <textarea class="kindeditor" rows=13 name=description cols=80></textarea><br>
         </p>
         <p align=left>
           <?php echo "<h4>".$MSG_Input."(<64kB)</h4>"?>
-          <textarea class="kindeditor" rows=13 name=input cols=80><span style="font-size:18px;"></span></textarea><br>
+          <textarea class="kindeditor" rows=13 name=input cols=80></textarea><br>
         </p>
         <p align=left>
           <?php echo "<h4>".$MSG_Output."(<64kB)</h4>"?>
-          <textarea  class="kindeditor" rows=13 name=output cols=80><span style="font-size:18px;"></span></textarea><br>
+          <textarea  class="kindeditor" rows=13 name=output cols=80></textarea><br>
         </p>
         <p align=left>
           <?php echo "<h4>".$MSG_Sample_Input."(<64kB)</h4>"?>
@@ -81,7 +81,7 @@
         </p>
         <p align=left>
           <?php echo "<h4>".$MSG_HINT."(<64kB)</h4>"?>
-          <textarea class="kindeditor" rows=13 name=hint cols=80><span style="font-size:18px;"></span></textarea><br>
+          <textarea class="kindeditor" rows=13 name=hint cols=80></textarea><br>
         </p>
         <p>
           <?php echo "<h4>".$MSG_SPJ."</h4>"?>

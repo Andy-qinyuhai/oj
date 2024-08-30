@@ -14,7 +14,7 @@ function auto_refresh() {
 
                 if (result<4||result>14) {
                         window.setTimeout("fresh_result("+sid+")",interval);
-                        console.log("auto_refresh "+sid+" actived!");
+                        console.log("auto_refresh "+sid+" actived! Interval:"+interval);
                         break;
                 }
         }
@@ -68,10 +68,11 @@ function fresh_result(solution_id) {
                                         row.cells[4].innerHTML += loader;
                                 }
                                 interval *= 1.5;
+								console.log(interval);
                                 window.setTimeout("fresh_result("+solution_id+")",interval);
                         }
                         else {
-                                console.log(ra[0]);
+                                //console.log(ra[0]);
                                 switch (ra[0]) {
                                         case  4:
                                         case 14:

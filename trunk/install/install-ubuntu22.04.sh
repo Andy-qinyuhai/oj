@@ -40,7 +40,7 @@ add-apt-repository -y restricted
 apt-get update && apt-get -y upgrade
 
 #apt-get install -y subversion
-/usr/sbin/useradd -m -u 1536 judge
+/usr/sbin/useradd -m -u 1536 -s /sbin/nologin judge
 
 cd /home/judge/ || exit
 
@@ -192,7 +192,11 @@ fi
 if grep "bak.sh" /var/spool/cron/crontabs/root ; then
         echo "auto backup added!"
 else
-        crontab -l > conf && echo "1 0 * * * /home/judge/src/install/bak.sh" >> conf && crontab conf && rm -f conf
+        crontab -l > conf 
+        echo "1 0 * * * /home/judge/src/install/bak.sh" >> conf
+        echo "0 * * * * /home/judge/src/install/oomsaver.sh" >> conf 
+        crontab conf 
+        rm -f conf
         /etc/init.d/cron reload
 fi
 ln -s /usr/bin/mcs /usr/bin/gmcs

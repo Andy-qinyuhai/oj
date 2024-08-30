@@ -152,6 +152,8 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+08-27 | 更新 | 打包更新LiveCD，更新其中的QQ、向日葵、小熊猫C++，增加非snap独立运行的Chromium。
+08-24 | 更新 | 提高判断选择题格式容错性。
 08-19 | 更新 | 用户管理页增加IP地址列。
 07-25 | 更新 | 增加problem表、contest表索引。
 07-24 | 更新 | syzoj强制提交文件名，solution.name。
@@ -517,7 +519,7 @@ REDHAT / CentOS 用户请浏览
 
 ### LiveCD下载安装
 
-[家宽下载](http://hustoj.com/livecd.php) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时推荐使用。
+[家宽下载](http://cdn.m.hustoj.com:8090/HUSTOJ24.08.iso) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时可以使用。
 
 HUSTOJ_LiveCD(发送"livecd"到微信公众号 `onlinejudge` ，获得百度云下载链接)
 
@@ -606,15 +608,17 @@ sudo bash /home/judge/src/install/backup+.sh  #备份后的归档在 `/home/judg
 将你需要迁移的归档复制到目标系统的/home/judge/src/install目录下，执行下面的脚本进行恢复（ 脚本的第一个参数为恢复的目标归档，20221026 指你实际复制过来的文件名中的日期数字）。
 
 ```shell
-cd /home/judge/backup
-sudo bash /home/judge/src/install/restore.sh hustoj_20221026.tar.bz2
+sudo su
+cd /home/judge/src/install/
+bash restore.sh hustoj_20221026.tar.bz2
 ```
 脚本的第一个参数为恢复的目标归档，如果没有参数则默认为按名字排序后字典序最大的归档
 
 *如果是backup+.sh备份的.tar.gz文件，用restore+.sh还原。
 ```shell
-cd /home/judge/backup
-sudo bash /home/judge/src/install/restore+.sh 备份文件的文件名
+sudo su
+cd /home/judge/src/install/
+bash restore+.sh 备份文件的文件名
 ```
 
 ## 更新升级

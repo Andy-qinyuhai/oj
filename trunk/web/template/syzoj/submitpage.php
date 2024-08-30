@@ -303,6 +303,7 @@ function do_submit(){
 	problem_id.value='<?php if (isset($cid))echo $cid?>';
 	document.getElementById("frmSolution").target="_self";	
 <?php if(isset($_GET['spa'])){?>
+	<?php if($solution_name) { ?>document.getElementById("frmSolution").submit(); <?php } ?>  //如果是指定文件名，则强制用文件post方式提交。
         $.post("submit.php?ajax",$("#frmSolution").serialize(),function(data){fresh_result(data);});
         $("#Submit").prop('disabled', true);
         $("#TestRub").prop('disabled', true);
@@ -456,6 +457,7 @@ function loadFromBlockly(){
                 }
 
 	}
+	if(typeof(editor) != "undefined") editor.resize();
 	window.setInterval('autoSave();',5000);
 	$("body").dblclick(function(){
                  if (event.ctrlKey==1) formatCode();

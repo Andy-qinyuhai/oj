@@ -1,8 +1,8 @@
 var i = 0;
-var interval = 800;
+var interval = 1000;
 
 function auto_refresh() {
-        interval *=2 ;
+        //interval *=2 ;
         var tb = window.document.getElementById('result-tab');
         var rows = tb.rows;
         var i=rows.length-1;
@@ -67,7 +67,7 @@ function fresh_result(solution_id) {
                                         //console.log(row.cells[3].innerHTML);
                                         row.cells[4].innerHTML += loader;
                                 }
-                                interval *= 1.5;
+                                interval *= 1.1;
 								console.log(interval);
                                 window.setTimeout("fresh_result("+solution_id+")",interval);
                         }

@@ -36,7 +36,7 @@ function findRow(solution_id) {
 }
 function fancy(td){
         console.log(user_id+":fancy");
-        $(td).html("<div id='bannerFancy' style='position:absolute;top:0px;left:0px' class='ui main container'></div><audio autoplay=\"autoplay\" preload=\"auto\" src=\"http://cdn.m.hustoj.com:8090/bg/ac.mp3\"></audio>");
+        //$(td).html("<div id='bannerFancy' style='position:absolute;top:0px;left:0px' class='ui main container'></div><audio autoplay=\"autoplay\" preload=\"auto\" src=\"http://cdn.m.hustoj.com:8090/bg/ac.mp3\"></audio>");
         window.setTimeout("$(\"#bannerFancy\").html(\"<iframe border=0 src='fancy.php' width='100%' height='800px'></iframe>\");",500);
         window.setTimeout("$(\"#bannerFancy\").remove();",5000);
 }
@@ -72,7 +72,7 @@ function fresh_result(solution_id) {
                                         //console.log(row.cells[3].innerHTML);
                                         row.cells[4].innerHTML += loader;
                                 }
-                                interval += 100;
+                                interval += 10;
 								console.log(interval);
                                 window.setTimeout("fresh_result("+solution_id+")",interval);
                         }

@@ -17,19 +17,19 @@ $time_limit = $_POST['time_limit'];
 $memory_limit = $_POST['memory_limit'];
 
 $description = $_POST['description'];
-if(stripos($description,"font-size:18px") == false) $description = "<span style=\"font-size:18px;\">".$description."</span>";
+//if(stripos($description,"font-size:18px") == false) $description = "<span style=\"font-size:18px;\">".$description."</span>";
 //$description = str_replace("<p>", "", $description); 
 //$description = str_replace("</p>", "<br />", $description);
 $description = str_replace(",", "&#44;", $description); 
 
 $input = $_POST['input'];
-if(stripos($input,"font-size:18px") == false) $input = "<span style=\"font-size:18px;\">".$input."</span>";
+//if(stripos($input,"font-size:18px") == false) $input = "<span style=\"font-size:18px;\">".$input."</span>";
 //$input = str_replace("<p>", "", $input); 
 //$input = str_replace("</p>", "<br />", $input); 
 $input = str_replace(",", "&#44;", $input);
 
 $output = $_POST['output'];
-if(stripos($output,"font-size:18px") == false) $output = "<span style=\"font-size:18px;\">".$output."</span>";
+//if(stripos($output,"font-size:18px") == false) $output = "<span style=\"font-size:18px;\">".$output."</span>";
 //$output = str_replace("<p>", "", $output); 
 //$output = str_replace("</p>", "<br />", $output);
 $output = str_replace(",", "&#44;", $output); 
@@ -47,7 +47,7 @@ if ($test_input=="") $test_input="\n";
 if ($test_output=="") $test_output="\n";
 */
 $hint = $_POST['hint'];
-if(!empty($hint) &&　stripos($hint,"font-size:18px") == false) $hint = "<span style=\"font-size:18px;\">".$hint."</span>";
+//if(!empty($hint) &&　stripos($hint,"font-size:18px") == false) $hint = "<span style=\"font-size:18px;\">".$hint."</span>";
 //$hint = str_replace("<p>", "", $hint); 
 //$hint = str_replace("</p>", "<br />", $hint); 
 $hint = str_replace(",", "&#44;", $hint);

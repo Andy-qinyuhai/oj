@@ -2,29 +2,8 @@
 
 <?php
 require_once("discuss_func.inc.php");
-$parm = "";
-if(isset($_GET['pid']))
-{
-  $pid = intval($_GET['pid']);
-  $parm = "pid=".$pid;
-}
-else
-{
-  $pid = 0;
-}
 
-if(isset($_GET['cid']))
-{
-  $cid = intval($_GET['cid']);
-}
-else
-{
-  $cid = 0;
-}
-
-$parm .= "&cid=".$cid;
 $prob_exist = problem_exist($pid, $cid);
-
 echo "<title>$MSG_BBS</title>";
 ?>
 
@@ -92,7 +71,12 @@ echo "<title>$MSG_BBS</title>";
       $level = " - (`top_level`=1)";
     }
 
-    $sql .= " GROUP BY t.tid ORDER BY `top_level`$level DESC, MAX(`r`.`time`) DESC";
+    if(isset($_REQUEST['cid'])){
+        $sql .= " GROUP BY t.tid,cp.num ORDER BY `top_level`$level DESC, MAX(`r`.`time`) DESC";
+    }else{
+        $sql .= " GROUP BY t.tid ORDER BY `top_level`$level DESC, MAX(`r`.`time`) DESC";
+    }
+
     //$sql .= " LIMIT 30";
     //echo $sql;
 
@@ -224,9 +208,12 @@ echo "<title>$MSG_BBS</title>";
     <table width='90%'>
       <tr align='right'>
         <td>
-          <form class=form-inline action=newpost.php<?php if ($pid!=0 && $cid!=null) echo "?pid=".$pid."&cid=".$cid; else if ($pid!=0) echo "?pid=".$pid; else if ($cid!=0) echo "?cid=".$cid;?>>
+         <form class="form-inline" action="newpost.php" >
+                <?php if (!empty($pid))  echo "<input type='hidden' name='pid' value='$pid' >"  ?>
+                <?php if (!empty($cid))  echo "<input type='hidden' name='cid' value='$cid' >"  ?>
             <button class="form-control" type='submit'><?php echo "$MSG_WRITE_QUESTION";?></button>
          </form>
+ 
         </td>
       </tr>
     </table>

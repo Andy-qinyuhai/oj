@@ -156,9 +156,9 @@
                 echo "'$result',";
         } ?>
         ''];
-		var oj_mark= <?php echo "'$OJ_MARK'";?>;
-   //<?php echo " var oj_mark='$OJ_MARK'; ";?>
+	   var oj_mark='<?php echo $OJ_MARK ?>'; 
+	   var user_id="<?php if (isset($_SESSION[$OJ_NAME."_user_id"])) echo $_SESSION[$OJ_NAME."_user_id"]; ?>";
 </script>
-        <script src="template/syzoj/auto_refresh.js?v=0.52" ></script>
+        <script src="template/syzoj/auto_refresh.js?v=0.520" ></script>
 
 <?php include("template/$OJ_TEMPLATE/footer.php");

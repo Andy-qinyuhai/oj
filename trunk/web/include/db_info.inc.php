@@ -16,7 +16,12 @@ static 	$DB_PASS="test";  //数据库密码
 
 static 	$OJ_NAME="HUSTOJ";  //左上角显示的系统名称, 尽量简洁，避免用中文和空格，如需中文、长字符串、图片，可以直接修改template/syzoj/header.php
 static 	$OJ_HOME="./";    //主页目录
-static 	$OJ_ADMIN="root@localhost";  //管理员email,若启用,建议对email.class.php进行配置，设好可以使用smtp账号密码。
+static 	$OJ_ADMIN="root@localhost";  //管理员email,若启用,建议对SMTP_SERVER等参数进行配置，设好可以接收系统邮件。
+static  $SMTP_SERVER = "smtp.qq.com";           //SMTP服务器，通常在邮箱的smtp/pop3设置中可以查询到，推荐用企业邮箱发信，避免被识别为垃圾邮件
+static  $SMTP_PORT =587;                           //SMTP服务器端口，通常是25，有的服务器支持80（阿里云）、465(网易)、587（QQ）以适应不同的网络防火墙配置
+static  $SMTP_USER = "mailer@qq.com";      //SMTP服务器的用户名（通常就是发件人的邮箱地址）, 这里修改后视为邮件配置生效，若配置不当可能导致部分页面超时。
+static  $SMTP_PASS = "your_smpt_auth_password";       //由邮箱系统生成的口令 (SMTP服务器的密码)
+
 static 	$OJ_DATA="/home/judge/data";  //测试数据目录
 static 	$OJ_BBS=false; //设为"discuss3" 启用， "bbs" for phpBB3 bridge or "discuss" for mini-forum or false for close any 
 static  $OJ_ONLINE=false;  //是否记录在线情况
@@ -50,7 +55,7 @@ static  $OJ_REDISPORT=6379;
 static  $OJ_REDISQNAME="hustoj";
 static  $SAE_STORAGE_ROOT="http://hustoj-web.stor.sinaapp.com/";  //新浪云存储引擎
 static  $OJ_CDN_URL="";  // 如果服务器带宽较小，可选用他人同版本的OJ作为静态资源来源 http://cdn.m.hustoj.com:8090/ 
-static  $OJ_TEMPLATE="syzoj"; //使用的默认模板,template目录下的每个子目录都是一个模板, [bs3 mdui sweet syzoj mario bshark] work with discuss3
+static  $OJ_TEMPLATE="syzoj"; //使用的默认模板,template目录下的每个子目录都是一个模板, [bs3 mdui sweet syzoj sidebar bshark] work with discuss3
 static 	$OJ_BG="/image/background.jpg";  //双引号里面填写背景图片的url。
 // $OJ_BG="/image/bing".date('H').".jpg";  //每个整点更换壁纸，例如准备bing[00~23].jpg在image目录。
 static  $OJ_LOGIN_MOD="hustoj"; //需要在include目录下配置login-xxxx.php来调用其他登录模块。
@@ -97,6 +102,9 @@ static  $OJ_CONTEST_TOTAL_100=false; //是否让比赛按100分计分
 static  $OJ_OLD_FASHINED=false; //是否在状态页的编辑按钮、管理页的预览模式等方面保留原始版本的习惯。
 static  $OJ_AI_HTML=false; // 若想开启AI链接，可设为 '<a class="desktop-only item active" target="_blank" href="http://ai.hustoj.com"><i class="help icon"></i> 问问狗蛋</a>';
 static  $OJ_PUBLIC_STATUS=true; //是否公开所有人的判题结果,设为false则除source_browser外，其他人只能看到自己提交的记录。
+
+
+
 //static  $OJ_EXAM_CONTEST_ID=1000; // 启用考试状态，填写考试比赛ID
 //static  $OJ_ON_SITE_CONTEST_ID=1000; //启用现场赛状态，填写现场赛比赛ID
 

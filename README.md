@@ -107,7 +107,7 @@ HUSTOJ 是采用 GPL 的自由软件。(仅限原创部分代码，其中使用�
 	
 ## 感谢下述及其他被使用到的开源代码项目贡献者，来自这些项目的代码及衍生代码遵循其原有开源协议，不受本项目的GPL授权影响。
 
-* masteroj uoj loj syzoj zoj qduoj openJudger [scratch-run](https://github.com/VNOI-Admin/scratch-run)
+* masteroj uoj loj syzoj zoj qduoj openJudger [scratch-run](https://github.com/VNOI-Admin/scratch-run) [PHPMailer](https://github.com/zhblue/hustoj/tree/PHPMailer)
 * linux apache nginx php mysql mariadb memcached
 * bootstrap kindeditor ACEeditor blockly codemirror katex phpfilemanager mdui
 * sim gcc clang openjdk freepascal mono docker SyntaxHighlighter
@@ -152,7 +152,8 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
-08-27 | 更新 | 打包更新LiveCD，更新其中的QQ、向日葵、小熊猫C++，增加非snap独立运行的Chromium。
+09-03 | 更新 | 用[PHPMailer](https://github.com/zhblue/hustoj/tree/PHPMailer)替换原邮件组件。
+08-27 | 更新 | 打包更新[LiveCD](http://cdn.m.hustoj.com:8090/)，更新其中的QQ、向日葵、小熊猫C++，增加非snap独立运行的Chromium。
 08-24 | 更新 | 提高判断选择题格式容错性。
 08-19 | 更新 | 用户管理页增加IP地址列。
 07-25 | 更新 | 增加problem表、contest表索引。

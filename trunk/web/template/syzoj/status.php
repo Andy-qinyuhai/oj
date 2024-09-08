@@ -96,7 +96,7 @@
        } ?>
       </tr>
     </thead>
-    <tbody>
+    <tbody  style='font-weight:700' >
       <!-- <tr v-for="item in items" :config="displayConfig" :show-rejudge="false" :data="item" is='submission-item'>
           </tr> -->
     <?php
@@ -109,9 +109,9 @@
       else if($i==0 || $i==2 || $i>7 && $i!=9)
         echo "<td class='desktop-only item '><b>";
       else
-        echo "<td><b>";
+        echo "<td>";
       echo $table_cell;
-      echo "</b></td>";
+      echo "</td>";
       $i++;
     }
     echo "</tr>\n";

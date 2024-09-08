@@ -135,8 +135,11 @@ if (isset($_GET['cid'])) {
     if($noip){
       $view_errors =  "<h2> $MSG_NOIP_WARNING <a href=\"contest.php?cid=$cid\">返回比赛</a></h2>";
       $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
-      if($refererUrl['path']=="/submitpage.php") 
-	$view_errors="<h2>提交成功!</h2><a href=\"contest.php?cid=$cid\">返回比赛</a></h2>";
+      if($refererUrl['path']=="/submitpage.php") {
+		  $mark = 100;
+		  $view_errors="<h2>提交成功!</h2><a href=\"contest.php?cid=$cid\">返回比赛</a></h2>";
+	  }
+	
       require("template/".$OJ_TEMPLATE."/error.php");
       exit(0);
     }

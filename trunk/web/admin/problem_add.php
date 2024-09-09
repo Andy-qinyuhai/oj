@@ -17,19 +17,19 @@ $time_limit = $_POST['time_limit'];
 $memory_limit = $_POST['memory_limit'];
 $font_set_start = "<span style='font-size:18px;'>";
 $font_set_end = "</span>";
-$description = $_POST['description'];
+$description = (string)$_POST['description'];
 $description = $font_set_start.$description.$font_set_end;
 //$description = str_replace("<p>", "", $description); 
 //$description = str_replace("</p>", "<br />", $description);
 $description = str_replace(",", "&#44;", $description); 
 
-$input = $_POST['input'];
+$input = (string)$_POST['input'];
 $input = $font_set_start.$input.$font_set_end;
 //$input = str_replace("<p>", "", $input); 
 //$input = str_replace("</p>", "<br />", $input); 
 $input = str_replace(",", "&#44;", $input);
 
-$output = $_POST['output'];
+$output = (string)$_POST['output'];
 $output = $font_set_start.$output.$font_set_end;
 //$output = str_replace("<p>", "", $output); 
 //$output = str_replace("</p>", "<br />", $output);
@@ -47,7 +47,7 @@ if ($sample_output=="") $sample_output="\n";
 if ($test_input=="") $test_input="\n";
 if ($test_output=="") $test_output="\n";
 */
-$hint = $_POST['hint'];
+$hint = (string)$_POST['hint'];
 if(!empty($hint)) == false) $hint = $font_set_start.$hint.$font_set_end;
 //$hint = str_replace("<p>", "", $hint); 
 //$hint = str_replace("</p>", "<br />", $hint); 

@@ -15,21 +15,22 @@ $title = $_POST['title'];
 $title = str_replace(",", "&#44;", $title);
 $time_limit = $_POST['time_limit'];
 $memory_limit = $_POST['memory_limit'];
-
+$font_set_start = "<span style='font-size:18px;'>";
+$font_set_end = "</span>";
 $description = $_POST['description'];
-$description = "<span style=\"font-size:18px;\">".$description."</span>";
+$description = $font_set_start.$description.$font_set_end;
 //$description = str_replace("<p>", "", $description); 
 //$description = str_replace("</p>", "<br />", $description);
 $description = str_replace(",", "&#44;", $description); 
 
 $input = $_POST['input'];
-$input = "<span style=\"font-size:18px;\">".$input."</span>";
+$input = $font_set_start.$input.$font_set_end;
 //$input = str_replace("<p>", "", $input); 
 //$input = str_replace("</p>", "<br />", $input); 
 $input = str_replace(",", "&#44;", $input);
 
 $output = $_POST['output'];
-$output = "<span style=\"font-size:18px;\">".$output."</span>";
+$output = $font_set_start.$output.$font_set_end;
 //$output = str_replace("<p>", "", $output); 
 //$output = str_replace("</p>", "<br />", $output);
 $output = str_replace(",", "&#44;", $output); 
@@ -47,7 +48,7 @@ if ($test_input=="") $test_input="\n";
 if ($test_output=="") $test_output="\n";
 */
 $hint = $_POST['hint'];
-if(!empty($hint)) == false) $hint = "<span style=\"font-size:18px;\">".$hint."</span>";
+if(!empty($hint)) == false) $hint = $font_set_start.$hint.$font_set_end;
 //$hint = str_replace("<p>", "", $hint); 
 //$hint = str_replace("</p>", "<br />", $hint); 
 $hint = str_replace(",", "&#44;", $hint);

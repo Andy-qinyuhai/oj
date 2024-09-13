@@ -177,6 +177,7 @@ if($NOIP_flag[0]==0) $view_month_rank=mysql_query_cache("select user_id,nick,cou
                                             "<td><a target='_blank' href='userinfo.php?user=".htmlentities($row[0],ENT_QUOTES,"UTF-8")."'>".htmlentities($row[0],ENT_QUOTES,"UTF-8")."</a></td>".                                            
                                             "<td>".($row[2])."</td>".
                                             "</tr>";
+
                             }
         ?>
                     </tbody>

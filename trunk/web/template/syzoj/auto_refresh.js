@@ -72,7 +72,7 @@ function fresh_result(solution_id) {
                                         //console.log(row.cells[3].innerHTML);
                                         row.cells[4].innerHTML += loader;
                                 }
-                                interval += 100;
+                                interval += 10;
 								console.log(interval);
                                 window.setTimeout("fresh_result("+solution_id+")",interval);
                         }

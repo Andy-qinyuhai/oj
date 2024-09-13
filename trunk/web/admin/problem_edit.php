@@ -178,7 +178,7 @@ include_once("kindeditor.php") ;
 	preview.find("#sinput").html(sinput);
 	let soutput=$("textarea").eq(7).val();
 	preview.find("#soutput").html(soutput);
-	let hint=$("textarea").eq(10).val();
+	let hint=$("textarea").eq(13).val();
 	preview.find("#hint").html(hint);
 	preview.find("#hint .md").each(function(){
 		$(this).html(marked.parse($(this).html()));

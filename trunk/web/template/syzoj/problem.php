@@ -36,27 +36,6 @@ div[class*=ace_br] {
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/bs3/"?>marked.min.js"></script>
 <script src="<?php echo $OJ_CDN_URL.$path_fix."template/syzoj/js/"?>markdown-it.min.js"></script>
 
-
-<script src="<?php echo $OJ_CDN_URL.$path_fix."template/syzoj/js/"?>katex.min.js"></script>
-
-<script>
-    var katex_config = {
-        delimiters: [{
-                left: "$$",
-                right: "$$",
-                display: true
-            },
-            {
-                left: "$",
-                right: "$",
-                display: false
-            }
-        ]
-    };
-</script>
-
-<script defer src="<?php echo $OJ_CDN_URL.$path_fix."template/$OJ_TEMPLATE"?>/js/auto-render.min.js" onload="renderMathInElement(document.body, katex_config)"></script>
-
 <div class="padding ">
 <div class="ui center aligned grid">
     <div class="row">
@@ -414,6 +393,7 @@ $(document).ready(function() {
         setIframeReadonly(false)
 
     });
+
 });
 
   }
@@ -482,11 +462,12 @@ function selectMulti( num, answer){
                   mangle: false,
                   headerIds: false
                 });
-		const md = window.markdownit();
+		
 		$(".md").each(function(){
 <?php if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="marked.js") {?>
 			$(this).html(marked.parse($(this).html()));
 <?php }else if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="markdown-it") {?>
+			const md = window.markdownit();
 			$(this).html(md.render($(this).text()));
 <?php } ?>
 		});

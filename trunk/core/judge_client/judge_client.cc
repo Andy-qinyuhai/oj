@@ -745,7 +745,7 @@ void make_diff_out_simple(FILE *f1, FILE *f2,char * prefix, int c1, int c2, cons
                 fprintf(diff,"|");
                 if(row==1){
                         fprintf(diff,"%s",prefix);
-                        if(feof(f2)){
+                        if(feof(f2)&&strlen(prefix)>0){
                                 fprintf(diff,"|%s\n|",prefix);
                                 need=0;
                         }
@@ -2762,8 +2762,8 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, float *total_
                 int j=0;
                 for(j=user_length-1;'\n'==user_answer[j]||'\r'==user_answer[j];j--){
                         user_answer[j]='\0';
-                        trim(user_answer);
                 }
+                trim(user_answer);
                 if(num>0&&num<=total){
                         if(strcasecmp(ans[num],user_answer)==0 || strcasecmp(ans[num],"*")==0 || strcasecmp(ans[num]," *")==0){
                                 mark+=m[num];
@@ -2771,9 +2771,14 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, float *total_
                               if(raw_text_diff) fprintf(df,"%d Answer:%s[You:%s] -%.1f\n",i,ans[i],user_answer,m[i]);
                         }
                         m[num]=0;
+                }else{
+                        break;
                 }
+        }
+	for(int i=1;i<=total;i++){
                 free(ans[i]);
         }
+ 
         free(user_answer);
         fclose(user);
         fclose(df);

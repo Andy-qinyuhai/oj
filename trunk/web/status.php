@@ -364,6 +364,9 @@ for ($i=0; $i<$rows_cnt; $i++) {
     else
       $view_status[$i][1] = "<a href='userinfo.php?user=".$row['user_id']."' title='".$row['nick']."'>".$row['user_id']."</a>";
   }
+  if(isset($row['starred']) && $row['starred'] >0 ) {
+	  $view_status[$i][1]="⭐".$view_status[$i][1]."⭐";	//people who starred us ,we star them
+  }
   $view_status[$i]['nick']=$row['nick'];
 
   if ($row['contest_id']>0) {
@@ -513,8 +516,9 @@ for ($i=0; $i<$rows_cnt; $i++) {
 	)
         $view_status[$i][6] = "<a target=_self href=showsource.php?id=".$row['solution_id'].">".$language_name[$row['language']]."</a>";
       else
-        $view_status[$i][6] = $language_name[$row['language']];        
-      if( (!(isset($OJ_OLD_FASHINED) && $OJ_OLD_FASHINED )) && ($OJ_TEMPLATE=="syzoj" || $OJ_TEMPLATE=="bs3" ) ) {
+        $view_status[$i][6] = $language_name[$row['language']];
+        
+      if( (!(isset($OJ_OLD_FASHINED) && $OJ_OLD_FASHINED )) && ($OJ_TEMPLATE=="syzoj" || $OJ_TEMPLATE=="bs3" ) && $OJ_AUTO_SHOW_OFF ) {
             $edit_link="problem.php";
       }else {
             $edit_link="submitpage.php";

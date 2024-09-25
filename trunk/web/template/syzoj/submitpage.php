@@ -186,9 +186,9 @@ function print_result(solution_id){
 	$("#out").load("status-ajax.php?tr=1&solution_id="+solution_id);
 }
 function fancy(td){
-        $(td).append("<div id='bannerFancy' style='position:absolute;top:0px;left:0px;width:100%' class='ui main container'></div>");
-        window.setTimeout("$(\"#bannerFancy\").html(\"<iframe border=0 src='fancy.php' width='100%' height='800px'></iframe>\");",500);
-        window.setTimeout("$(\"#bannerFancy\").remove();",5000);
+        $("body",parent.document).append("<div id='bannerFancy' style='position:absolute;top:0px;left:0px;width:100%;z-index:3' class='ui main container'></div>");
+        window.setTimeout("$(\"#bannerFancy\",parent.document).html(\"<iframe border=0 src='fancy.php' width='100%' height='800px'></iframe>\");",500);
+        window.setTimeout("$(\"#bannerFancy\",parent.document).remove();",5000);
 }
 function fresh_result(solution_id)
 {
@@ -313,7 +313,7 @@ function do_submit(){
 	<?php if($solution_name) { ?>document.getElementById("frmSolution").submit(); <?php } ?>  //如果是指定文件名，则强制用文件post方式提交。
         $.post("submit.php?ajax",$("#frmSolution").serialize(),function(data){fresh_result(data);});
         $("#Submit").prop('disabled', true);
-        $("#TestRub").prop('disabled', true);
+        $("#TestRun").prop('disabled', true);
         count=<?php echo $OJ_SUBMIT_COOLDOWN_TIME?> * 2 ;
         handler_interval= window.setTimeout("resume();",1000);
 	 <?php if(isset($OJ_REMOTE_JUDGE)&&$OJ_REMOTE_JUDGE) {?>$("#sk").attr("src","remote.php"); <?php } ?>
@@ -342,7 +342,7 @@ function do_test_run(){
 	//document.getElementById("frmSolution").submit();
 	$.post("submit.php?ajax",$("#frmSolution").serialize(),function(data){fresh_result(data);});
   	$("#Submit").prop('disabled', true);
-  	$("#TestRub").prop('disabled', true);
+  	$("#TestRun").prop('disabled', true);
 	problem_id.value=-problem_id.value;
 	count=<?php echo isset($OJ_SUBMIT_COOLDOWN_TIME)?$OJ_SUBMIT_COOLDOWN_TIME:5  ?> * 2 ;
 	handler_interval= window.setTimeout("resume();",1000);
@@ -350,12 +350,12 @@ function do_test_run(){
 function resume(){
 	count--;
 	var s=$("#Submit")[0];
-	var t=$("#TestRub")[0];
+	var t=$("#TestRun")[0];
 	if(count<0){
 		 $("#Submit").attr("disabled",false);
 		 $("#Submit").text("<?php echo $MSG_SUBMIT?>");
-		if(t!=null) $("#TestRub").attr("disabled",false);
-		if(t!=null) $("#TestRub").text("<?php echo $MSG_TR?>");
+		if(t!=null) $("#TestRun").attr("disabled",false);
+		if(t!=null) $("#TestRun").text("<?php echo $MSG_TR?>");
 		if( handler_interval) window.clearInterval( handler_interval);
 		if($("#vcode")!=null) $("#vcode").click();
 	}else{

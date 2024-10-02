@@ -187,7 +187,7 @@ function print_result(solution_id){
 }
 function fancy(td){
         $("body",parent.document).append("<div id='bannerFancy' style='position:absolute;top:0px;left:0px;width:100%;z-index:3' class='ui main container'></div>");
-        window.setTimeout("$(\"#bannerFancy\",parent.document).html(\"<iframe border=0 src='fancy.php' width='100%' height='1080px'></iframe>\");",500);
+        window.setTimeout("$(\"#bannerFancy\",parent.document).html(\"<iframe border=0 src='fancy.php' width='1080px' height='800px'></iframe>\");",500);
         window.setTimeout("$(\"#bannerFancy\",parent.document).remove();",5000);
 }
 function fresh_result(solution_id)

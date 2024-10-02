@@ -37,7 +37,7 @@ function findRow(solution_id) {
 function fancy(td){
         console.log(user_id+":fancy");
         $(td).html("<div id='bannerFancy' style='position:absolute;top:0px;left:0px' class='ui main container'></div>");
-        window.setTimeout("$(\"#bannerFancy\").html(\"<iframe border=0 src='fancy.php' width='100%' height='1080px'></iframe>\");",500);
+        window.setTimeout("$(\"#bannerFancy\").html(\"<iframe border=0 src='fancy.php' width='1080px' height='800px'></iframe>\");",500);
         window.setTimeout("$(\"#bannerFancy\").remove();",5000);
 }
 function fresh_result(solution_id) {

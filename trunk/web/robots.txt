@@ -3,31 +3,30 @@ Disallow:
 User-agent: Bingbot
 Disallow: 
 User-agent: Sogou web spider
-Disallow: /
+Disallow: 
 User-agent: Sosospider
-Disallow: /
+Disallow: 
 User-agent: YodaoBot
-Disallow: /
+Disallow: 
 User-agent: 360Spider
-Disallow: /
+Disallow: 
 User-agent: YisouSpider
-Disallow: /
+Disallow: 
 User-agent: Googlebot
 Disallow: 
 User-agent: teoma
-Disallow: /
+Disallow: 
 User-agent: ia_archiver
 Disallow: 
 User-agent: twiceler
-Disallow: /
+Disallow: 
 User-agent: Robozilla
-Disallow: /
+Disallow: 
 User-agent: Gigabot
-Disallow: /
+Disallow: 
 Crawl-delay: 120
 Disallow:/admin
 Disallow:/moodle
 Disallow:/template
 Disallow:/upload
-User-agent: *
-Disallow: /
+

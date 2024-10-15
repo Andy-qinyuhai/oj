@@ -142,6 +142,8 @@
 
               echo "<div class=\"show_tag_controled\" style=\"float: right; \">";
               //echo "<span class=\"ui header\">";
+			  //针对普通用户未通过的题不显示标签
+			  if (isset($acc_arr[$row['problem_id']]) || isset($_SESSION[$OJ_NAME.'_'.'administrator']) || isset($_SESSION[$OJ_NAME.'_'.'contest_creator']) || isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
               echo  $view_problemset[$i][3];
               //echo "</span></div>";
 	        echo "</div>";

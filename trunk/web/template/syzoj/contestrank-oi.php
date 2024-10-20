@@ -14,10 +14,10 @@
  	<button  class='ui small yellow button' onclick='$("tr[class!=active]").toggle();'>Show/Hide</button>
 	</h1>
 </div>
-<div id="rankdiv" class="padding" onclick="$(this).css('margin-left',(548-window.innerWidth/2)+'px').css('margin-right',(548-window.innerWidth/2)+'px')" style="margin-left:-200px;margin-right:-200px;overflow:auto" >
+<div id="rankdiv" class="padding" onclick="$(this).css('margin-left',(548-window.innerWidth/2)+'px').css('margin-right',(548-window.innerWidth/2)+'px')" style="margin-left:-100px;margin-right:-100px;overflow:auto" >
 	<?php if ($user_cnt > 0) { ?>
 		<table   <?php if (isset($_GET['down'])) echo "border=1" ?>
-                                 class="ui very basic center aligned table" style="margin:30px" >
+                                 class="ui very basic center aligned table" style="margin:20px" >
 			<thead>
 				<tr class='active'>
 					    <td class="{sorter:'false'} text-center"><?php echo $MSG_STANDING?></td>

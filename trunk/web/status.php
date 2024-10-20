@@ -369,7 +369,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
       $view_status[$i][1] = "<a href='userinfo.php?user=".$row['user_id']."' title='".$row['nick']."'>".$row['user_id']."</a>";
   }
   if(isset($row['starred']) && $row['starred'] >0 ) {
-	  $view_status[$i][1]="⭐".$view_status[$i][1]."⭐";	//people who starred us ,we star them
+	  $view_status[$i][1]="⭐".$view_status[$i][1]."<span title='用同名账户给hustoj项目加星，可以点亮此星' >⭐</span>";	//people who starred us ,we star them
   }
   $view_status[$i]['nick']=$row['nick'];
 
@@ -463,7 +463,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
   }
   else {
     if (!$lock || $lock_time>$row['in_date'] || $row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']) {
-      if ($OJ_SIM && $row['sim']>80 && $row['sim_s_id']!=$row['s_id']) {
+      if ($OJ_SIM && isset($row['sim']) && $row['sim']>80 && $row['sim_s_id']!=$row['s_id']) {
         $view_status[$i][3] .= "<a href=reinfo.php?sid=".$row['solution_id']." class='".$judge_color[$row['result']]."' title='$MSG_Tips'>*".$judge_result[$row['result']];
 
         if ($row['result']!=4 && isset($row['pass_rate']) && $row['pass_rate']!=1)

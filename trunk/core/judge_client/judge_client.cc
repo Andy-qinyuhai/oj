@@ -1742,6 +1742,7 @@ void get_solution(int solution_id, char *work_dir, int lang,int p_id)
                 execute_cmd("cp %s/../data/%d/sb3/%d.sb3 %s", work_dir,p_id,solution_id, src_pth);
 	}
 	execute_cmd("chown judge %s/%s", work_dir, src_pth);
+	execute_cmd("chmod 711 %s/%s", work_dir, src_pth);
 }
 
 #ifdef _mysql_h
@@ -3483,6 +3484,7 @@ int main(int argc, char **argv)
 		mk_shm_workdir(work_dir);
 	}else{
 		execute_cmd("mkdir %s",work_dir);
+		execute_cmd("chown judge %s",work_dir);
 	}
 	
 	clean_workdir(work_dir);

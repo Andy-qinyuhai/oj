@@ -4,7 +4,8 @@
 #avatar_container:before {
     content: "";
     display: block;
-    padding-top: 100%;
+    height:80%;
+    width:80%;
 }
 </style>
 <?php 
@@ -15,6 +16,7 @@
     for ($i = count($accall);$i > 0; $i--) {
         if ($AC < $acneed[$i]) {$calsed = $accall[$i - 1];$calledid=$i-1;}
     }
+/*
     for ($i=0;$i<=11;++$i){
     	$ped[$i]=0;
     }
@@ -22,14 +24,16 @@
     $result = pdo_query($sql, $user);
     foreach ($result as $row) {
     	++$ped[$row['result']];
-}?>
+    }
+*/
+?>
 
 <div class="padding">
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
             <div class="ui card" style="width: 100%; " id="user_card">
-                <div class="blurring dimmable image" id="avatar_container" style="height:325px">
+                <div class="blurring dimmable image" id="avatar_container">
                     <?php $default = ""; $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=500"; ?>
 		<?php  
 		    // 如果email填写的是qq邮箱，取QQ头像显示
@@ -41,7 +45,7 @@
 
                 ?>
 
-                    <img style="margin-top: -100%; " src="<?php echo $grav_url; ?>">
+                    <img src="<?php echo $grav_url; ?>">
                 </div>
                 <div class="content">
                     <div class="header"><?php echo $nick?></div>
@@ -60,7 +64,7 @@
               </table>
                 <div class="extra content">
                     <a><i class="check icon"></i>通过 <?php echo $AC ?> 题</a>
-                    <a style="float: right; "><i class="star icon <?php if($starred) echo "active"?>"></i>排名 <?php echo $Rank ?></a>
+                    <a style="float: right; "><i class="star icon <?php if($starred) echo "active"?>" title='用同名账户给hustoj项目加星，可以点亮此星' ></i>排名 <?php echo $Rank ?></a>
                     
                      <?php if ($email != "") { ?>
                             <div style="margin-top:10px;margin-bottom:10px">

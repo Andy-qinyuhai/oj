@@ -58,7 +58,7 @@ apt-get install -y libmysql++-dev
 apt-get install -y libmariadb-dev libmariadbclient-dev 
 PHP_VER=`apt-cache search php-fpm|grep -e '[[:digit:]]\.[[:digit:]]' -o`
 if [ "$PHP_VER" = "" ] ; then PHP_VER="8.1"; fi
-for pkg in net-tools make g++ php$PHP_VER-fpm nginx php$PHP_VER-mysql php$PHP_VER-common php$PHP_VER-gd php$PHP_VER-zip php$PHP_VER-mbstring php$PHP_VER-xml php$PHP_VER-curl php$PHP_VER-intl php$PHP_VER-xmlrpc php$PHP_VER-soap php-yaml php-apcu tzdata
+for pkg in bzip2 flex net-tools make g++ php$PHP_VER-fpm memcached nginx php$PHP_VER-mysql php$PHP_VER-common php$PHP_VER-gd php$PHP_VER-zip php$PHP_VER-mbstring php$PHP_VER-xml php$PHP_VER-curl php$PHP_VER-intl php$PHP_VER-xmlrpc php$PHP_VER-soap php-memcache php-memcached php-yaml php-apcu tzdata
 do
         while ! apt-get install -y "$pkg"
         do
@@ -156,7 +156,7 @@ else
         sed -i "s:}#added by hustoj::g" /etc/nginx/sites-enabled/default
         sed -i "s:php7.4:php$PHP_VER:g" /etc/nginx/sites-enabled/default
         sed -i "s|# deny access to .htaccess files|}#added by hustoj\n\n\n\t# deny access to .htaccess files|g" /etc/nginx/sites-enabled/default
-        sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;\n\t\tfastcgi_buffer_size 256k;\n\t\tfastcgi_buffers $NBUFF 64k;|g" /etc/nginx/sites-enabled/default
+        sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9001;\n\t\tfastcgi_buffer_size 256k;\n\t\tfastcgi_buffers $NBUFF 64k;|g" /etc/nginx/sites-enabled/default
 fi
 /etc/init.d/nginx restart
 sed -i "s/post_max_size = 8M/post_max_size = 500M/g" /etc/php/$PHP_VER/fpm/php.ini
@@ -215,6 +215,11 @@ systemctl enable mariadb
 systemctl enable php$PHP_VER-fpm
 #systemctl enable judged
 
+if ps -C memcached; then 
+    sed -i 's/static  $OJ_MEMCACHE=false;/static  $OJ_MEMCACHE=true;/g' /home/judge/src/web/include/db_info.inc.php
+    sed -i 's/-m 64/-m 8/g' /etc/memcached.conf
+    /etc/init.d/memcached restart
+fi
 
 /etc/init.d/mariadb start
 mkdir /var/log/hustoj/
@@ -224,7 +229,7 @@ if test -f  /.dockerenv ;then
         echo "Already in docker, skip docker installation, install some compilers ... "
         apt-get intall -y flex fp-compiler openjdk-14-jdk mono-devel
 else
-        sed -i 's/ubuntu:20/ubuntu:22/g' Dockerfile
+        sed -i 's/ubuntu:22/ubuntu:24/g' Dockerfile
         sed -i 's|/usr/include/c++/9|/usr/include/c++/11|g' Dockerfile
         bash docker.sh
 fi

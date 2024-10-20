@@ -12,6 +12,8 @@ read USER
 echo "Input your database password:"
 read PASSWORD
 
+OSRS=`lsb_release -rs`
+
 sed -i 's/tencentyun/aliyun/g' /etc/apt/sources.list
 sed -i 's/cn.archive.ubuntu/mirrors.aliyun/g' /etc/apt/sources.list
 sed -i "s|#\$nrconf{restart} = 'i'|\$nrconf{restart} = 'a'|g" /etc/needrestart/needrestart.conf
@@ -44,7 +46,7 @@ apt install libssl1.1=1.1.1f-1ubuntu2.8 -y --allow-downgrades
 apt-get install -y libmysqlclient-dev
 apt-get install -y libmysql++-dev
 
-for pkg in net-tools make g++ mysql-client
+for pkg in net-tools make g++ mysql-client bzip2 flex
 do
         while ! apt-get install -y "$pkg"
         do
@@ -134,7 +136,7 @@ if test -f  /.dockerenv ;then
         echo "Already in docker, skip docker installation, install some compilers ... "
         apt-get intall -y flex fp-compiler openjdk-14-jdk mono-devel
 else
-                sed -i 's/ubuntu:20/ubuntu:22/g' Dockerfile 
+        sed -i "s/ubuntu:22.04/ubuntu:$OSRS/g" Dockerfile
 	sed -i 's|/usr/include/c++/9|/usr/include/c++/11|g' Dockerfile 
 	bash docker.sh
          sed -i "s/OJ_USE_DOCKER=0/OJ_USE_DOCKER=1/g" /home/judge/etc/judge.conf

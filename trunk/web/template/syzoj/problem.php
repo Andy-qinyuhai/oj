@@ -57,6 +57,21 @@ div[class*=ace_br] {
       </h1>
     </div>
       <div class="row" style="margin-top: -15px">
+           <span class="ui label"><?php echo "文件提交" ?>：<?php 
+if(file_exists($solution_file)){
+    echo("<span class='red-bold'>文件名：$filename</span>");
+}else{
+    echo("<span class='red-bold'>无需freopen</span>");
+}
+?></span>
+<style>
+    .red-bold {
+    color: red;
+    font-weight: bold;
+}
+</style>
+          
+	      
           <span class="ui label"><?php echo $MSG_Memory_Limit ?>：<?php echo $row['memory_limit']; ?> MB</span>
           <span class="ui label"><?php echo $MSG_Time_Limit ?>：<?php echo $row['time_limit']; ?> S</span>
          <!-- <span class="ui label">标准输入输出</span> -->
@@ -465,7 +480,7 @@ function selectMulti( num, answer){
 		
 		$(".md").each(function(){
 <?php if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="marked.js") {?>
-			$(this).html(marked.parse($(this).html()));
+			$(this).html(marked.parse($(this).text()));             // html() make > to &gt;   text() keep >
 <?php }else if ($OJ_MARKDOWN  && $OJ_MARKDOWN=="markdown-it") {?>
 			const md = window.markdownit();
 			$(this).html(md.render($(this).text()));

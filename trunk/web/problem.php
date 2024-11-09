@@ -170,6 +170,7 @@ if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD ){
         }
 	}
 }
+
 //针对普通用户未通过的题不显示标签
 if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])) $row['source'] = NULL;
 else{
@@ -177,6 +178,17 @@ else{
 	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id'],$id); 
 	if($result[0]['min_result'] != 4 && !(isset($_SESSION[$OJ_NAME.'_administrator'])||isset($_SESSION[$OJ_NAME.'_problem_editor']))) $row['source'] = NULL;	
 }
+
+
+	 $solution_file = "$OJ_DATA/$id/output.name";
+	 if (file_exists($solution_file)) {
+        // 读取文件内容
+        $content = file_get_contents($solution_file);
+        
+        // 提取文件名部分（去掉扩展名）
+        $filename = pathinfo($content, PATHINFO_FILENAME);
+        
+    } 
 
 /////////////////////////Template
 require("template/".$OJ_TEMPLATE."/problem.php");

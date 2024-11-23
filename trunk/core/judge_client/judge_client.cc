@@ -186,6 +186,7 @@ static int shm_run = 0;
 static char record_call = 0;
 static int use_ptrace = 1;
 static int ignore_esol= 1;
+static int internal_mark= 0;
 static int compile_chroot = 0;
 static int turbo_mode = 0;
 static int python_free=0;
@@ -319,6 +320,8 @@ int execute_cmd(const char *fmt, ...)   //执行命令获得返回值
 		printf("%s\n", cmd);
 	ret = system(cmd);
 	va_end(ap);
+	if (DEBUG)
+		printf("\n");
 	return ret;
 }
 
@@ -515,11 +518,60 @@ FILE *read_cmd_output(const char *fmt, ...)
 
 	return ret;
 }
+void load_conf(const char * judge_path ,int sys ){
+
+	FILE *fp = fopen(judge_path, "re");
+	if (fp != NULL){
+		char buf[BUFFER_SIZE]="";
+		while (fgets(buf, BUFFER_SIZE - 1, fp))
+		{
+			if(sys){
+				read_buf(buf, "OJ_HOST_NAME", host_name);
+				read_buf(buf, "OJ_USER_NAME", user_name);
+				read_buf(buf, "OJ_PASSWORD", password);
+				read_buf(buf, "OJ_DB_NAME", db_name);
+				read_int(buf, "OJ_PORT_NUMBER", &port_number);
+				read_int(buf, "OJ_HTTP_JUDGE", &http_judge);
+				read_buf(buf, "OJ_HTTP_BASEURL", http_baseurl);
+				read_buf(buf, "OJ_HTTP_APIPATH", http_apipath);
+				read_buf(buf, "OJ_HTTP_LOGINPATH", http_loginpath);
+				read_buf(buf, "OJ_HTTP_USERNAME", http_username);
+				read_buf(buf, "OJ_HTTP_PASSWORD", http_password);
+				read_int(buf, "OJ_HTTP_DOWNLOAD", &http_download);
+				read_int(buf, "OJ_USE_PTRACE", &use_ptrace);
+				read_int(buf, "OJ_COMPILE_CHROOT", &compile_chroot);
+				read_int(buf, "OJ_USE_DOCKER",&use_docker);
+				read_int(buf, "OJ_PYTHON_FREE", &python_free);
+			}
+			read_int(buf, "OJ_JAVA_TIME_BONUS", &java_time_bonus);
+			read_int(buf, "OJ_JAVA_MEMORY_BONUS", &java_memory_bonus);
+			read_int(buf, "OJ_SIM_ENABLE", &sim_enable);
+			read_buf(buf, "OJ_JAVA_XMS", java_xms);
+			read_buf(buf, "OJ_JAVA_XMX", java_xmx);
+			read_int(buf, "OJ_OI_MODE", &oi_mode);
+			read_int(buf, "OJ_FULL_DIFF", &full_diff);
+			read_int(buf, "OJ_RAW_TEXT_DIFF", &raw_text_diff);
+			read_int(buf, "OJ_SHM_RUN", &shm_run);
+			read_int(buf, "OJ_USE_MAX_TIME", &use_max_time);
+			read_int(buf, "OJ_TIME_LIMIT_TO_TOTAL", &time_limit_to_total);
+			read_int(buf, "OJ_IGNORE_ESOL", &ignore_esol);
+			read_int(buf, "OJ_INTERNAL_MARK", &internal_mark);
+			read_int(buf, "OJ_TURBO_MODE", &turbo_mode);
+			read_double(buf, "OJ_CPU_COMPENSATION", &cpu_compensation);
+			read_int(buf, "OJ_COPY_DATA", &copy_data);
+			read_buf(buf, "OJ_CC_STD", cc_std);
+			read_buf(buf, "OJ_CPP_STD", cpp_std);
+			read_buf(buf, "OJ_CC_OPT", cc_opt);
+			read_int(buf, "OJ_AUTO_RESULT", &auto_result);
+		}
+		fclose(fp);
+	}
+
+}
 // read the configue file
 void init_judge_conf()   //读取判题主目录etc中的配置文件judge.conf
 {
-	FILE *fp = NULL;
-	char buf[BUFFER_SIZE];
+	char judge_conf[BUFFER_SIZE]="/home/judge/etc/judge.conf";
 	host_name[0] = 0;
 	user_name[0] = 0;
 	password[0] = 0;
@@ -539,50 +591,8 @@ void init_judge_conf()   //读取判题主目录etc中的配置文件judge.conf
 		strcpy(cc_std,"-std=c99");
 		strcpy(cpp_std,"-std=c++11");
 	}
-	sprintf(buf, "%s/etc/judge.conf", oj_home);
-	fp = fopen("./etc/judge.conf", "re");
-	if (fp != NULL)
-	{
-		while (fgets(buf, BUFFER_SIZE - 1, fp))
-		{
-			read_buf(buf, "OJ_HOST_NAME", host_name);
-			read_buf(buf, "OJ_USER_NAME", user_name);
-			read_buf(buf, "OJ_PASSWORD", password);
-			read_buf(buf, "OJ_DB_NAME", db_name);
-			read_int(buf, "OJ_PORT_NUMBER", &port_number);
-			read_int(buf, "OJ_JAVA_TIME_BONUS", &java_time_bonus);
-			read_int(buf, "OJ_JAVA_MEMORY_BONUS", &java_memory_bonus);
-			read_int(buf, "OJ_SIM_ENABLE", &sim_enable);
-			read_buf(buf, "OJ_JAVA_XMS", java_xms);
-			read_buf(buf, "OJ_JAVA_XMX", java_xmx);
-			read_int(buf, "OJ_HTTP_JUDGE", &http_judge);
-			read_buf(buf, "OJ_HTTP_BASEURL", http_baseurl);
-			read_buf(buf, "OJ_HTTP_APIPATH", http_apipath);
-			read_buf(buf, "OJ_HTTP_LOGINPATH", http_loginpath);
-			read_buf(buf, "OJ_HTTP_USERNAME", http_username);
-			read_buf(buf, "OJ_HTTP_PASSWORD", http_password);
-			read_int(buf, "OJ_HTTP_DOWNLOAD", &http_download);
-			read_int(buf, "OJ_OI_MODE", &oi_mode);
-			read_int(buf, "OJ_FULL_DIFF", &full_diff);
-			read_int(buf, "OJ_RAW_TEXT_DIFF", &raw_text_diff);
-			read_int(buf, "OJ_SHM_RUN", &shm_run);
-			read_int(buf, "OJ_USE_MAX_TIME", &use_max_time);
-			read_int(buf, "OJ_TIME_LIMIT_TO_TOTAL", &time_limit_to_total);
-			read_int(buf, "OJ_USE_PTRACE", &use_ptrace);
-			read_int(buf, "OJ_IGNORE_ESOL", &ignore_esol);
-			read_int(buf, "OJ_COMPILE_CHROOT", &compile_chroot);
-			read_int(buf, "OJ_TURBO_MODE", &turbo_mode);
-			read_double(buf, "OJ_CPU_COMPENSATION", &cpu_compensation);
-			read_int(buf, "OJ_PYTHON_FREE", &python_free);
-			read_int(buf, "OJ_COPY_DATA", &copy_data);
-			read_int(buf, "OJ_USE_DOCKER",&use_docker);
-			read_buf(buf, "OJ_CC_STD", cc_std);
-			read_buf(buf, "OJ_CPP_STD", cpp_std);
-			read_buf(buf, "OJ_CC_OPT", cc_opt);
-			read_int(buf, "OJ_AUTO_RESULT", &auto_result);
-		}
-		fclose(fp);
-	}
+	sprintf(judge_conf, "%s/etc/judge.conf", oj_home);
+	load_conf(judge_conf,1);
 //	fclose(fp);
 	if(use_docker){
 		shm_run=0;
@@ -733,52 +743,129 @@ char * str_replace(char * old, const char * search, const char * replace){
 	}
 	return old;
 }
+bool is_str_utf8(const char* str)
+{
+  unsigned int nBytes = 0;//UFT8可用1-6个字节编码,ASCII用一个字节
+  unsigned char chr = *str;
+  bool bAllAscii = true;
+  for (unsigned int i = 0; str[i] != '\0'; ++i){
+    chr = *(str + i);
+    //判断是否ASCII编码,如果不是,说明有可能是UTF8,ASCII用7位编码,最高位标记为0,0xxxxxxx
+    if (nBytes == 0 && (chr & 0x80) != 0){
+      bAllAscii = false;
+    }
+    if (nBytes == 0) {
+      //如果不是ASCII码,应该是多字节符,计算字节数
+      if (chr >= 0x80) {
+        if (chr >= 0xFC && chr <= 0xFD){
+          nBytes = 6;
+        }
+        else if (chr >= 0xF8){
+          nBytes = 5;
+        }
+        else if (chr >= 0xF0){
+          nBytes = 4;
+        }
+        else if (chr >= 0xE0){
+          nBytes = 3;
+        }
+        else if (chr >= 0xC0){
+          nBytes = 2;
+        }
+        else{
+          return false;
+        }
+        nBytes--;
+      }
+    }
+    else{
+      //多字节符的非首字节,应为 10xxxxxx
+      if ((chr & 0xC0) != 0x80){
+        return false;
+      }
+      //减到为零为止
+      nBytes--;
+    }
+  }
+  //违返UTF8编码规则
+  if (nBytes != 0) {
+    return false;
+  }
+  if (bAllAscii){ //如果全部都是ASCII, 也是UTF8
+    return true;
+  }
+  return true;
+}
+inline void fprintSafe(FILE * f,char * buf){
+	if(is_str_utf8(buf)){
+		str_replace(buf,"|","丨");
+		str_replace(buf,"[","［");
+		str_replace(buf,"]","］");
+		str_replace(buf,"(","（");
+		str_replace(buf,")","）");
+		str_replace(buf,"*","＊");
+		str_replace(buf,"\r","");
+		str_replace(buf,"\n","↩");
+		fprintf(f,"%s",buf);
+	}else{
+		for(size_t i=0;i<strlen(buf);i++){
+			if(buf[i]==' ') 
+			   fprintf(f,"⬜");
+			else if(buf[i]=='\r') 
+			   continue;
+			else if(buf[i]=='\n') 
+			   fprintf(f,"↩");
+			else if (isprint(buf[i]))
+			   fprintf(f,"%c",buf[i]);
+			else if(buf[i]==EOF)
+			   fprintf(f,"⛔");   //Binary Code
+			else
+			   fprintf(f,"`0x%02x` ",buf[i] & 0xff );   //Binary Code
+		}
+	}
+}
 void make_diff_out_simple(FILE *f1, FILE *f2,char * prefix, int c1, int c2, const char *path,const char * userfile )
 {
-        char buf[BUFFER_SIZE];
+        char buf1[BUFFER_SIZE];
+        char buf2[BUFFER_SIZE];
         FILE *diff=fopen("diff.out","a+");
         fprintf(diff,"%s\n--\n", getFileNameFromPath(path));
-        fprintf(diff,"|Expected|Yours\n|--|--\n");
+        fprintf(diff,"|Expected|Yours\n|--|--\n|...|...\n");
         int row=0;
-        int need=1;
+        //int need=1;
         while(!(feof(f1)&&feof(f2))){
                 row++;
                 fprintf(diff,"|");
-                if(row==1){
-                        fprintf(diff,"%s",prefix);
-                        if(feof(f2)&&strlen(prefix)>0){
-                                fprintf(diff,"|%s\n|",prefix);
-                                need=0;
+                if(row==1){  
+			fprintSafe(diff,prefix);
+			if(c1!='\n'){
+                        	buf1[0]=c1;     // patch buf1 with c1
+                                if(!feof(f1)&&fgets(buf1+1,BUFFER_SIZE-2,f1)){
+                                        fprintSafe(diff,buf1);
+                                }
+                        }else{
+                           fprintf(diff,"↩");
                         }
-                        if(isprint(c1))fprintf(diff,"%c",c1);
-			//else fprintf(diff,"`Binary:0x%02x`",c1);
-                }
-                if(!feof(f1)&&fgets(buf,BUFFER_SIZE-1,f1)){
-                        if(buf[strlen(buf)-1]=='\n') buf[strlen(buf)-1]='\0';
-                        fprintf(diff,"%s",buf);
-                }
+                }else if(!feof(f1)&&fgets(buf1,BUFFER_SIZE-1,f1)){
+			fprintSafe(diff,buf1);
+                }else{
+                        fprintf(diff,"⛔");   // standard output ending
+		}
                 fprintf(diff,"|");
                 if(row==1){
-                        if(need)fprintf(diff,"%s",prefix);
-                        if(c2=='|') fprintf(diff,"丨");
-                        else if(c2=='[') fprintf(diff,"［");
-                        else if(c2==']') fprintf(diff,"］");
-                        else if(c2=='(') fprintf(diff,"（");
-                        else if(c2==')') fprintf(diff,"）");
-                        else if(c2=='\n'){
-                                  fprintf(diff,"\n||");
-                        }
-                        else if(isprint(c2))fprintf(diff,"%c",c2);
-                        else fprintf(diff,"`Binary:0x%02x`",c2);
-                }
-                if(!feof(f2)&&fgets(buf,BUFFER_SIZE-1,f2)){
-                        str_replace(buf,"|","丨");
-                        str_replace(buf,"[","［");
-                        str_replace(buf,"]","］");
-                        str_replace(buf,"(","（");
-                        str_replace(buf,")","）");
-                        if(buf[strlen(buf)-1]=='\n') buf[strlen(buf)-1]='\0';
-                        fprintf(diff,"%s",buf);
+			fprintSafe(diff,prefix);
+			if(c2==EOF){
+                        	   fprintf(diff,"⛔");   //Binary Code
+			}else {
+				buf2[0]=c2;  // patch buf2 with c2
+				if(!feof(f2)&&fgets(buf2+1,BUFFER_SIZE-2,f2)){
+						fprintf(diff,"`");
+						fprintSafe(diff,buf2);
+						fprintf(diff,"`");
+				}
+			}
+                }else if(!feof(f2)&&fgets(buf2,BUFFER_SIZE-1,f2)){
+				fprintSafe(diff,buf2);
                 }
                 fprintf(diff,"\n");
                 if(row>=5) break;
@@ -792,11 +879,11 @@ void make_diff_out_simple(FILE *f1, FILE *f2,char * prefix, int c1, int c2, cons
  * http://code.google.com/p/zoj/source/browse/trunk/judge_client/client/text_checker.cc#25
  * 参考zoj的文件流式比较器，有更低的内存占用
  */
-int compare_zoj(const char *file1, const char *file2,const char * infile,const char * userfile)
+int compare_zoj(const char *file1, const char *file2,const char * infile,const char * userfile,double * spj_mark)
 {
         int ret = OJ_AC;
         int c1, c2;
-        char prefix[BUFFER_SIZE];
+        char prefix[BUFFER_SIZE]="";
         int preK=0;
         FILE *f1, *f2;
         f1 = fopen(file1, "re");
@@ -861,6 +948,12 @@ int compare_zoj(const char *file1, const char *file2,const char * infile,const c
 			}
 		}
 end:
+	long out_size,user_now;
+	out_size=get_file_size(file1);
+	user_now=ftell(f2);
+	if(DEBUG) printf("user/out=%ld/%ld\n",user_now,out_size);
+	if(internal_mark && user_now>1 && out_size>user_now) *spj_mark=(user_now-1.00)/out_size;
+
 	if (ret == OJ_WA || ret == OJ_PE)
 	{
 		if (full_diff)
@@ -883,11 +976,11 @@ void delnextline(char s[])
 		s[--L] = 0;
 }
 
-int compare(const char *file1, const char *file2, const char * infile,const char * userfile)  
+int compare(const char *file1, const char *file2, const char * infile,const char * userfile,double * spj_mark)  
 {
 #ifdef ZOJ_COM
 	//compare ported and improved from zoj don't limit file size
-	return compare_zoj(file1, file2,infile,userfile);
+	return compare_zoj(file1, file2,infile,userfile,spj_mark);
 #endif
 #ifndef ZOJ_COM
 	//the original compare from the first version of hustoj has file size limit  原始的内存中比较，速度更快但耗用更多内存
@@ -2793,28 +2886,26 @@ float raw_text_judge( char *infile, char *outfile, char *userfile, float *total_
 
 }
 int special_judge(char *oj_home, int problem_id, char *infile, char *outfile,
-				  char *userfile,double* pass_rate,int spj)
+				  char *userfile,double* spj_mark,int spj)
 {
 
 	pid_t pid;
 	char spjpath[BUFFER_SIZE/2];
 	char tpjpath[BUFFER_SIZE/2];
+	char upjpath[BUFFER_SIZE/2];
 	if (DEBUG) printf("pid=%d\n", problem_id);
 	// prevent privileges settings caused spj fail in [issues686]
-	execute_cmd("chgrp judge %s/data/%d/spj %s %s %s", oj_home, problem_id,infile, outfile, userfile);
-	execute_cmd("chmod 751 %s/data/%d/spj %s %s %s", oj_home, problem_id,infile, outfile, userfile);
+	execute_cmd("chgrp judge %s/data/%d/?pj %s %s %s", oj_home, problem_id,infile, outfile, userfile);
+	execute_cmd("chmod 751 %s/data/%d/?pj %s %s %s", oj_home, problem_id,infile, outfile, userfile);
+	sprintf(spjpath,"%s/data/%d/spj", oj_home, problem_id);
+	sprintf(tpjpath,"%s/data/%d/tpj", oj_home, problem_id);
+	sprintf(upjpath,"%s/data/%d/upj", oj_home, problem_id);
 	
 	pid = fork();
 	int ret = 0;
 	if (pid == 0)
 	{
 
-		while (setgid(1536) != 0)
-			sleep(1);
-		while (setuid(1536) != 0)
-			sleep(1);
-		while (setresuid(1536, 1536, 1536) != 0)
-			sleep(1);
 
 		struct rlimit LIM; // time limit, file limit& memory limit
 
@@ -2828,14 +2919,23 @@ int special_judge(char *oj_home, int problem_id, char *infile, char *outfile,
 		LIM.rlim_max = STD_F_LIM + STD_MB;
 		LIM.rlim_cur = STD_F_LIM;
 		setrlimit(RLIMIT_FSIZE, &LIM);
-		sprintf(spjpath,"%s/data/%d/spj", oj_home, problem_id);
-		sprintf(tpjpath,"%s/data/%d/tpj", oj_home, problem_id);
 
-		if( access( tpjpath , X_OK ) == 0 ){
-			ret = execute_cmd("%s/data/%d/tpj %s %s %s 2>> diff.out ", oj_home, problem_id, infile, userfile, outfile);    // testlib style
+		while (setgid(1536) != 0)
+			sleep(1);
+		while (setuid(1536) != 0)
+			sleep(1);
+		while (setresuid(1536, 1536, 1536) != 0)
+			sleep(1);
+		if( access( upjpath , X_OK ) == 0 ){
+			ret = execl(upjpath,upjpath, infile, outfile, userfile,NULL);    // hustoj style 2
+			if (DEBUG) printf("hustoj upj return: %d\n", ret);
+		}else if( access( tpjpath , X_OK ) == 0 ){
+			//ret = execute_cmd("%s/data/%d/tpj %s %s %s 2>> diff.out ", oj_home, problem_id, infile, userfile, outfile);    // testlib style
+			ret = execl(tpjpath,tpjpath, infile, userfile, outfile, NULL);    // testlib style: switch userfile and outfile position 
 			if (DEBUG) printf("testlib spj return: %d\n", ret);
 		}else if (access( spjpath , X_OK ) == 0 ) {	
-			ret = execute_cmd("%s/data/%d/spj %s %s %s", oj_home, problem_id, infile, outfile, userfile);    // hustoj style
+			ret = execl(spjpath,spjpath, infile, outfile, userfile,NULL);    // hustoj style 1
+			//ret = execute_cmd("%s/data/%d/spj %s %s %s", oj_home, problem_id, infile, outfile, userfile);    // hustoj style
 			if (DEBUG) printf("hustoj spj return: %d\n", ret);
 		}else if(spj == 2){
 
@@ -2844,7 +2944,7 @@ int special_judge(char *oj_home, int problem_id, char *infile, char *outfile,
 			ret=1;
 		}
 		if (ret)
-			exit(1);
+			exit(ret);
 		else
 			exit(0);
 	}
@@ -2854,6 +2954,13 @@ int special_judge(char *oj_home, int problem_id, char *infile, char *outfile,
 
 		waitpid(pid, &status, 0);
 		ret = WEXITSTATUS(status);
+		if( access( upjpath , X_OK ) == 0 ){
+			printf("upj return: %d\n", ret);
+			*spj_mark=ret/100.0;
+			if(ret==100) ret=0;
+			else ret=1;
+			printf("spj_mark: %.2f ret: %d\n",*spj_mark, ret);
+		}
 		if (DEBUG)
 			printf("recorded spj: %d\n", ret);
 	}
@@ -2862,7 +2969,7 @@ int special_judge(char *oj_home, int problem_id, char *infile, char *outfile,
 void judge_solution(int &ACflg, int &usedtime, double time_lmt, int spj,
 					int p_id, char *infile, char *outfile, char *userfile, int &PEflg,
 					int lang, char *work_dir, int &topmemory, int mem_lmt,
-					int solution_id, int num_of_test,double * pass_rate)
+					int solution_id, int num_of_test,double * spj_mark)
 {
 	//usedtime-=1000;
 	int comp_res;
@@ -2885,6 +2992,7 @@ void judge_solution(int &ACflg, int &usedtime, double time_lmt, int spj,
 			if(total_time>real_limit) ACflg = OJ_TL;
 		}
 	}
+
 	if (topmemory > mem_lmt * STD_MB)
 		ACflg = OJ_ML; //issues79
 	// compare
@@ -2892,7 +3000,7 @@ void judge_solution(int &ACflg, int &usedtime, double time_lmt, int spj,
 	{
 		if (spj)
 		{
-			comp_res = special_judge(oj_home, p_id, infile, outfile, userfile,pass_rate,spj);
+			comp_res = special_judge(oj_home, p_id, infile, outfile, userfile,spj_mark,spj);
 
 			if (comp_res == 0)
 				comp_res = OJ_AC;
@@ -2905,7 +3013,7 @@ void judge_solution(int &ACflg, int &usedtime, double time_lmt, int spj,
 		}
 		else
 		{
-			comp_res = compare(outfile, userfile,infile,userfile);
+			comp_res = compare(outfile, userfile,infile,userfile,spj_mark);
 		}
 		if (comp_res == OJ_WA)
 		{
@@ -2917,6 +3025,8 @@ void judge_solution(int &ACflg, int &usedtime, double time_lmt, int spj,
 			PEflg = OJ_PE;
 		ACflg = comp_res;
 	}
+	if((ACflg == OJ_AC)) *spj_mark=1.0;
+	else if (*spj_mark>0.99) *spj_mark=0.99;
 	//jvm popup messages, if don't consider them will get miss-WrongAnswer
 	if (lang == LANG_JAVA )
 	{
@@ -3708,14 +3818,23 @@ int main(int argc, char **argv)
 	}
 	char last_name[BUFFER_SIZE];
 	int minus_mark=0;
+	double spj_mark=0;
 	char path_buf[BUFFER_SIZE];
+	char problem_conf[BUFFER_SIZE+64];
+
 	sprintf(path_buf,"%s/data/%d/",oj_home,p_id);
+	sprintf(problem_conf,"%s/judge.conf",path_buf);
+ 	if (access(problem_conf, R_OK ) != -1){
+		load_conf(problem_conf,0);
+	}
+
 	prelen=strlen(path_buf);
 	if (prelen<strlen(oj_home)+6) prelen=strlen(oj_home)+6;
 
 	for (int i=0 ; (oi_mode || ACflg == OJ_AC || ACflg == OJ_PE) && i < namelist_len ;i++)
 	{
 		usedtime=0;
+		spj_mark=0;
 		dirp=namelist[i];
 
 		namelen = isInFile(dirp->d_name); // check if the file is *.in or not
@@ -3764,13 +3883,15 @@ int main(int argc, char **argv)
 			//判断用户程序输出是否正确，给出结果
 			judge_solution(ACflg, usedtime, time_lmt, spj, p_id, infile,
 						   outfile, userfile, PEflg, lang, work_dir, topmemory,
-						   mem_lmt, solution_id, num_of_test,&pass_rate);
+						   mem_lmt, solution_id, num_of_test,&spj_mark);
 			/*
    			if(usedtime > time_lmt * 1000) {          // 如果觉得的显示超时结果的计时过长，可以覆盖数据。
 					usedtime = time_lmt * 1000;
 			}
 			*/
-			
+			if(internal_mark)
+			time_space_index+=sprintf(time_space_table+time_space_index,"%s|%ld|%s/%.2f|%dk|%dms\n",infile+prelen,get_file_size(infile),jresult[ACflg],spj_mark,topmemory/1024,usedtime);
+			else
 			time_space_index+=sprintf(time_space_table+time_space_index,"%s|%ld|%s|%dk|%dms\n",infile+prelen,get_file_size(infile),jresult[ACflg],topmemory/1024,usedtime);
 			/*   // full diff code backup
 			 if( ACflg != OJ_AC ){
@@ -3809,6 +3930,10 @@ int main(int argc, char **argv)
 				if(same_subtask(last_name,dirp->d_name)){ //相同子任务，初次失败
 					if(minus_mark>=0) get_mark-=minus_mark;  //扣除任务内积分
 				}
+				if(DEBUG)printf("1 spj_mark: %.2f mark: %.2f get_mark: %.2f\n",spj_mark,mark,get_mark);
+				get_mark+=mark*spj_mark;	
+				pass_rate+=spj_mark;
+				if(DEBUG)printf("2 spj_mark: %.2f mark: %.2f get_mark: %.2f\n",spj_mark,mark,get_mark);
 				minus_mark= -1 ;                          //当前任务失败，标记
 			}
 			if (finalACflg < ACflg)
@@ -3859,6 +3984,7 @@ int main(int argc, char **argv)
 	if(spj!=2){
 		if (oi_mode)
 		{
+			if(DEBUG)printf("raw mark : %.2f %.2f\n",get_mark,pass_rate);
 			if (num_of_test > 0){
 				pass_rate /= num_of_test;
 			}
@@ -3867,6 +3993,7 @@ int main(int argc, char **argv)
 				 if(total_mark>100) pass_rate /= total_mark;
                                 else pass_rate /= 100.0;
 			}
+			if(DEBUG)printf("rec mark: %.2f %.2f\n",get_mark,pass_rate);
 			update_solution(solution_id, finalACflg, usedtime, topmemory >> 10, sim,
 							sim_s_id, pass_rate);
 		}
@@ -3894,7 +4021,8 @@ int main(int argc, char **argv)
 	fclose(df);
 	if(DEBUG) printf("ACflg:%d\n",ACflg);
 	printf("final result:%d\n",finalACflg);
-	if(ACflg != OJ_RE && finalACflg!= OJ_RE ) adddiffinfo(solution_id);
+	if(ACflg != OJ_RE && finalACflg!= OJ_RE )
+	       	adddiffinfo(solution_id);
 	if(!turbo_mode)update_user(user_id);
 	if(!turbo_mode)update_problem(p_id,cid);
 	clean_workdir(work_dir);

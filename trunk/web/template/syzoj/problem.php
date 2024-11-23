@@ -160,6 +160,7 @@ if(file_exists($solution_file)){
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Input?> 
+          <span class="copy" id="copyin" data-clipboard-text="<?php echo htmlentities($sinput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
           </h4>
           <!-- <span class=copy id=\"copyin\" data-clipboard-text=\"".($sinput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
@@ -173,6 +174,7 @@ if(file_exists($solution_file)){
     <div class="row">
         <div class="column">
           <h4 class="ui top attached block header"><?php echo $MSG_Sample_Output?>
+          <span class="copy" id="copyout" data-clipboard-text="<?php echo htmlentities($soutput, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $MSG_COPY; ?></span>
           </h4>
           <!-- <span class=copy id=\"copyout\" data-clipboard-text=\"".($soutput)."\"><?php echo $MSG_COPY; ?></span> -->
           <div class="ui bottom attached segment font-content">
@@ -486,8 +488,8 @@ function selectMulti( num, answer){
 		});
 	  	// adding note for ```input1  ```output1 in description
 	        for(let i=1;i<10;i++){
-                        $(".language-input"+i).parent().before("<div><?php echo $MSG_Sample_Input?>"+i+":</div>");
-                        $(".language-output"+i).parent().before("<div><?php echo $MSG_Sample_Output?>"+i+":</div>");
+                        $(".language-input"+i).parent().before("<div><?php echo $MSG_Input?>"+i+":</div>");
+                        $(".language-output"+i).parent().before("<div><?php echo $MSG_Output?>"+i+":</div>");
                 }
 
 	       
@@ -600,25 +602,9 @@ function selectMulti( num, answer){
   </script>   
 
 
-<style>
-  .copy {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: #f1f1f1;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    z-index: 10;
-  }
-  .pre-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-  }
-</style>
-<script>
+  <script>
+	  if($('#copyin')[0]!= undefined ){
+
 		    var clipboardin=new Clipboard($('#copyin')[0]);
 		    clipboardin.on('success', function(e){
 		      $("#copyin").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
@@ -674,7 +660,6 @@ function selectMulti( num, answer){
 		    });
 	  }
   </script>
-
 <?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>
     <!--以下为了加载公式的使用而既加入-->
 <script>

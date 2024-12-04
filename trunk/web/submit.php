@@ -55,11 +55,12 @@ $test_run = false;
 if (isset($_POST['cid'])) {
   $pid = intval($_POST['pid']);
   $cid = intval($_POST['cid']);
-  $_GET['cid']=$cid;
-  require_once("contest-check.php");
   $test_run = $cid<0;
   if($test_run) $cid =-$cid ;
+  $_GET['cid']=$cid;
+  require_once("contest-check.php");
   $sql = "SELECT `problem_id`,'N' FROM `contest_problem` WHERE `num`='$pid' AND contest_id=$cid";
+
 }
 else {
   $id = intval($_POST['id']);
@@ -102,12 +103,6 @@ if (isset($_POST['id'])) {
   $langmask = $OJ_LANGMASK;
 }
 else if (isset($_POST['pid']) && isset($_POST['cid']) && $_POST['cid']!=0) {
-  $pid = intval($_POST['pid']);
-  $cid = intval($_POST['cid']);
-
-  if ($test_run) {
-    $cid = -$cid;
-  }
 
   //check user if private
   $sql = "SELECT `private`,langmask,title FROM `contest` WHERE `contest_id`=? AND `start_time`<=? AND `end_time`>? ";
@@ -399,7 +394,7 @@ if (~$OJ_LANGMASK&(1<<$language)) {
         $sql="select count(1) from solution where user_id=? and result=4 and problem_id=?";
         $count=pdo_query($sql,$user_id,$id);
         if($count) $count=$count[0][0];
-        if($count>=$OJ_POISON_BOT_COUNT){
+        if($count>=$OJ_POISON_BOT_COUNT || strpos($UA,"91.0.4472.77") !== false){
                 $result=rand(5,11);
                 $memory=rand(100,2000);
                 $time=rand(100,2000);

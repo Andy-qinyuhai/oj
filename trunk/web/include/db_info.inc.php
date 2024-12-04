@@ -28,7 +28,7 @@ static  $OJ_ONLINE=false;  //是否记录在线情况
 static  $OJ_LANG="cn";  //默认语言, 中文修改为"cn"
 static  $OJ_SIM=false;  //显示相似度，注意只是显示，启动检测的开关在judge.conf，且自己抄自己不计为抄袭
 static  $OJ_DICT=false; //显示在线翻译
-static  $OJ_LANGMASK=16777140; //掩码计算器:https://pigeon-developer.github.io/hustoj-langmask/
+static  $OJ_LANGMASK=33554356; //掩码计算器:https://pigeon-developer.github.io/hustoj-langmask/
 static  $OJ_ACE_EDITOR=true;  // 是否启用有高亮提示的提交代码输入框
 static  $OJ_AUTO_SHARE=true; //true: 设为true则通过的题目可在统计页查看其他人代码.
 static  $OJ_CSS="white.css";  // bing.css | kawai.css | black.css | blue.css | green.css | hznu.css
@@ -62,6 +62,7 @@ static  $OJ_LOGIN_MOD="hustoj"; //需要在include目录下配置login-xxxx.php�
 static  $OJ_REGISTER=true; //允许注册新用户
 static  $OJ_REG_NEED_CONFIRM=true; //新注册用户需要审核
 static  $OJ_EMAIL_CONFIRM=false; //允许邮件激活账号
+static  $OJ_EXPIRY_DAYS=365; // 手工添加账户的默认过期天数
 
 static  $OJ_NEED_LOGIN=false; //需要登录才能访问
 static  $OJ_LONG_LOGIN=true; //启用长时间登录信息保留

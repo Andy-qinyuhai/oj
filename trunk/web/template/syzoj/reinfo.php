@@ -29,6 +29,11 @@
 .accordion > .content > .accordion > .content > :last-child {
     margin-bottom: -10px !important;
 }
+td > code {
+    color:red;
+    white-space:nowrap;
+}
+
 </style>
 <div class="padding">
     <div style="margin-top: 0px; margin-bottom: 14px; " v-if="content != null && content !== ''">
@@ -116,14 +121,14 @@
         $("#errtxt table").addClass("ui mini-table cell striped");
         $("#errtxt table tr:odd td").css({
             "border": "1px solid grey",
-            "text-align": "center",
+           // "text-align": "center",
             "width": "200px",
             "background-color": "#8521d022",
             "height": "30px"
         });
         $("#errtxt table tr:even td").css({
             "border": "1px solid grey",
-            "text-align": "center",
+           // "text-align": "center",
             "width": "200px",
             "background-color": "#2185d022",
             "height": "30px"

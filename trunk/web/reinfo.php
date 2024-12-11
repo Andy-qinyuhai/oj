@@ -1,26 +1,20 @@
 <?php
 $cache_time = 10;
 $OJ_CACHE_SHARE = false;
-
 require_once('./include/cache_start.php');
 require_once('./include/db_info.inc.php');
 require_once('./include/setlang.php');
-
 $view_title = "Welcome To Online Judge";
-
 if(!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
   header("location:loginpage.php");
   exit(0);
 } 
-
 require_once("./include/const.inc.php");
-
 if(!isset($_GET['sid'])){
   echo "No such code!\n";
   require_once("oj-footer.php");
   exit(0);
 }
-
 function is_valid($str2){
   global $_SESSION,$OJ_NAME,$OJ_FRIENDLY_LEVEL;
   if(isset($_SESSION[$OJ_NAME.'_'.'source_browser'])) return true;
@@ -36,16 +30,13 @@ function is_valid($str2){
   }
   return $n/$m>3;
 }
-
 if(!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
   $view_errors = $MSG_WARNING_ACCESS_DENIED ;
   require("template/".$OJ_TEMPLATE."/error.php");
   exit(0);
 }
-
 $ok = false;
 $id = strval(intval($_GET['sid']));
-
 $sql = "SELECT * FROM `solution` WHERE `solution_id`=?";
 $result = pdo_query($sql,$id);
 $row = $result[0];
@@ -61,9 +52,7 @@ $error_count = $result[0][items];
 $isAC = $row['result']==4 ;
 $mark=$row['pass_rate']*100;
 if($isAC) $mark=100;
-
-if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser']))
-{
+if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser'])){
   $ok = true;
 }
 $spj=pdo_query("select spj from problem where problem_id=?",$row['problem_id']);
@@ -72,6 +61,11 @@ if(!empty($spj)&&$spj[0][0]==2 && $OJ_HIDE_RIGHT_ANSWER && !isset($_SESSION[$OJ_
     $ok = false;
 }
 $view_reinfo = "";
+
+
+
+
+
 if(  ($ok && $OJ_FRIENDLY_LEVEL>2) ||
     (
       isset($_SESSION[$OJ_NAME.'_'.'source_browser']) || ($ok&&$contest_id==0&&$error_count>3&& // 防止打表过数据弱的题目

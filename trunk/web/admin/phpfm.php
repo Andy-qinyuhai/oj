@@ -6,7 +6,7 @@ require_once('../include/my_func.inc.php');
 // 这不是后门(Webshell)文件，不要理会阿里云的误报。
     $charset = "UTF-8";
     //@setlocale(LC_CTYPE, 'C');
-    putenv("LC_ALL=en_US.UTF-8");  //可能解决某些文件名乱码问题
+    if (function_exists('putenv')) putenv("LC_ALL=en_US.UTF-8");  //可能解决某些文件名乱码问题
     header("Pragma: no-cache");
     header("Cache-Control: no-store");
 	header("Content-Type: text/html; charset=".$charset);
@@ -28,8 +28,8 @@ require_once('../include/my_func.inc.php');
         if($pid==0) $pid=intval(basename($dir_dest));
         }
         $current_dir="$OJ_DATA/$pid/";
-
 // this is not a webshell , and it need administrator / problem editor / problem owner  membership to use, 
+
 
     //php ver < 8.0 has no endsWith function
     if (!function_exists('str_ends_with')) {

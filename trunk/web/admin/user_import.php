@@ -24,8 +24,14 @@ function import_user($filename) {
     if (($h = fopen("{$filename}", "r")) !== FALSE) {
         // 文件中的每一行数据都被转换为我们调用的单个数组$data
         // 数组的每个元素以逗号分隔
+	$bom = fread($h, 3);  // 文件有BOM，跳过这三个字节
+        if ($bom !== "\xEF\xBB\xBF") {
+            fseek($h, 0);  // 文件没有BOM，退回文件头部
+        }
+
         while (($data = fgetcsv($h, 1000, ",")) !== FALSE) {
          // 每个单独的数组都被存入到嵌套的数组中
+	    if(!check){
                 if ($data[0] == "学号") {
                         $check=true;
                         echo "导入名单：<hr>\n";
@@ -38,6 +44,7 @@ function import_user($filename) {
 			$expire=(iconv("gb2312","utf-8",$data[6])==$MSG_EXPIRY_DATE );
                         continue;
                 }
+	    }
             if($check){
                     $user_id = mb_trim($data[0]);
                     $nick = $data[1];
@@ -45,7 +52,7 @@ function import_user($filename) {
                     $school = "";
                     $email = "";
                     $group_name="";
-		    $expiry_date=addDays($OJ_EXPIRY_DAYS);
+		    $expiry_date=add_days($OJ_EXPIRY_DAYS);
                     if (isset($data[3])) $school = $data[3];
                     if (isset($data[4])) $email = $data[4];
                     if (isset($data[5])) $group_name = $data[5];
@@ -56,6 +63,7 @@ function import_user($filename) {
                             $group_name=iconv("gb2312","utf-8",$group_name);
                             $expiry_date=iconv("gb2312","utf-8",$expiry_date);
                     }
+		    if (!is_date($expiry_date)&&is_numeric($expiry_date)) $expiry_date=add_days($expiry_date);
                     if (mb_strlen($nick, 'utf-8') > 20) {
                         $new_len = mb_strlen($nick, 'utf-8');
                         if ($new_len > $max_length) {

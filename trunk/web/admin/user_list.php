@@ -75,7 +75,7 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
     <?php
     foreach($result as $row){
       echo "<tr>";
-        echo "<td><a href='../userinfo.php?user=".$row['user_id']."'>".$row['user_id']."</a></td>";
+        echo "<td><a href='../userinfo.php?user=".htmlentities(urlencode($row['user_id']))."'>".$row['user_id']."</a></td>";
         echo "<td><span fd='nick' user_id='".$row['user_id']."'>".$row['nick']."</span></td>";
         echo "<td><a href='user_list.php?keyword=".htmlentities(urlencode($row['ip']))."' >".$row['ip']."</td>";
         if($OJ_SaaS_ENABLE && $domain == $DOMAIN){
@@ -89,10 +89,18 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
         echo "<td><span fd='group_name' user_id='".$row['user_id']."'>".$row['group_name']."</span></td>";
         echo "<td>".$row['accesstime']."</td>";
         echo "<td>".$row['reg_time']."</td>";
-        echo "<td><span fd='expiry_date' user_id='".$row['user_id']."' >".$row['expiry_date']."</span></td>";
+        $color="red";
+        $edate= new DateTime($row['expiry_date']);
+        $tomorrow= new DateTime(add_days(7));   // 7 日临期预警蓝色
+        $today= new DateTime(add_days(0));
+        if($edate>$tomorrow) $color="green";
+        else if($edate>=$today) $color="blue";
+        echo "<td><span fd='expiry_date' user_id='".$row['user_id']."' class='".$color."' >".$row['expiry_date']."</span></td>";
+
       if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
         echo "<td><a href=user_df_change.php?cid=".$row['user_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".
-                  ($row['defunct']=="N"?"<span class=green>$MSG_NORMAL</span>":"<span class=red>$MSG_DELETED</span>")."</a></td>";
+           ($row['defunct']=="N"?"<span class=green title='$MSG_CLICK_TO_DELETE'>$MSG_NORMAL</span>":"<span class=red title='$MSG_CLICK_TO_RECOVER'>$MSG_DELETED</span>")
+            ."</a></td>";
       }
       else {
         echo "<td>".($row['defunct']=="N"?"<span>$MSG_NORMAL</span>":"<span>$MSG_DELETED</span>")."</td>";

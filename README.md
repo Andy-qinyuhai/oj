@@ -150,10 +150,19 @@ Star us, please!
 ## 更新日志
 
 <details open>
+<summary><b>2025年</b></summary>
+	
+日期  | 类型 |  更新内容
+------- | :--: | :-------
+01-01 | 预定 | 新年好！
+
+<details>
+
 <summary><b>2024年</b></summary>
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+12-20 | 补丁 | 改善用户导入功能，支持带BOM的UTF8编码csv文件。优化用户删除功能的界面提示。
 12-10 | 更新 | 远程调用客户端remote_service.php。
 12-09 | 更新 | 远程调用接口service.php。
 12-07 | 更新 | 导入用户可以设置有效期。
@@ -422,11 +431,11 @@ Star us, please!
 
 **各类公有云首选, 最容易，成功率最高，近期部署数量最多，开发者原型机**
 	
-**仅支持原生Ubuntu系统，不支持WSL和docker中的Ubuntu系统**
+**仅支持原生Ubuntu系统，不支持docker中的Ubuntu系统**
 	
 ### 基于 Ubuntu 24.04 安装	
 	
-**仅支持原生Ubuntu系统，不支持WSL和docker中的Ubuntu系统**	
+**仅支持原生Ubuntu系统，不支持docker中的Ubuntu系统**	
 
 ### 基于 Debian12  安装	
 

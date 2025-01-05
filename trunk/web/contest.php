@@ -146,7 +146,7 @@ if (isset($_GET['cid'])) {
 		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 			$sql = "SELECT MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=? and `result` >=4 and `problem_id` =?";
 			$res = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id'],$row['problem_id']); 
-			if($res['min_result'] == 4) $is_ac = true;
+			if($res[0]['min_result'] == 4) $is_ac = true;
 			
 		}
         if(time()<$end_time || !$is_ac ) $view_problemset[$cnt][3] ="";

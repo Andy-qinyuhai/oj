@@ -142,7 +142,14 @@ if (isset($_GET['cid'])) {
 				$view_problemset[$cnt][2] = "<a href='problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";				
 			}
 		}
-        if(time()<$end_time) $view_problemset[$cnt][3] ="";
+		$is_ac = false;
+		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
+			$sql = "SELECT MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=? and `result` >=4 and `problem_id` =?";
+			$res = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id'],$row['problem_id']); 
+			if($res['min_result'] == 4) $is_ac = true;
+			
+		}
+        if(time()<$end_time || !$is_ac ) $view_problemset[$cnt][3] ="";
 		else $view_problemset[$cnt][3] = $row['source'];	    
 
 	    if (!$noip)

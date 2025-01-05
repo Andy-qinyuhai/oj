@@ -150,10 +150,11 @@ if (isset($_GET['cid'])) {
 			
 		}
         if(time()<$end_time || !$is_ac ) $view_problemset[$cnt][3] ="";
-		else $view_problemset[$cnt][3] = $row['source'];	    
-
-	    if (!$noip)
-			$view_problemset[$cnt][4] = $row['accepted'];
+		else $view_problemset[$cnt][3] = $row['source'];
+	    if (!$noip){
+			$view_problemset[$cnt][3] = $row['source'];
+			$view_problemset[$cnt][4] = $row['accepted'];			
+		}
 	    else
 			$view_problemset[$cnt][4] = "";
     

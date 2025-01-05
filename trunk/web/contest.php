@@ -151,8 +151,12 @@ if (isset($_GET['cid'])) {
 		}
         if(time()<$end_time || !$is_ac ) $view_problemset[$cnt][3] ="";
 		else $view_problemset[$cnt][3] = $row['source'];
-	    if (!$noip){
-			$view_problemset[$cnt][3] = $row['source'];
+		if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
+			isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
+			isset($_SESSION[$OJ_NAME.'_'."source_browser"])||
+			isset($_SESSION[$OJ_NAME.'_'."contest_creator"])
+	    ) $view_problemset[$cnt][3] = $row['source'];
+	    if (!$noip){			
 			$view_problemset[$cnt][4] = $row['accepted'];			
 		}
 	    else

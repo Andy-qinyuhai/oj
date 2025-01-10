@@ -72,8 +72,8 @@ if(file_exists($solution_file)){
 </style>
           
 	      
-          <span class="ui label"><?php echo $MSG_Memory_Limit ?>：<?php echo $row['memory_limit']; ?> MB</span>
-          <span class="ui label"><?php echo $MSG_Time_Limit ?>：<?php echo $row['time_limit']; ?> S</span>
+	  <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Memory_Limit ?>：<span tb="problem" fd="memory_limit"><?php echo $row['memory_limit']; ?></span> MB</span>
+          <span class="ui label" problem_id="<?php echo $id?>" ><?php echo $MSG_Time_Limit ?>：<span tb="problem" fd="time_limit"><?php echo $row['time_limit']; ?></span> S</span>
          <!-- <span class="ui label">标准输入输出</span> -->
       </div>
       <div class="row" style="margin-top: -23px">
@@ -463,6 +463,37 @@ function selectMulti( num, answer){
   editor.text(rep);
 }
 
+function db_click_modify(){
+			let sp=$(this);
+			sp.attr("title","双击修改");
+			let fd=$(this).attr("fd");
+			let tb=$(this).attr("tb");
+			let data_id=$(this).parent().attr(tb+'_id');
+			$(this).dblclick(function(){
+				let data=sp.text();
+				sp.html("<form onsubmit='return false;'><input type=hidden name='m' value='"+tb
+					+"_update_"+fd+"'><input type='hidden' name='"+tb+"_id' value='"+data_id
+					+"'><input type='text' name='"+fd+"' value='"+data+"' selected='true' class='ui mini input' size=5 ></form>");
+				let ipt=sp.find("input[name="+fd+"]");
+				ipt.focus();
+				ipt[0].select();
+				sp.find("input").change(function(){
+					let newdata=sp.find("input[name="+fd+"]").val();
+					$.post("admin/ajax.php",sp.find("form").serialize()).done(function(){
+						console.log("new "+fd );
+						sp.html(newdata);
+					});
+
+				});
+			});
+}
+function admin_mod(){
+	let fd_array = ["time_limit", "memory_limit"];
+// 使用 for...of 循环
+	for (let fd_name of fd_array) {
+		$("span[fd="+fd_name+"]").each(db_click_modify);
+	}
+}
   $(document).ready(function(){
     	$("#creator").load("problem-ajax.php?pid=<?php echo $id?>");
 	<?php if(isset($OJ_MARKDOWN)&&$OJ_MARKDOWN){ ?>
@@ -594,6 +625,7 @@ function selectMulti( num, answer){
 	<?php if ($row['spj']>1 || isset($_GET['sid']) || (isset($OJ_AUTO_SHOW_OFF)&&$OJ_AUTO_SHOW_OFF)){?>
 	    transform();
 	<?php }?>
+		admin_mod();
 
   });
   </script>   

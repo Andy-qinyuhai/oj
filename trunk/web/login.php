@@ -57,15 +57,15 @@ if($login){
   	$group_name="";
         $group_row=pdo_query("select group_name,nick from users where user_id=?",$login);
         if(!empty($group_row)){
-                $group_name=$group_row[0][0];
-		$_SESSION[ $OJ_NAME . '_nick']=$group_row[0][1];
+                $group_name=$group_row[0]['group_name'];
+		$_SESSION[ $OJ_NAME . '_nick']=$group_row[0]['nick'];
 		$_SESSION[ $OJ_NAME . '_group_name']=$group_name;
         }
         if(empty($group_name)){
                 $sql = "SELECT * FROM `privilege` WHERE `user_id`=?";
                 $_SESSION[ $OJ_NAME . '_' . 'user_id' ] = $login;
                 $result = pdo_query( $sql, $login );
-        }else{
+        }else{  // 如果去掉下面的 and rightstr like 'c%' 则能获得该组的所有权限，如：在teacher组可以有teacher用户的所有权限。管理方便，但需谨慎使用。
                 $sql = "SELECT * FROM `privilege` WHERE `user_id`=? or (user_id=? and rightstr like 'c%' )";
                 $_SESSION[ $OJ_NAME . '_' . 'user_id' ] = $login;
                 $result = pdo_query( $sql, $login ,$group_name);

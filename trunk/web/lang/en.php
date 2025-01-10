@@ -254,12 +254,12 @@
   $MSG_SHOW_ALL_TAGS="All Tags";
   $MSG_RESERVED="Reserved";
   $MSG_RECENT_SUBMISSION="Submissions";
-
+  $MSG_TABLE_TRANSPOSE="Table Transpose";
   $MSG_HELP_SEEOJ="watch the front pages";
   $MSG_HELP_ADD_NEWS="add news for the homepage";
   $MSG_HELP_NEWS_LIST="edit or shutdown published news";
   $MSG_HELP_USER_LIST="enable/disable user";
-	$MSG_HELP_USER_ADD="add new user";  
+  $MSG_HELP_USER_ADD="add new user";  
   $MSG_HELP_ADD_PROBLEM="add new problem,multi test cases can be added after problem added ,using TestData button on the Problem List";
   $MSG_HELP_PROBLEM_LIST="manage existing problems, test case files can be uploaded within a zip file and decompress later";
   $MSG_HELP_ADD_CONTEST="schedule a new contest, problem list seperated with comma. You can set up private contest and restrict participants with passwords or lists.";

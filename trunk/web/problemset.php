@@ -52,23 +52,26 @@ if (isset($_GET['search']) && trim($_GET['search'])!="") {
  	$postfix="&search=".urlencode($_GET['search']);
 }else if (isset($_GET['list']) && trim($_GET['list']!="")){
         $plist= explode(",",$_GET['list']);
-	$pids="0";
-	foreach($plist as $pid){
-	  $pid=intval($pid);
-      $pids.=",$pid";
-	}
+        $pids="";
+        foreach($plist as $pid){
+          $pid=intval($pid);
+          if($pids=="")
+             $pids.=$pid;
+          else
+             $pids.=",$pid";
+        }
 	$filter_sql = " problem_id in ($pids) ";
 	$order_by = "order by FIELD(problem_id,$pids)"; // 如果希望按难度顺序改成 order by accepted desc ;
 	//$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
 	$limit_sql="";  // list 不翻页
-
 }else if(isset($_GET['my'])){
 	$filter_sql = " 1";
 	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
     $postfix="&my=1";
 }
 else {
-	$filter_sql = " 1";
+	$filter_sql = " problem_id > 0";
+
 	$limit_sql = " LIMIT ".($page-1)*$page_cnt.",".$page_cnt;
 }
 
@@ -81,7 +84,7 @@ if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 	$sql = "SELECT `problem_id`, MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=? and result>=4";
 	if(isset($pids)&&$pids!="") $sql.=" AND `problem_id` in ($pids)";
 	$sql .= " GROUP BY `problem_id`";
-	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']); 
+	$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
 	foreach ($result as $row){
 		$sub_arr[$row['problem_id']] = true;
 		if($row['min_result'] == 4) $acc_arr[$row['problem_id']] = true;
@@ -120,8 +123,8 @@ else {  //page problems (not include in contests period)
   pdo_query("SET sort_buffer_size = 1024*1024");   // Out of sort memory, consider increasing server sort buffer size
   $sql = "SELECT `problem_id`,`title`,`source`,`submit`,`accepted`,defunct FROM problem A WHERE $filter_sql $order_by $limit_sql ";
   $count_sql= "SELECT count(1) from problem where  $filter_sql ";
-
 //echo htmlentities( $sql);
+
 if (isset($_GET['search']) && trim($_GET['search'])!="") {
 	$total = pdo_query($count_sql,$search,$search);
 	$cnt = $total[0][0] / $page_cnt;
@@ -137,7 +140,7 @@ else {
 	$cnt = $total[0][0] / $page_cnt;
 	$result = mysql_query_cache($sql);
 }
-echo "";
+//echo "$cnt $count_sql";
 
 $view_total_page = ceil($cnt*1.0);
 

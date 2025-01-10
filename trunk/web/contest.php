@@ -94,7 +94,8 @@ if (isset($_GET['cid'])) {
 	$sql = "select p.title,p.problem_id,p.source,cp.num as pnum,cp.c_accepted accepted,cp.c_submit submit from problem p inner join contest_problem cp on p.problem_id = cp.problem_id and cp.contest_id=$cid order by cp.num";
 	$result = mysql_query_cache($sql);
 	$view_problemset = Array();
-
+        $pids=array_column($result,'problem_id');
+        if(!empty($pids)) $pids=implode(",",$pids);
 	$cnt = 0;
 	$noip = (time()<$end_time) && (stripos($view_title,$OJ_NOIP_KEYWORD)!==false);
 	if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
@@ -193,7 +194,8 @@ else {
 		$result = pdo_query($sql,$_SESSION[$OJ_NAME.'_user_id']);
 
 		foreach ($result as $row) {
-			$mycontests .= ",".$row[0];
+		      if(intval($row['contest_id'])>0)
+                              $mycontests .= ",".$row['contest_id'];
 	        }
 
 		$len = mb_strlen($OJ_NAME.'_');

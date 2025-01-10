@@ -154,7 +154,12 @@ Star us, please!
 	
 日期  | 类型 |  更新内容
 ------- | :--: | :-------
+01-07 | 更新 | 增加矩阵转置按钮。
+01-06 | 更新 | 增加全局题单班组(group_name)统计显示页group_total.php 。
+01-04 | 更新 | 增加题单的班组(group_name)统计显示页group_statistics.php 。
+01-02 | 更新 | 允许新闻用importance字段排序，允许双击修改importance。
 01-01 | 预定 | 新年好！
+
 
 <details>
 
@@ -547,7 +552,7 @@ REDHAT / CentOS 用户请浏览
 
 ### LiveCD下载安装
 
-[家宽下载](http://cdn.m.hustoj.com:8090/HUSTOJ24.08.iso) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时可以使用。
+[家宽下载](http://dl3.hustoj.com) Linux不熟悉的用户、内网用户、无网用户无法使用标准版Ubuntu安装时可以使用。
 
 HUSTOJ_LiveCD(发送"livecd"到微信公众号 `onlinejudge` ，获得百度云下载链接)
 

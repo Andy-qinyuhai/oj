@@ -9,6 +9,8 @@ require_once('./include/cache_start.php');
 require_once('./include/db_info.inc.php');
 require_once('./include/memcache.php');
 require_once('./include/setlang.php');
+require_once("./include/my_func.inc.php");
+require_once("./include/const.inc.php");
 $view_title = "$MSG_STATUS";
 
 $NOIP_flag = 0;
@@ -19,85 +21,12 @@ if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
 		$cols=$row[0];        		
 		if($cols[0] > 0) $NOIP_flag = 1;
 }
-/*
-function formatTimeLength($length) {
-  $hour = 0;
-  $minute = 0;
-  $second = 0;
-  $result = '';
 
-  global $MSG_SECONDS, $MSG_MINUTES, $MSG_HOURS, $MSG_DAYS;
 
-  if ($length>=60) {
-    $second = $length%60;
-    
-    if ($second>0 && $second<10) {
-      $result = '0'.$second.' '.$MSG_SECONDS;}
-    else if ($second>0) {
-      $result = $second.' '.$MSG_SECONDS;
-    }
-
-    $length = floor($length/60);
-    if ($length >= 60) {
-      $minute = $length%60;
-      
-      if ($minute==0) {
-        if ($result != '') {
-          $result = '00'.' '.$MSG_MINUTES.' '.$result;
-        }
-      }
-      else if ($minute>0 && $minute<10) {
-        if ($result != '') {
-          $result = '0'.$minute.' '.$MSG_MINUTES.' '.$result;}
-        }
-        else {
-          $result = $minute.' '.$MSG_MINUTES.' '.$result;
-        }
-        
-        $length = floor($length/60);
-
-        if ($length >= 24) {
-          $hour = $length%24;
-
-        if ($hour==0) {
-          if ($result != '') {
-            $result = '00'.' '.$MSG_HOURS.' '.$result;
-          }
-        }
-        else if ($hour>0 && $hour<10) {
-          if($result != '') {
-            $result = '0'.$hour.' '.$MSG_HOURS.' '.$result;
-          }
-        }
-        else {
-          $result = $hour.' '.$MSG_HOURS.' '.$result;
-        }
-
-        $length = floor($length / 24);
-        $result = $length .$MSG_DAYS.' '.$result;
-      }
-      else {
-        $result = $length.' '.$MSG_HOURS.' '.$result;
-      }
-    }
-    else {
-      $result = $length.' '.$MSG_MINUTES.' '.$result;
-    }
-  }
-  else {
-    $result = $length.' '.$MSG_SECONDS;
-  }
-  return $result;
-}
-*/
-require_once("./include/my_func.inc.php");
 
 if (isset($OJ_LANG)) {
   require_once("./lang/$OJ_LANG.php");
 }
-
-require_once("./include/const.inc.php");
-
 
 $str2 = "";
 $lock = false;
@@ -120,13 +49,15 @@ if (isset($_GET['cid'])) {
   if ($rows_cnt>0) {
     $row = $result[0];
     $title = $row['title'];
+	$contest_type = $row['contest_type'];
 		$start_time = strtotime($row['start_time']);
 		$end_time = strtotime($row['end_time']);
 		$view_description = $row['description'];
 		$view_title = $row['title'];
 		$view_start_time = $row['start_time'];
 		$view_end_time = $row['end_time'];
-	$noip = (time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false);
+	//$noip = (time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false);
+	$noip = ((time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false) ) || ($contest_type & 16)>0  ;
 	if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
 		isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
 		isset($_SESSION[$OJ_NAME.'_'."source_browser"])||
@@ -217,7 +148,8 @@ $param=array();
 $user_id = "";
 if ((isset($OJ_ON_SITE_CONTEST_ID)&&$OJ_ON_SITE_CONTEST_ID>0&&!isset($_SESSION[$OJ_NAME.'_'.'administrator']))
         || ( isset($OJ_PUBLIC_STATUS) && !$OJ_PUBLIC_STATUS )
-        ) {
+        || ( isset($contest_type) && ($contest_type & 8) > 0 )
+		) {
   if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))
           $_GET['user_id']='Guest';
   else if (!isset($_SESSION[$OJ_NAME.'_'.'source_browser']))

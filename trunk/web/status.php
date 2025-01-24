@@ -19,7 +19,7 @@ if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD){
 		$cols=$row[0];        		
 		if($cols[0] > 0) $NOIP_flag = 1;
 }
-
+/*
 function formatTimeLength($length) {
   $hour = 0;
   $minute = 0;
@@ -89,7 +89,7 @@ function formatTimeLength($length) {
   }
   return $result;
 }
-
+*/
 require_once("./include/my_func.inc.php");
 
 if (isset($OJ_LANG)) {

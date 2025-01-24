@@ -4,9 +4,10 @@
 	require_once('./include/cache_start.php');
     require_once('./include/db_info.inc.php');
 	require_once('./include/setlang.php');
-	$view_title= "Source Code";
-   
-require_once("./include/const.inc.php");
+	require_once("./include/const.inc.php");
+    require_once("./include/my_func.inc.php");
+	$view_title= "Source Code";   
+
 if (!isset($_GET['id'])){
 	$view_errors= "No such code!\n";
 	require("template/".$OJ_TEMPLATE."/error.php");
@@ -65,13 +66,14 @@ if(!(isset($_SESSION[$OJ_NAME."_source_browser"])||isset($_SESSION[$OJ_NAME."_ad
 				$need_check_using=true;
 	}
 	// 检查是否使用中
-	$now =  date('Y-m-d H:i', time());
-	$sql="select contest_id from contest where contest_id in (select contest_id from contest_problem where problem_id=?) 
-								and start_time < '$now' and end_time > '$now' ";
+	//$now =  date('Y-m-d H:i', time());
+	//$sql="select contest_id from contest where contest_id in (select contest_id from contest_problem where problem_id=?) 
+	//							and start_time < '$now' and end_time > '$now' ";
 	if($need_check_using){
 		//echo $sql;
-		$result=pdo_query($sql,$sproblem_id);
-		if(count($result)>0){
+		//$result=pdo_query($sql,$sproblem_id);
+		$lockid=problem_locked($sproblem_id);
+		if($lockid){
 				$view_errors = "<center>";
 				$view_errors .= "<h3>$MSG_CONTEST_ID : ".$result[0][0]."</h3>";
 				$view_errors .= "<p> $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM </p>";
@@ -138,3 +140,4 @@ require("template/".$OJ_TEMPLATE."/showsource.php");
 if(file_exists('./include/cache_end.php'))
 	require_once('./include/cache_end.php');
 ?>
+

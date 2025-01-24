@@ -1,12 +1,13 @@
 <?php
  $cache_time=10; 
  $OJ_CACHE_SHARE=false;
-	require_once('./include/cache_start.php');
-        require_once('./include/db_info.inc.php');
-	require_once('./include/setlang.php');
-	require_once("./include/const.inc.php");
-	require_once("./include/my_func.inc.php");
+	require_once('include/cache_start.php');
+        require_once('include/db_info.inc.php');
+	require_once('include/setlang.php');
+	require_once("include/const.inc.php");
+	require_once("include/my_func.inc.php");
 	require_once("include/memcache.php");
+	require_once("include/iplocation.php");
 
 $now =  date('Y-m-d H:i', time());
 	if(isset($OJ_OI_MODE)&&$OJ_OI_MODE&&!isset($_SESSION[$OJ_NAME."_administrator"])){
@@ -23,12 +24,14 @@ $now =  date('Y-m-d H:i', time());
                 }
         }
 
+
  // check user
 $user=$_GET['user'];
 if (!is_valid_user_name($user)){
 	echo "No such User!";
 	exit(0);
 }
+$iplocation = new IpLocation();
 
 function extractPlistBlocks($inputString) {
     // 定义正则表达式模式
@@ -99,7 +102,7 @@ if(!empty($bible)){
 $exceptions=array();
 if(isset($OJ_NOIP_KEYWORD)&&$OJ_NOIP_KEYWORD && !isset($_SESSION[$OJ_NAME."_administrator"])){  // && !isset($_SESSION[$OJ_NAME."_administrator"])   管理员不受限
 		                     $now =  date('Y-m-d H:i', time());
-				     $sql="select contest_id from contest c where  c.start_time<'$now' and c.end_time>'$now' and c.title like '%$OJ_NOIP_KEYWORD%'";
+				     $sql="select contest_id from contest c where  c.start_time<'$now' and c.end_time>'$now' and ( c.title like '%$OJ_NOIP_KEYWORD%' or (c.contest_type & 20) >0 )";
 		                     $row=pdo_query($sql);
 				     if(count($row)>0){
 				        $exceptions=array_column($row,'contest_id');
@@ -143,7 +146,7 @@ $row=$result[0];
 $AC=$row['ac'];
 
 // count submission
-$sql="select count(solution_id) as `Submit` FROM `solution` WHERE `user_id`=? and  problem_id>0 $not_in_noip ";
+$sql="select count(DISTINCT problem_id) as `Submit` FROM `solution` WHERE `user_id`=? and  problem_id>0 $not_in_noip ";
 $result=mysql_query_cache($sql,$user) ;
  $row=$result[0];
 $Submit=$row['Submit'];
@@ -159,8 +162,6 @@ $Rank=intval($row[0])+1;
  if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 $sql="select user_id,password,ip,`time` FROM `loginlog` WHERE `user_id`=? order by `time` desc LIMIT 0,50";
 $view_userinfo=mysql_query_cache($sql,$user) ;
-echo "</table>";
-
 }
 $sql="select result,count(1) FROM solution WHERE `user_id`=? AND result>=4 $not_in_noip group by result order by result";
 	$result=mysql_query_cache($sql,$user);

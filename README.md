@@ -152,13 +152,16 @@ Star us, please!
 <details open>
 <summary><b>2025年</b></summary>
 	
-日期  | 类型 |  更新内容
-------- | :--: | :-------
-01-07 | 更新 | 增加矩阵转置按钮。
-01-06 | 更新 | 增加全局题单班组(group_name)统计显示页group_total.php 。
-01-04 | 更新 | 增加题单的班组(group_name)统计显示页group_statistics.php 。
-01-02 | 更新 | 允许新闻用importance字段排序，允许双击修改importance。
-01-01 | 预定 | 新年好！
+日期  | 类型 |  更新内容 | 图
+------- | :--:  | :--: | :-------
+01-23 | 更新 | 优化用户列表的显示。 | ![image](https://github.com/user-attachments/assets/4f703d94-523e-4afa-9e47-66207c3bc182)
+01-20 | 更新 | 增加比赛的禁止选项。| ![image](https://github.com/user-attachments/assets/1f82abcc-eac3-4278-bffc-59d31225edee)
+01-07 | 更新 | 增加矩阵转置按钮。| ![image](https://github.com/user-attachments/assets/835135b0-72d8-4515-8df1-070835689a9b)
+01-06 | 更新 | 增加全局题单班组(group_name)统计显示页group_total.php 。 | ![image](https://github.com/user-attachments/assets/86d8f6ca-dd11-4336-964f-907cac988f54)
+01-04 | 更新 | 增加题单的班组(group_name)统计显示页group_statistics.php 。 |  ![image](https://github.com/user-attachments/assets/3173e20a-df5c-4588-9b74-60564c6c1975)
+01-02 | 更新 | 允许新闻用importance字段排序，允许双击修改importance。| ![image](https://github.com/user-attachments/assets/fb20d0bd-5ef9-4d73-893f-575487d16131)
+01-01 | 预定 | 新年好！| ![image](https://github.com/user-attachments/assets/23d4fb3c-b324-46fa-a482-2cad341e5e1f)
+
 
 
 <details>
@@ -180,7 +183,7 @@ Star us, please!
 10-19 | 更新 | 默认安装memcached，开启缓存，Docker环境在Ubuntu24.04中同步更新到24.04。
 10-07 | 更新 | 修订install-deepin23.sh，并在deepin23发行版测试通过。
 09-22 | 更新 | 管理员菜单增加AI链接。
-09-21 | 更新 | 对在github上给项目加星的同名账号给与回应，在用户信息页点亮“排名”左侧的⭐。
+09-21 | 更新 | 对在github上给项目加星的同名账号给予回应，在用户信息页点亮“排名”左侧的⭐。
 09-14 | 更新 | 修订semantic ui对1200以上的屏幕宽度适应，修订MathJax的渲染过程。
 09-13 | 更新 | 更加友善的错误答案对比输出。
 09-08 | 更新 | 提交答案异步刷新为正确时，触发js网页特效。
@@ -473,9 +476,9 @@ sudo bash install.sh
 ```bash
 sudo bash install-ubuntu18-bytgz.sh 19.06.04.tar.gz
 ```
-### 基于 Ubuntu 20.04+宝塔 安装
+### 基于 Ubuntu 22.04+宝塔 安装
 	
-*先看*[宝塔系统安装HUSTOJ指南v0.2.docx](https://github.com/zhblue/hustoj/raw/master/docs/%E5%AE%9D%E5%A1%94%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85HUSTOJ%E6%8C%87%E5%8D%97v0.2.docx)
+*先看*[宝塔系统安装HUSTOJ指南v0.4.docx](https://github.com/zhblue/hustoj/raw/master/docs/%E5%AE%9D%E5%A1%94%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85HUSTOJ%E6%8C%87%E5%8D%97v0.2.docx)
 
 
 	

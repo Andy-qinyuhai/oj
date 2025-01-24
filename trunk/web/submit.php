@@ -1,4 +1,6 @@
-<?php session_start();
+<?php 
+@ini_set("display_errors", "Off");
+@session_start();
 require_once "include/db_info.inc.php";
 require_once "include/my_func.inc.php";
 require_once "include/email.class.php";
@@ -22,11 +24,10 @@ $user_id = $_SESSION[$OJ_NAME.'_'.'user_id'];
 $language = intval($_POST['language']);
 
 if (!$OJ_BENCHMARK_MODE) {
-  $sql = "SELECT count(1) FROM `solution` WHERE result<4";
+  $sql = "select count(1) cnt FROM `solution` WHERE result<4";
   $result = mysql_query_cache($sql);
   $row = $result[0];
-
-  if ($row[0] > 50) {
+  if ($row['cnt'] > 50) {
     $OJ_VCODE = true;
   }
 
@@ -59,13 +60,13 @@ if (isset($_POST['cid'])) {
   if($test_run) $cid =-$cid ;
   $_GET['cid']=$cid;
   require_once("contest-check.php");
-  $sql = "SELECT `problem_id`,'N' FROM `contest_problem` WHERE `num`='$pid' AND contest_id=$cid";
+  $sql = "select `problem_id`,'N' defunct  FROM `contest_problem` WHERE `num`='$pid' AND contest_id=$cid";
 
 }
 else {
   $id = intval($_POST['id']);
   $test_run = $id<=0;
-  $sql = "SELECT `problem_id`,defunct FROM `problem` WHERE `problem_id`='$id' ";
+  $sql = "select `problem_id`,defunct FROM `problem` WHERE `problem_id`='$id' ";
     
   if(!($test_run||isset($_SESSION[$OJ_NAME.'_'.'administrator'])))
     $sql .= " and defunct='N'";
@@ -80,7 +81,7 @@ if(!$test_run){
 	  exit(0);
 	}
 }
-if ($res[0][1]!='N' && !($test_run||isset($_SESSION[$OJ_NAME.'_'.'administrator']))) {
+if ((!empty($res) ) && $res[0]['defunct']!='N' && !($test_run||isset($_SESSION[$OJ_NAME.'_'.'administrator']))) {
    // echo "res:$res,count:".count($res);
    //  echo "$sql";
   $view_errors = $MSG_PROBLEM_RESERVED."<br>";
@@ -105,24 +106,24 @@ if (isset($_POST['id'])) {
 else if (isset($_POST['pid']) && isset($_POST['cid']) && $_POST['cid']!=0) {
 
   //check user if private
-  $sql = "SELECT `private`,langmask,title FROM `contest` WHERE `contest_id`=? AND `start_time`<=? AND `end_time`>? ";
+  $sql = "select `private`,langmask,title FROM `contest` WHERE `contest_id`=? AND `start_time`<=? AND `end_time`>? ";
   //"SELECT `private`,langmask FROM `contest` WHERE `contest_id`=? AND `start_time`<=? AND `end_time`>?";
   //$result = pdo_query($sql, $cid, $now, $now);
 
   $result = mysql_query_cache($sql, $cid, $now, $now);
-  $rows_cnt = count($result);
+  
 
-  if ($rows_cnt != 1) {
+  if (empty($result)) {
     $view_errors .= $MSG_NOT_IN_CONTEST;
-
     require "template/" . $OJ_TEMPLATE . "/error.php";
     exit(0);
   }
   else {
     $row = $result[0];
-    $isprivate = intval($row[0]);
-    $langmask = $row[1];
-    $title = $row[2];
+    $isprivate = intval($row['private']);
+    $langmask = $row['langmask'];
+    $title = $row['title'];
+
 
     if ($isprivate==1 && !isset($_SESSION[$OJ_NAME.'_'.'c'.$cid])) {
       $sql = "SELECT count(*) FROM `privilege` WHERE `user_id`=? AND `rightstr`=?";
@@ -142,14 +143,11 @@ else if (isset($_POST['pid']) && isset($_POST['cid']) && $_POST['cid']!=0) {
   $sql = "SELECT `problem_id` FROM `contest_problem` WHERE `contest_id`=? AND `num`=?";
   $result = pdo_query($sql, $cid, $pid);
 
-  $rows_cnt = count($result);
-
-  if ($rows_cnt != 1) {
+  if (empty($result)) {
     $view_errors = $MSG_NO_PROBLEM."\n";
     require "template/".$OJ_TEMPLATE."/error.php";
     exit(0);
-  }
-  else {
+  }else {
     $row = $result[0];
     $id = intval($row['problem_id']);
     
@@ -201,9 +199,14 @@ if ($test_run) {
   $id = -$id;
 }
 
-$tempfile = $_FILES ["answer"] ["tmp_name"];
-$len=$_FILES['answer']['size'];
-if($tempfile!=""){
+if(!empty($_FILES)){
+        $tempfile = $_FILES ["answer"] ["tmp_name"];
+        $len=$_FILES['answer']['size'];
+        $origin_name=trim($_FILES ["answer"]['name']);
+}else{
+        $origin_name="not upload";
+}
+if(isset($tempfile)&&$tempfile!=""){
 	if($language!=23){
 		if ($len > 65536) {
 			  $view_errors = $MSG_TOO_LONG."<br>";
@@ -217,7 +220,6 @@ if($tempfile!=""){
 		$source="Main.sb3";
 	}
 }
-$origin_name=trim($_FILES ["answer"]['name']);
 $solution_file = "$OJ_DATA/$id/solution.name";
 if(file_exists($solution_file)){
         $solution_name=trim(file_get_contents($solution_file));
@@ -315,15 +317,16 @@ if (!$OJ_BENCHMARK_MODE) {
 }
 
 if (~$OJ_LANGMASK&(1<<$language)) {
-  $sql = "SELECT nick FROM users WHERE user_id=?";
+  $sql = "select nick FROM users WHERE user_id=?";
   $nick = pdo_query($sql, $user_id);
-
-  if ($nick) {
-    $nick = $nick[0][0];
-  }
-  else {
+	
+  if (!empty($nick)) {
+    $nick = $nick[0]['nick'];
+  }else{
     $nick = "Guest";
   }
+  if(empty($nick)) $nick=$user_id;
+
 
   if (!isset($pid)) {
     $sql = "INSERT INTO solution(problem_id,user_id,nick,in_date,language,ip,code_length,result) VALUES(?,?,?,NOW(),?,?,?,14)";

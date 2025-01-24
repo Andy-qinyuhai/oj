@@ -12,9 +12,9 @@ if(isset($OJ_LANG)){
 <title>User List</title>
 <hr>
 <center><h3><?php echo $MSG_USER."-".$MSG_LIST?></h3></center>
-<div class='container'>
+<div class=''>
 <?php
-$sql = "SELECT COUNT('user_id') AS ids FROM `users`";
+$sql = "select COUNT('user_id') AS ids FROM `users`";
 $result = pdo_query($sql);
 $row = $result[0];
 $ids = intval($row['ids']);
@@ -36,14 +36,14 @@ $trash="";
 if(isset($_GET['keyword']) && $_GET['keyword']!=""){
   $gkeyword = $_GET['keyword'];
   $keyword = "%$gkeyword%";
-  $sql = "SELECT `user_id`,`nick`,email,`accesstime`,`reg_time`,`expiry_date`,`ip`,`school`,`group_name`,`defunct` FROM `users` WHERE (user_id LIKE ?) OR (nick LIKE ?) OR (school LIKE ?)  OR (group_name LIKE ?) or (ip like ?) ORDER BY `user_id` DESC";
+  $sql = "select `user_id`,`nick`,email,`accesstime`,`reg_time`,`expiry_date`,`ip`,`school`,`group_name`,`defunct` FROM `users` WHERE (user_id LIKE ?) OR (nick LIKE ?) OR (school LIKE ?)  OR (group_name LIKE ?) or (ip like ?) ORDER BY `user_id` DESC";
   $result = pdo_query($sql,$keyword,$keyword,$keyword,$keyword,$keyword);
 }else if(isset($_GET['trash'])){
   $trash="&trash";
-  $sql = "SELECT `user_id`,`nick`,email,`accesstime`,`reg_time`,`expiry_date`,`ip`,`school`,`group_name`,`defunct` FROM `users` where defunct='Y' ORDER BY `accesstime` DESC LIMIT $sid, $idsperpage";
+  $sql = "select `user_id`,`nick`,email,`accesstime`,`reg_time`,`expiry_date`,`ip`,`school`,`group_name`,`defunct` FROM `users` where defunct='Y' ORDER BY `accesstime` DESC LIMIT $sid, $idsperpage";
   $result = pdo_query($sql);
 }else{
-  $sql = "SELECT `user_id`,`nick`,email,`accesstime`,`reg_time`,`expiry_date`,`ip`,`school`,`group_name`,`defunct` FROM `users` where defunct='N' ORDER BY `accesstime` DESC LIMIT $sid, $idsperpage";
+  $sql = "select `user_id`,`nick`,email,`accesstime`,`reg_time`,`expiry_date`,`ip`,`school`,`group_name`,`defunct` FROM `users` where defunct='N' ORDER BY `accesstime` DESC LIMIT $sid, $idsperpage";
   $result = pdo_query($sql);
 }
 ?>
@@ -57,31 +57,36 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
 </center>
 
 <center>
-  <table width=100% border=1 style="text-align:center;">
+  <table width=100% border=1 style="text-align:center;" class="ui striped aligned table">
+<thead>
     <tr>
-    <td><?php echo $MSG_USER_ID?></td>
-      <td><?php echo $MSG_NICK?></td>
-      <td>IP</td>
-      <td><?php echo $MSG_EMAIL?></td>
-      <td><?php echo $MSG_SCHOOL?></td>
-      <td><?php echo $MSG_GROUP_NAME?></td>
-      <td><?php echo $MSG_LAST_LOGIN?></td>
-      <td><?php echo $MSG_REGISTER?></td>
-      <td><?php echo $MSG_EXPIRY_DATE?></td>
-      <td><?php echo $MSG_STATUS?></td>
-      <td><?php echo $MSG_SETPASSWORD?></td>
-      <td><?php echo $MSG_PRIVILEGE."-".$MSG_ADD ?></td>
+    <th><?php echo $MSG_USER_ID?></th>
+      <th><?php echo $MSG_NICK?></th>
+      <th>IP</th>
+      <th><?php echo $MSG_EMAIL?></th>
+      <th><?php echo $MSG_SCHOOL?></th>
+      <th><?php echo $MSG_GROUP_NAME?></th>
+      <th><?php echo $MSG_LAST_LOGIN?></th>
+      <th><?php echo $MSG_REGISTER?></th>
+      <th><?php echo $MSG_EXPIRY_DATE?></th>
+      <th><?php echo $MSG_STATUS?></th>
+      <th><?php echo $MSG_ADMIN ?></th>
+      <th><?php echo $MSG_SETPASSWORD?></th>
+      <th><?php echo $MSG_PRIVILEGE."-".$MSG_ADD ?></th>
       </tr>
+</thead>
+
     <?php
     foreach($result as $row){
       echo "<tr>";
         echo "<td><a href='../userinfo.php?user=".htmlentities(urlencode($row['user_id']))."'>".$row['user_id']."</a></td>";
+        if($row['nick']=="") $row['nick']="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "<td><span fd='nick' user_id='".$row['user_id']."'>".$row['nick']."</span></td>";
         echo "<td><a href='user_list.php?keyword=".htmlentities(urlencode($row['ip']))."' >".$row['ip']."</td>";
         if($OJ_SaaS_ENABLE && $domain == $DOMAIN){
                 echo "<td><a href='http://".$row['user_id'].".$DOMAIN' target=_blank >".$row['email']."&nbsp;</a></td>";
         }else{
-                echo "<td>".$row['email']."</td>";
+                echo "<td>".$row['email']." </td>";
         }
         if($row['school']=="") $row['school']="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "<td><span fd='school' user_id='".$row['user_id']."'>".$row['school']."</span></td>";
@@ -97,16 +102,16 @@ if(isset($_GET['keyword']) && $_GET['keyword']!=""){
         else if($edate>=$today) $color="blue";
         echo "<td><span fd='expiry_date' user_id='".$row['user_id']."' class='".$color."' >".$row['expiry_date']."</span></td>";
 
-      if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
+        echo "<td>".($row['defunct']=="N"?"<span class=green >$MSG_NORMAL</span>":"<span class=red>$MSG_DELETED</span>")."</td>";
+      if(isset($_SESSION[$OJ_NAME.'_'.'administrator']) && $row['user_id']!=$_SESSION[$OJ_NAME."_user_id"]){
         echo "<td><a href=user_df_change.php?cid=".$row['user_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".
-           ($row['defunct']=="N"?"<span class=green title='$MSG_CLICK_TO_DELETE'>$MSG_NORMAL</span>":"<span class=red title='$MSG_CLICK_TO_RECOVER'>$MSG_DELETED</span>")
+           ($row['defunct']=="N"?"<span class='label label-danger' title='$MSG_CLICK_TO_DELETE'>$MSG_CLICK_TO_DELETE</span>":"<span class='label label-success' title='$MSG_CLICK_TO_RECOVER'>$MSG_CLICK_TO_RECOVER</span>")
             ."</a></td>";
+      }else{
+      	   echo "<td>&nbsp;</td>";
       }
-      else {
-        echo "<td>".($row['defunct']=="N"?"<span>$MSG_NORMAL</span>":"<span>$MSG_DELETED</span>")."</td>";
-      }
-        echo "<td><a href=changepass.php?uid=".$row['user_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">"."Reset"."</a></td>";
-        echo "<td><a href=privilege_add.php?uid=".$row['user_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">"."Add"."</a></td>";
+        echo "<td><a class='label label-warning' href=changepass.php?uid=".$row['user_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".$MSG_RESET."</a></td>";
+        echo "<td><a class='label label-success' href=privilege_add.php?uid=".$row['user_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">".$MSG_ADD."</a></td>";
       echo "</tr>";
     } ?>
   </table>

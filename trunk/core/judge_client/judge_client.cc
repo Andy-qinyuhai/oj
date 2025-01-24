@@ -1348,15 +1348,17 @@ void addcustomout(int solution_id)
 
 void _update_user_mysql(char *user_id)
 {
-	char sql[BUFFER_SIZE];
+	char sql[BUFFER_SIZE*2];
+	char e_user_id[BUFFER_SIZE/2];
+        mysql_real_escape_string(conn, e_user_id, user_id, strlen(user_id));
 	sprintf(sql,
-			"UPDATE `users` SET `solved`=(SELECT count(DISTINCT `problem_id`) FROM `solution` WHERE `user_id`=\'%s\' AND `result`=4) WHERE `user_id`=\'%s\'",
-			user_id, user_id);
+			"UPDATE `users` SET `solved`=(SELECT count(DISTINCT `problem_id`) FROM `solution` s where  s.`user_id`=\'%s\' AND s.`result`=4 and problem_id not in(select problem_id from contest_problem where contest_id in (select contest_id from contest where contest_type & 20 > 0)) ) WHERE `user_id`=\'%s\'",
+			e_user_id, e_user_id);
 	if (mysql_real_query(conn, sql, strlen(sql)))
 		write_log(mysql_error(conn));
 	sprintf(sql,
-			"UPDATE `users` SET `submit`=(SELECT count(*) FROM `solution` WHERE `user_id`=\'%s\' and problem_id>0) WHERE `user_id`=\'%s\'",
-			user_id, user_id);
+			 "UPDATE `users` SET `submit`=(SELECT count(DISTINCT `problem_id`) FROM `solution` s where  s.`user_id`=\'%s\' and problem_id not in(select problem_id from contest_problem where contest_id in (select contest_id from contest where contest_type & 20 > 0)) ) WHERE `user_id`=\'%s\'",
+		         e_user_id, e_user_id);
 	if (mysql_real_query(conn, sql, strlen(sql)))
 		write_log(mysql_error(conn));
 }
@@ -1403,29 +1405,21 @@ void _update_problem_mysql(int p_id,int cid) {
 		printf("sql:[%s]\n",sql);
 		if (mysql_real_query(conn, sql, strlen(sql)))
 			write_log(mysql_error(conn));
-
-	}
-
-		sprintf(sql,
-			"UPDATE `problem` SET `accepted`=(SELECT count(*) FROM `solution` WHERE `problem_id`=%d AND `result`=4) WHERE `problem_id`=%d",
-			p_id, p_id);
-		printf("sql:[%s]\n",sql);
-	if (mysql_real_query(conn, sql, strlen(sql)))
-		write_log(mysql_error(conn));
-	if(cid>0){
 		sprintf(sql,
 			"UPDATE `contest_problem` SET `c_submit`=(SELECT count(*) FROM `solution` WHERE `problem_id`=%d AND  contest_id=%d) WHERE `problem_id`=%d and contest_id=%d",
 			p_id,cid, p_id,cid);
 		if (mysql_real_query(conn, sql, strlen(sql)))
 			write_log(mysql_error(conn));
-	}
-	/*	sprintf(sql,
-			"UPDATE `problem` SET `submit`=(SELECT count(*) FROM `solution` WHERE `problem_id`=%d) WHERE `problem_id`=%d",
+	}else{
+
+		sprintf(sql,
+			"UPDATE `problem` SET `accepted`=(SELECT count(*) FROM `solution` WHERE `problem_id`=%d AND `result`=4 and contest_id=0 ) WHERE `problem_id`=%d",
 			p_id, p_id);
+		printf("sql:[%s]\n",sql);
+		if (mysql_real_query(conn, sql, strlen(sql)))
+			write_log(mysql_error(conn));
+	}
 	
-	if (mysql_real_query(conn, sql, strlen(sql)))
-		write_log(mysql_error(conn));
-	*/
 }
 #endif
 void update_problem(int pid,int cid) {
@@ -2579,7 +2573,7 @@ void run_solution(int &lang, char *work_dir, double &time_lmt, int &usedtime,
 		char noip_file_name[BUFFER_SIZE];
 		sprintf(noip_file_name,"%s/data/%d/input.name",oj_home,p_id);
 		if(DEBUG) printf("---------NOIP filename:%s\n",noip_file_name);
-		if (access(noip_file_name, R_OK ) == -1){   //不存在指定文件名，使用标准输入
+		if (p_id==0 || access(noip_file_name, R_OK ) == -1){   //不存在指定文件名，使用标准输入
 			if(copy_data){
 				stdin=freopen("data.in", "r", stdin);
 			}else{

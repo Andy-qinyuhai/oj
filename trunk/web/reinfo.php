@@ -4,6 +4,7 @@ $OJ_CACHE_SHARE = false;
 require_once('./include/cache_start.php');
 require_once('./include/db_info.inc.php');
 require_once('./include/setlang.php');
+require_once('./include/my_func.inc.php');
 $view_title = "Welcome To Online Judge";
 if(!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
   header("location:loginpage.php");
@@ -42,6 +43,7 @@ $result = pdo_query($sql,$id);
 $row = $result[0];
 $lang = $row['language'];
 $contest_id = intval($row['contest_id']);
+if($contest_id>0) $_GET["cid"]=$cid=$contest_id;
 $isRE = $row['result']==10;
 
 //统计当前用户对此题目的错误次数
@@ -52,7 +54,7 @@ $error_count = $result[0][items];
 $isAC = $row['result']==4 ;
 $mark=$row['pass_rate']*100;
 if($isAC) $mark=100;
-if((isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser'])){
+if((!contest_locked($contest_id,32))&&(isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $row && ($row['user_id']==$_SESSION[$OJ_NAME.'_'.'user_id']))||isset($_SESSION[$OJ_NAME.'_'.'source_browser'])){
   $ok = true;
 }
 $spj=pdo_query("select spj from problem where problem_id=?",$row['problem_id']);
@@ -61,10 +63,6 @@ if(!empty($spj)&&$spj[0][0]==2 && $OJ_HIDE_RIGHT_ANSWER && !isset($_SESSION[$OJ_
     $ok = false;
 }
 $view_reinfo = "";
-
-
-
-
 
 if(  ($ok && $OJ_FRIENDLY_LEVEL>2) ||
     (

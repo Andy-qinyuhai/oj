@@ -127,6 +127,13 @@
  $MSG_ACTIVE_YOUR_ACCOUNT="Active Your Account ";
  $MSG_CLICK_COPY="Click or Copy the LINK to open in browser ";
  $MSG_CHECK="Check out ";
+	$MSG_OLD="Old";
+	$MSG_DIFFERENT="Different";
+	$MSG_WRONG="Wrong";
+	$MSG_TOO_LONG="Too long";
+	$MSG_TOO_SHORT="Too short";
+	$MSG_TOO_SIMPLE="Too simple";
+	$MSG_TOO_BAD="Please surf the internet in a civilized manner";
 
  //проблема.php
  $MSG_NO_SUCH_PROBLEM =" Проблема в настоящее время недоступна!<br>Она может быть использована для будущих соревнований, прошлых частных соревнований, или администратор временно остановил вопрос для практики по другим причинам, например, из-за того, что тест еще не пройден. ";
@@ -405,7 +412,7 @@
  $MSG_NEED_SEMICOLON = " В этой строке, отмеченной выше, отсутствует точка с запятой в конце. ";
  $MSG_EXTRA_TOKEN_AT_END_OF_INCLUDE =" Инструкция включения должна находиться на отдельной строке и не может быть размещена на той же строке, что и следующая инструкция ";
  $MSG_INT_HAS_NEXT = " hasNext() следует заменить на nextInt() ";
- $MSG_UNTERMINATED_COMMENT =" Комментарий не закончен, пожалуйста, проверьте правильность терминатора "*/", соответствующего "/*" ";
+ $MSG_UNTERMINATED_COMMENT =" Комментарий не закончен, пожалуйста, проверьте правильность терминатора \"*/\", соответствующего \"/*\" ";
  $MSG_EXPECTED_BRACES_TOKEN ="В объявлении функции отсутствуют круглые скобки (), например, int main() записывается как int main ";
  $MSG_REACHED_END_OF_FILE_1 = " Проверить, не скопирован ли исходный код полностью или отсутствует закрывающая фигурная скобка ";
  $MSG_SUBSCRIPT_ERROR =" Невозможно индексировать доступ к переменным, которые не являются массивами или указателями ";
@@ -468,6 +475,11 @@
  	//email
 	$MSG_SYS_WARN="System Warning!";
 	$MSG_IS_ROBOT="could be a robot , verify and disable it !";
+       $MSG_FORBIDDEN="Forbidden ";
+       $MSG_OTHERS="Other's ";
+       $MSG_SUBNET="Subnet ";
+       $MSG_SHOW_DIFF="Show Differ Output";
+
 //SaaS friendly
  $MSG_TEMPLATE="Template";
   $MSG_FRIENDLY_LEVEL="Friendly Level";

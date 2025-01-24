@@ -1,4 +1,5 @@
 <?php 
+echo "You need to remove this line to make this work ";  exit(1);
 require_once("../include/db_info.inc.php");
 require_once("../include/my_func.inc.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'http_judge']))){
@@ -178,11 +179,11 @@ if(isset($_POST['update_solution'])){
 }else if(isset($_POST['updateuser'])){
 	
   	$user_id=$_POST['user_id'];
-	$sql="UPDATE `users` SET `solved`=(SELECT count(DISTINCT `problem_id`) FROM `solution` WHERE `user_id`=? AND `result`=4) WHERE `user_id`=?";
+	$sql="UPDATE `users` SET `solved`=( SELECT count(DISTINCT `problem_id`) FROM `solution` s where  s.`user_id`=? AND s.`result`=4 and problem_id not in(select problem_id from contest_problem where contest_id in (select contest_id from contest where contest_type & 20 > 0)) ) WHERE `user_id`=?";
 	pdo_query($sql,$user_id,$user_id);
   //  echo $sql;
 	
-	$sql="UPDATE `users` SET `submit`=(SELECT count(*) FROM `solution` WHERE `user_id`=? and problem_id>0) WHERE `user_id`=?";
+	$sql="UPDATE `users` SET `solved`=(SELECT count(DISTINCT `problem_id`) FROM `solution` s where  s.`user_id`=? and problem_id not in(select problem_id from contest_problem where contest_id in (select contest_id from contest where contest_type & 20 > 0)) ) WHERE `user_id`=? ";
 	pdo_query($sql,$user_id,$user_id);
   //	echo $sql;
 	
@@ -195,11 +196,7 @@ if(isset($_POST['update_solution'])){
 	//	$sql="UPDATE `contest_problem` SET `c_submit`=(SELECT count(1) FROM `solution` WHERE `problem_id`=? and contest_id=?) WHERE `problem_id`=? and contest_id=?";
 	//	pdo_query($sql,$pid,$cid,$pid,$cid);
 	}else{
-	//	$sql="UPDATE `problem` SET `submit`=(SELECT count(1) FROM `solution` WHERE `problem_id`=?) WHERE `problem_id`=?";
-	//echo $sql;
-	//	pdo_query($sql,$pid,$pid);
-		$sql="UPDATE `problem` SET `accepted`=(SELECT count(1) FROM `solution` WHERE `problem_id`=? AND `result`=4) WHERE `problem_id`=?";
-	//echo $sql;
+		$sql="UPDATE `problem` SET `accepted`=(SELECT count(1) FROM `solution` WHERE `problem_id`=? AND `result`=4 and contest_id = 0) WHERE `problem_id`=?";
 		pdo_query($sql,$pid,$pid);
 	}
 

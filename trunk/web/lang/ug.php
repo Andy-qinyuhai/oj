@@ -129,6 +129,13 @@ $MSG_ABSENT="Absent";
         $MSG_ACTIVE_YOUR_ACCOUNT="Active Your Account ";
         $MSG_CLICK_COPY="Click or Copy the LINK to open in browser ";
         $MSG_CHECK="Check out ";
+$MSG_OLD="Old";
+$MSG_DIFFERENT="Different";
+$MSG_WRONG="Wrong";
+$MSG_TOO_LONG="Too long";
+$MSG_TOO_SHORT="Too short";
+$MSG_TOO_SIMPLE="Too simple";
+$MSG_TOO_BAD="Please surf the internet in a civilized manner";
 
 	//problem.php
 	$MSG_NO_SUCH_PROBLEM="بۇ سوئال شەخسىيگە تەۋە،كۆرۈشكە رۇخسەت يوق";
@@ -467,6 +474,11 @@ $MSG_ABSENT="Absent";
  	//email
 	$MSG_SYS_WARN="System Warning!";
 	$MSG_IS_ROBOT="could be a robot , verify and disable it !";
+       $MSG_FORBIDDEN="Forbidden ";
+       $MSG_OTHERS="Other's ";
+       $MSG_SUBNET="Subnet ";
+       $MSG_SHOW_DIFF="Show Differ Output";
+
 //SaaS friendly
  $MSG_TEMPLATE="Template";
   $MSG_FRIENDLY_LEVEL="Friendly Level";

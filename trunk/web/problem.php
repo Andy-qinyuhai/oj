@@ -151,25 +151,28 @@ else {
 	$row = $result[0];
 	$view_title = $row['title'];     
 }
-if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD ){
-	//检查当前题目是不是在NOIP模式比赛中，如果是则不显示AC数量 2020.7.11 by ivan_zhou
-//$now =  date('Y-m-d H:i', time());
-	$sql = "select 1 from `contest_problem` where (`problem_id`= ? ) and `contest_id` IN (select `contest_id` from `contest` where `start_time` < ? and `end_time` > ? and `title` like ?)";
-	$rrs = pdo_query($sql, $id ,$now , $now , "%$OJ_NOIP_KEYWORD%");
-	$flag = !empty($rrs) ;
-	if($flag)
-	{	
-		$row[ 'accepted' ] = '<font color="red"> ? </font>';		
-        // 使用$OJ_NOIP_TISHI 条件语句确定是否显示提示信息
-        if (isset($OJ_NOIP_TISHI) && $OJ_NOIP_TISHI) {            
-			if (strstr($row['hint'], "题解")){
-				 $row['hint'] = $MSG_NOIP_NOHINT;//如果提示内容包含题解，则在NOIP模式比赛中不显示提示
-			}
-        } else {
-            $row['hint'] = $MSG_NOIP_NOHINT;
-        }
-	}
+
+$flag=false;
+if( isset($OJ_NOIP_KEYWORD) && $OJ_NOIP_KEYWORD){
+        //检查当前题目是不是在NOIP模式比赛中，如果是则不显示AC数量 2020.7.11 by ivan_zhou
+        //$now =  date('Y-m-d H:i', time());
+        $sql = "select 1 from `contest_problem` where (`problem_id`= ? ) and `contest_id` IN (select `contest_id` from `contest` where `start_time` < ? and `end_time` > ? and `title` like ?)";
+        $rrs = pdo_query($sql, $id ,$now , $now , "%$OJ_NOIP_KEYWORD%");
+        $flag = !empty($rrs) ;
 }
+        if($flag||problem_locked($id,28)){
+                $row[ 'accepted' ] = '<font color="red"> ? </font>';
+                $row[ 'submit' ] = '<font color="red"> ? </font>';
+
+                // 使用$OJ_NOIP_TISHI 条件语句确定是否显示提示信息
+                if (isset($OJ_NOIP_HINT) && $OJ_NOIP_HINT) {
+                    if (strstr($row['hint'], "题解")){
+						$row['hint'] = $MSG_NOIP_NOHINT;//如果提示内容包含题解，则在NOIP模式比赛中不显示提示
+					}
+                } else {
+                    $row['hint'] = $MSG_NOIP_NOHINT;
+                }
+        }
 
 //针对普通用户未通过的题不显示标签
 if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])) $row['source'] = NULL;

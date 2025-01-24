@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS `contest` (
   `private` tinyint(4) NOT NULL DEFAULT '0',
   `langmask` int NOT NULL DEFAULT '0' COMMENT 'bits for LANG to mask',
   `password` CHAR( 16 ) NOT NULL DEFAULT '',
+  `contest_type` tinyint unsigned NOT NULL DEFAULT '0',
+  `subnet` varchar(255) NOT NULL DEFAULT '',
   `user_id` varchar(48) NOT NULL DEFAULT 'admin',
   PRIMARY KEY (`contest_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4;
@@ -198,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `online` (
   `hash` varchar(32) NOT NULL,
   `ip` varchar(46)  NOT NULL default '',
   `ua` varchar(255)  NOT NULL default '',
-  `refer` varchar(255)  default NULL,
+  `refer` varchar(4096)  default NULL,
   `lastmove` int(10) NOT NULL,
   `firsttime` int(10) default NULL,
   `uri` varchar(255) default NULL,

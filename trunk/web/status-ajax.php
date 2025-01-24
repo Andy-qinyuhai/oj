@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors", "Off");  //set this to "On" for debugging  ,especially when no reason blank shows up.
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
@@ -8,6 +9,7 @@ $OJ_CACHE_SHARE = false;
 
 require_once('./include/db_info.inc.php');
 require_once('./include/setlang.php');
+require_once('./include/my_func.inc.php');
 $view_title = "$MSG_STATUS";
 
 require_once("./include/const.inc.php");
@@ -24,7 +26,8 @@ $result = pdo_query($sql,$solution_id);
 		
 if (!empty($result)) {
 	$row = $result[0];
-	  if (isset($_GET['tr'])&&($row['problem_id']==0||($row['problem_id']>0&&$OJ_SHOW_DIFF)) && 
+	$contest_id=$row['contest_id'];
+	  if (isset($_GET['tr'])&&($row['problem_id']==0||($row['problem_id']>0&&$OJ_SHOW_DIFF&&!contest_locked($contest_id,16) )) && 
 	      (isset($_SESSION[$OJ_NAME.'_'.'user_id'])&& $_SESSION[$OJ_NAME.'_'.'user_id']== $row['user_id'] ) ) {
 
 		$res = $row['result'];
@@ -62,11 +65,11 @@ if (!empty($result)) {
 		else if(( isset($OJ_PUBLIC_STATUS) && $OJ_PUBLIC_STATUS ) ||( isset($_SESSION[$OJ_NAME.'_'.'user_id']) && $_SESSION[$OJ_NAME.'_'.'user_id']== $row['user_id']) || isset($_SESSION[$OJ_NAME.'_'.'source_browser'])  ) {
 			$contest_id = $row['contest_id'];
 			
-			if ($contest_id>0) {
-				$result = pdo_query("select title from contest where contest_id=?",$contest_id);
-				$contest_title = $result[0][0];
-				
-				if (stripos($contest_title,$OJ_NOIP_KEYWORD)!==false) {
+			 if ($contest_id>0 && $row['problem_id']>0) {
+				$result = pdo_query("select title,contest_type from contest where contest_id=?",$contest_id);
+				$contest_title = $result[0]['title'];
+				$contest_type= $result[0]['contest_type'];
+				if (stripos($contest_title,$OJ_NOIP_KEYWORD)!==false || ($contest_type & 20 ) > 0  ) {
 					echo "$OJ_NOIP_KEYWORD";
 					exit(0);
 				}
@@ -81,6 +84,9 @@ if (!empty($result)) {
 				else
 					echo $row['result'].",".$row['memory']." KB,".$row['time']." ms,"."none,".($row['pass_rate']*100).",".$row['user_id'];
 			}
+		}else{
+			echo $contest_locks[4];
+		
 		}
 	}
 }

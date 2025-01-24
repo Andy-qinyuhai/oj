@@ -123,6 +123,7 @@
 	$MSG_MONTH="月排行";
 	$MSG_YEAR="年排行";
         $MSG_ABSENT="缺席";
+
 	//registerpage.php
 	$MSG_USER_ID="用户名";
 	$MSG_PASSWORD="密码";
@@ -135,7 +136,14 @@
         $MSG_ACTIVE_YOUR_ACCOUNT="激活账号";
         $MSG_CLICK_COPY="点击或者复制访问链接";
         $MSG_CHECK="检查";
-        
+        $MSG_OLD="旧";
+        $MSG_DIFFERENT="不一致";
+        $MSG_WRONG="错误";
+        $MSG_TOO_LONG="太长";
+        $MSG_TOO_SHORT="太短";
+	$MSG_TOO_SIMPLE="太简单";
+        $MSG_TOO_BAD="请文明上网";
+
 	//problem.php
 	$MSG_NO_SUCH_PROBLEM="题目当前不可用!<br>它可能被用于未来的比赛、过去的私有比赛，或者管理员由于尚未测试通过等其他原因暂时停止了该题目用于练习。";
 	$MSG_Description="题目描述"  ;
@@ -486,7 +494,10 @@
   //email
   $MSG_SYS_WARN="系统警告！";
   $MSG_IS_ROBOT="疑似机器人，注意封禁！";
-
+  $MSG_FORBIDDEN="禁止";
+  $MSG_OTHERS="查看其他人";
+  $MSG_SUBNET="子网";
+  $MSG_SHOW_DIFF="显示对比输出";
   //SaaS friendly
   $MSG_TEMPLATE="模板";
   $MSG_FRIENDLY_LEVEL="友善级别";

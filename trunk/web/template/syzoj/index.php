@@ -1,8 +1,29 @@
 <?php $show_title="$MSG_HOME - $OJ_NAME"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");?>
+<head>
+
+<link rel="stylesheet" href="<?php echo "template/$OJ_TEMPLATE";?>/css/slide.css">
+
+</head>
 <div class="padding">
     <div class="ui three column grid">
         <div class="eleven wide column">
+            <?php if(file_exists("image/slide1.jpg")){ ?>
+            <h4 class="ui top attached block header" style='margin-top: 10px;'><i class="th icon"></i><?php echo $OJ_NAME ?></h4>
+            <div class="ui bottom attached center aligned segment carousel">
+                <div class="carousel-arrow left" onclick="prevSlide()">&lt;</div> <!-- 左箭头 -->
+                <?php for($i=1;file_exists("image/slide$i.jpg");$i++){ ?>
+                <div class="carousel-slide <?php if($i==1) echo "active";?>" style="background-image: url('image/slide<?php echo $i ?>.jpg')"></div>
+                <?php } ?>
+                <div class="carousel-arrow right" onclick="nextSlide()">&gt;</div> <!-- 右箭头 -->
+                <div class="carousel-dots">
+                    <span class="carousel-dot active" data-index="0"></span>
+                    <span class="carousel-dot" data-index="1"></span>
+                    <span class="carousel-dot" data-index="2"></span>
+                </div>
+            </div>
+            <?php } ?>
+
             <h4 class="ui top attached block header"><i class="ui info icon"></i><?php echo $MSG_NEWS;?></h4>
             <div class="ui bottom attached segment">
                 <table class="ui very basic table">
@@ -221,7 +242,61 @@ if($NOIP_flag[0]==0) $view_month_rank=mysql_query_cache("select user_id,nick,cou
     </div>
 </div>
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
+<?php if(file_exists("image/slide1.jpg")){ ?>
+    <script>
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        let currentIndex = 0;
+        let autoPlayInterval;
 
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        // 自动播放，调整为 5 秒切换一次
+        autoPlayInterval = setInterval(nextSlide, 5000); 
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetIndex = parseInt(dot.dataset.index);
+                if (targetIndex!== currentIndex) {
+                    currentIndex = targetIndex;
+                    showSlide(currentIndex);
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = setInterval(nextSlide, 5000);
+                }
+            });
+        });
+
+        // 鼠标悬停暂停自动播放
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+        carousel.addEventListener('mouseleave', () => autoPlayInterval = setInterval(nextSlide, 5000));
+    </script>
+ <?php } ?>   
   <script language="javascript" type="text/javascript" src="<?php echo $OJ_CDN_URL?>include/jquery.flot.js"></script>
         <script type="text/javascript">
                 $( function () {

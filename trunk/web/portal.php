@@ -1,5 +1,5 @@
 <?php
-	ini_set("display_errors", "On");  // 当我们需要调试的时候，把这里设成On，在出问题的时候php会尝试在页面上输出错误信息
+	ini_set("display_errors", "Off");  // 当我们需要调试的时候，把这里设成On，在出问题的时候php会尝试在页面上输出错误信息
 	require_once("include/db_info.inc.php"); // 导入基本配置和数据库操作函数
 	require_once('include/const.inc.php');   // 导入需要的一些可选常量
 	require_once('include/my_func.inc.php'); // 导入自定义的一些可选函数
@@ -7,7 +7,7 @@
         $now =  date('Y-m-d H:i', time());
 	if(isset($_SESSION[$OJ_NAME.'_user_id'])){  //如果用户已经登录
 		$user_id=$_SESSION[$OJ_NAME.'_user_id'];
-		$show_title="Hello ".$_SESSION[$OJ_NAME.'_user_id']."!";
+		$show_title = $MSG_TODO." - ".$OJ_NAME;
 		$sub_arr = Array(); //已经提交的题目号
 		$acc_arr = Array(); //已经通过的题目号
 		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){ 
@@ -18,12 +18,12 @@
 				if($row['result'] == 4) $acc_arr[$row['problem_id']] = true;		
 			}		
 		}
-		$noip_problems=array_merge(...mysql_query_cache("select problem_id from contest c left join contest_problem cp on start_time<'$now' and end_time>'$now' and c.title like ? and c.contest_id=cp.contest_id","%$OJ_NOIP_KEYWORD%"));
+		$noip_problems=array_merge(...mysql_query_cache("select problem_id from contest c left join contest_problem cp on start_time<'$now' and end_time>'$now' and (c.title like ? or (c.contest_type & 20) >0) and c.contest_id=cp.contest_id","%$OJ_NOIP_KEYWORD%"));
 		$noip_problems=array_unique($noip_problems);
-	}else{    //没有登录的用户按Guest处理
-		$user_id="Guest";
-		$show_title="HelloWorld!";
-
+	}else{    //没有登录的用户提示登录
+                $view_errors = "<a href=loginpage.php>$MSG_Login</a>";
+                require("template/".$OJ_TEMPLATE."/error.php");
+                exit(0);
 	}
 	$sql="select * from problem p inner join (
  			select distinct problem_id,contest_id from solution where result!=4 and user_id=? and problem_id not in 

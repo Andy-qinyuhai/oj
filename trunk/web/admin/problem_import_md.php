@@ -1,5 +1,5 @@
 <?php
-ini_set("display_errors", "On");  //set this to "On" for debugging  ,especially when no reason blank shows up.
+ini_set("display_errors", "Off");  //set this to "On" for debugging  ,especially when no reason blank shows up.
 require_once ("admin-header.php");
 //require_once("../include/check_post_key.php");
 
@@ -124,7 +124,7 @@ function create_upload_dir($base_dir)
     return $full_path;
 }
 
-function process_md_and_images($zip_path, $upload_dir)
+function process_md_and_files($zip_path, $upload_dir)
 {
     $zip = new ZipArchive();
     if ($zip->open($zip_path) === TRUE) {
@@ -255,7 +255,7 @@ if ($_FILES["fps"]["error"] > 0) {
                 }
                 echo "PID:<a href='../problem.php?id=$pid' >" . htmlentities($title, ENT_QUOTES, "UTF-8") . "</a>";
 
-                
+                $basename=basename($file['filename']);
 
                 // 根据基文件名匹配对应的 .cpp 文件，并重命名为 题目编号-std.cpp
                 if (isset($cpp_files[$basename])) {

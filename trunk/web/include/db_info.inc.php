@@ -7,6 +7,7 @@ date_default_timezone_set('Asia/Shanghai');//'Asia/Shanghai' 亚洲/上海
 //for people using hustoj out of China , try using translator program with the comments
 // 本文件是系统配置文件，全局包含，修改时请慎重保存，千万不要少分号，少引号，出现语法错误可导致全站无法打开。
 // 若遇到此种情况，可以备份后删除本文件，用/home/judge/src/install/fixing.sh脚本修复生成。
+// $DB_PASS="xxxx"; 里面放的密码是安装是随机生成的，请不要泄露，最好也不要随意修改为低强度的其他密码，您在linux命令行可以用sudo mysql直接以root身份登录mysql。
 // connect db 
 static 	$DB_HOST="localhost";  //数据库服务器ip或域名
 static 	$DB_NAME="jol";   //数据库名
@@ -101,7 +102,7 @@ static  $OJ_REMOTE_JUDGE=false; //是否启用Remote Judge ，启用哪些模块
 static  $OJ_NO_CONTEST_WATCHER=false ; //是否禁止无权限用户观战私有比赛
 static  $OJ_CONTEST_TOTAL_100=false; //是否让比赛按100分计分
 static  $OJ_OLD_FASHINED=false; //是否在状态页的编辑按钮、管理页的预览模式等方面保留原始版本的习惯。
-static  $OJ_AI_HTML=false; // 若想开启AI链接，可设为 '<a class="desktop-only item active" target="_blank" href="http://ai.hustoj.com"><i class="help icon"></i> 问问狗蛋</a>';
+static  $OJ_AI_HTML=false; // 若想开启AI链接，可设为 '<a class="desktop-only item" onclick="window.open(\'http://ai.hustoj.com\', \'_blank\',\'width=600,height=850,left=\' + (window.screen.width-600)  + \',top=0,toolbar=no,menubar=no,location=no,status=no,resizable=yes\');"><i class="help icon"></i> 问问狗蛋</a>';
 static  $OJ_PUBLIC_STATUS=true; //是否公开所有人的判题结果,设为false则除source_browser外，其他人只能看到自己提交的记录。
 static  $OJ_FANCY_RESULT=true; //是否在AC时显示fancy.php里的动画
 

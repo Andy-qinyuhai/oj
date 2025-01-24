@@ -90,9 +90,7 @@ function formatTimeLength($length) {
   return $result;
 }
 
-
 require_once("./include/my_func.inc.php");
-$view_title = "$MSG_STATUS";
 
 if (isset($OJ_LANG)) {
   require_once("./lang/$OJ_LANG.php");
@@ -122,14 +120,13 @@ if (isset($_GET['cid'])) {
   if ($rows_cnt>0) {
     $row = $result[0];
     $title = $row['title'];
-    $contest_type = $row['contest_type'];
 		$start_time = strtotime($row['start_time']);
 		$end_time = strtotime($row['end_time']);
 		$view_description = $row['description'];
 		$view_title = $row['title'];
 		$view_start_time = $row['start_time'];
 		$view_end_time = $row['end_time'];
-	$noip = ((time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false) ) || ($contest_type & 16)>0  ;
+	$noip = (time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false);
 	if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
 		isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
 		isset($_SESSION[$OJ_NAME.'_'."source_browser"])||
@@ -218,10 +215,8 @@ if (isset($_GET['problem_id']) && $_GET['problem_id']!="") {
 $param=array();
 // check the user_id arg
 $user_id = "";
-//    echo "[".(($contest_type&8)>0)."]";
 if ((isset($OJ_ON_SITE_CONTEST_ID)&&$OJ_ON_SITE_CONTEST_ID>0&&!isset($_SESSION[$OJ_NAME.'_'.'administrator']))
-       || ( isset($OJ_PUBLIC_STATUS) && !$OJ_PUBLIC_STATUS )
-       || ( isset($contest_type) && ($contest_type & 8) > 0 )
+        || ( isset($OJ_PUBLIC_STATUS) && !$OJ_PUBLIC_STATUS )
         ) {
   if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))
           $_GET['user_id']='Guest';

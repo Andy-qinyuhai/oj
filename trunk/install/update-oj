@@ -1,0 +1,26 @@
+#!/bin/bash
+cd /home/judge/upstream
+git pull origin master
+
+
+#备份
+cp -rf /home/judge/src/* /var/backups/hustoj_bak/
+#更新
+cp -rf /home/judge/upstream/trunk/* /home/judge/src/
+
+
+cd /home/judge/src/core
+pkill -9 judged
+bash make.sh
+cd ../install
+chmod +x g++.sh gcc.sh makeout.sh
+mysql jol< update.sql
+judged
+
+web_user=`grep www /etc/passwd|awk -F: '{print $1}'`
+mkdir /var/log/hustoj/
+chown -R $web_user /var/log/hustoj
+
+chmod 770 /home/judge/src/web/upload
+chown $web_user -R /home/judge/src/web/upload
+

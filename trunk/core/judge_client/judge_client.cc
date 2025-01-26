@@ -3948,7 +3948,7 @@ int main(int argc, char **argv)
 				}
 				if(DEBUG)printf("1 spj_mark: %.2f mark: %.2f get_mark: %.2f\n",spj_mark,mark,get_mark);
 				get_mark+=mark*spj_mark;	
-				pass_rate+=spj_mark;
+				//pass_rate+=spj_mark;
 				if(DEBUG)printf("2 spj_mark: %.2f mark: %.2f get_mark: %.2f\n",spj_mark,mark,get_mark);
 				minus_mark= -1 ;                          //当前任务失败，标记
 			}

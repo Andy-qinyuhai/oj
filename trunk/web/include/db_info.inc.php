@@ -15,7 +15,7 @@ static 	$DB_USER="t-db";  //数据库账户
 static 	$DB_PASS="test";  //数据库密码
 
 
-static 	$OJ_NAME="HUSTOJ";  //左上角显示的系统名称, 尽量简洁，避免用中文和空格，如需中文、长字符串、图片，可以直接修改template/syzoj/header.php
+static 	$OJ_NAME="OJ";  //左上角显示的系统名称, 尽量简洁，避免用中文和空格，如需中文、长字符串、图片，可以直接修改template/syzoj/header.php
 static 	$OJ_HOME="./";    //主页目录
 static 	$OJ_ADMIN="root@localhost";  //管理员email,若启用,建议对SMTP_SERVER等参数进行配置，设好可以接收系统邮件。
 static  $SMTP_SERVER = "smtp.qq.com";           //SMTP服务器，通常在邮箱的smtp/pop3设置中可以查询到，推荐用企业邮箱发信，避免被识别为垃圾邮件
@@ -85,7 +85,7 @@ static  $OJ_OI_MODE=true; //是否开启OI比赛模式，禁用排名、状态�
 static  $OJ_BENCHMARK_MODE=false; //此选项仅供测试用，不是正常功能，将影响代码提交，不确定请不要使用，修改提交间隔限制去设后面的OJ_SUBMIT_COOLDOWN_TIME
 static  $OJ_CONTEST_RANK_FIX_HEADER=false; //比赛排名水平滚动时固定名单
 static  $OJ_NOIP_KEYWORD="模拟";  // 标题包含此关键词，激活noip模式，赛中不显示结果，仅保留最后一次提交。
-static  $OJ_NOIP_TISHI=true;  //noip比赛中 设置为true则在noip比赛中显示题目提示，false不显示提示
+static  $OJ_NOIP_HINT=true;  //noip比赛中 设置为true则在noip比赛中显示题目提示，false不显示提示
 static  $OJ_CONTEST_LIMIT_KEYWORD="限时"; //比赛中个人限时关键词。
 static  $OJ_OFFLINE_ZIP_CCF_DIRNAME=true; // 是否强制判断导入离线比赛时，按CCF规则要求提交答案的目录名。
 static  $OJ_BEIAN="苏ICP备2021045986号";  // 如果有备案号，填写备案号,没有填false

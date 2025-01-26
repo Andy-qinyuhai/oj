@@ -57,7 +57,7 @@ if (isset($_GET['cid'])) {
 		$view_start_time = $row['start_time'];
 		$view_end_time = $row['end_time'];
 	//$noip = (time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false);
-	$noip = ((time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false) ) || ($contest_type & 16)>0  ;
+	$noip = ((time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false) ) || ((time()<$end_time) && ($contest_type & 16)>0)  ;
 	if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
 		isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
 		isset($_SESSION[$OJ_NAME.'_'."source_browser"])||

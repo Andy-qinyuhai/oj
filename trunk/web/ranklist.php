@@ -98,7 +98,7 @@
                                         and users.user_id not in (".$OJ_RANK_HIDDEN.") and defunct='N'
                                 ORDER BY s.`solved` DESC,t.submit,reg_time  LIMIT  0,50
                          ";
-                      echo $sql;
+                      //echo $sql;
                 
 
 

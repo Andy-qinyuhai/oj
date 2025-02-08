@@ -845,7 +845,9 @@ void make_diff_out_simple(FILE *f1, FILE *f2,char * prefix, int c1, int c2, cons
                         	buf1[0]=c1;     // patch buf1 with c1
                                 if(!feof(f1)&&fgets(buf1+1,BUFFER_SIZE-2,f1)){
                                         fprintSafe(diff,buf1);
-                                }
+                                }else{
+				        fprintf(diff,"%c",c1);
+				}
                         }else{
                            fprintf(diff,"↩");
                         }
@@ -865,6 +867,8 @@ void make_diff_out_simple(FILE *f1, FILE *f2,char * prefix, int c1, int c2, cons
 						fprintf(diff,"`");
 						fprintSafe(diff,buf2);
 						fprintf(diff,"`");
+				}else{
+					  fprintf(diff,"`%c`",c2);
 				}
 			}
                 }else if(!feof(f2)&&fgets(buf2,BUFFER_SIZE-1,f2)){
@@ -956,10 +960,18 @@ end:
 	user_now=ftell(f2);
 	if(DEBUG) printf("user/out=%ld/%ld\n",user_now,out_size);
 	if(internal_mark && user_now>1 && out_size>user_now) *spj_mark=(user_now-1.00)/out_size;
-
 	if (ret == OJ_WA || ret == OJ_PE)
 	{
-		if (full_diff)  make_diff_out_simple(f1, f2, prefix, c1, c2, file1,userfile);
+		switch(full_diff)
+		{
+                        case 1: make_diff_out_simple(f1, f2, prefix, c1, c2, file1,userfile);
+                                break;
+                        case 2: make_diff_out(f1, f2,  c1, c2, file1,userfile);
+                                break;
+                        case 3: make_diff_out_full(f1, f2, c1, c2,file1,infile,userfile);
+                                break;
+                        default: ;
+                }
 	}
 	if (f1)
 		fclose(f1);

@@ -1,6 +1,6 @@
 <?php
 require_once("../include/db_info.inc.php");
-require_once("admin-header.php");
+//require_once("admin-header.php");
 require_once("../include/my_func.inc.php");
 
 ?>

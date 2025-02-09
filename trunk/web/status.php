@@ -136,7 +136,7 @@ if (isset($_GET['problem_id']) && $_GET['problem_id']!="") {
 	  //以下是判断当前用户在此题是否AC
 	  $acsql = "SELECT 1 FROM solution WHERE result=4 AND problem_id='".$problem_id."' AND user_id=?"; 
       $rrs = pdo_query($acsql, $_SESSION[$OJ_NAME.'_'.'user_id']);
-      $AC = (intval(count($rrs))>0 && (isset($OJ_AUTO_SHARE)&&$OJ_AUTO_SHARE) && ($NOIP_flag == 0));
+      $AC = (intval(count($rrs))>0 && (isset($OJ_AUTO_SHARE)&&$OJ_AUTO_SHARE) && ($NOIP_flag == 0) || (isset($_SESSION[$OJ_NAME.'_'.'user_id']) && isset($_SESSION[$OJ_NAME.'_'.'s'.$problem_id])));
     }
     else
       $problem_id = "";

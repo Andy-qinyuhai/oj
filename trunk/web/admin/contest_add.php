@@ -240,7 +240,7 @@ else{
               <?php
               $locks_count = count($contest_locks);
               $contest_lock = 0;
-              $contest_type = 32;
+              $contest_type = 63;
               for($i=0; $i<$locks_count; $i++){
                 echo "<input type=checkbox name='contest_type[]'  value=$i ".( $contest_type&(1<<$i)?"checked":"").">".$contest_locks[$i]."<br>";
               }

@@ -1372,7 +1372,7 @@ void _update_user_mysql(char *user_id)
 	if (mysql_real_query(conn, sql, strlen(sql)))
 		write_log(mysql_error(conn));
 	sprintf(sql,
-			 "UPDATE `users` SET `submit`=(SELECT count(DISTINCT `problem_id`) FROM `solution` s where  s.`user_id`=\'%s\' and problem_id>0 and problem_id not in(select problem_id from contest_problem where contest_id in (select contest_id from contest where contest_type & 20 > 0  and end_time>now() )) ) WHERE `user_id`=\'%s\'",
+			 "UPDATE `users` SET `submit`=(SELECT count(*) FROM `solution` s where  s.`user_id`=\'%s\' and problem_id>0 and problem_id not in(select problem_id from contest_problem where contest_id in (select contest_id from contest where contest_type & 20 > 0  and end_time>now() )) ) WHERE `user_id`=\'%s\'",
 		         e_user_id, e_user_id);
 	if (mysql_real_query(conn, sql, strlen(sql)))
 		write_log(mysql_error(conn));

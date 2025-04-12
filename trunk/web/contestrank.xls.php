@@ -29,9 +29,10 @@ class TM{
 		global $OJ_CE_PENALTY;
 //		echo "Add $pid $sec $res<br>";
 	
-		if (isset($this->p_ac_sec[$pid])||$this->p_ac_sec[$pid]<0)
+		if (isset($this->p_ac_sec[$pid]))
 			return;
 		if ($res!=4){
+			//$this->p_ac_sec[$pid]=0;
 			if(isset($OJ_CE_PENALTY)&&!$OJ_CE_PENALTY&&$res==11) return;  // ACM WF punish no ce 
 			if(isset($this->p_wa_num[$pid])){
 				$this->p_wa_num[$pid]++;
@@ -147,13 +148,13 @@ if ($start_time>time()){
 	//require_once("oj-footer.php");
 	exit(0);
 }
-	$noip = (time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false);
-	if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
-		isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
-		isset($_SESSION[$OJ_NAME.'_'."source_browser"])||
-		isset($_SESSION[$OJ_NAME.'_'."contest_creator"])
-	   ) $noip=false;
-if($noip||contest_locked($cid,20)){
+$noip = (time()<$end_time) && (stripos($title,$OJ_NOIP_KEYWORD)!==false);
+if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
+	isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
+	isset($_SESSION[$OJ_NAME.'_'."source_browser"])||
+	isset($_SESSION[$OJ_NAME.'_'."contest_creator"])
+   ){ $noip=false;
+}else if($noip||contest_locked($cid,20)){
       $view_errors =  "<h2>$MSG_NOIP_WARNING</h2>";
       require("template/".$OJ_TEMPLATE."/error.php");
       exit(0);

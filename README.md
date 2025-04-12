@@ -154,6 +154,10 @@ Star us, please!
 	
 日期  | 类型 |  更新内容 | 图
 ------- | :--:  | :--: | :-------
+04-03 | 更新 | 支持截屏粘贴转为上传文件。
+04-02 | 更新 | 支持文件管理器里复制图片文件，在编辑器中粘贴。支持粘贴pdf文件，自动转换为iframe直接显示。|<img width="647" alt="f41bb38f9bf0b811724cead0bd99775" src="https://github.com/user-attachments/assets/e4ade558-f3bd-4d37-b43f-48a45ea706db" />
+04-01 | 更新 | 支持一次上传多个文件。|![image](https://github.com/user-attachments/assets/422df37d-c48a-441d-9791-bf92365c55ae)
+03-16 | 补丁 | 修复个人限时赛中露一手的工作异常。
 03-08 | 补丁 | 修订对比和一些细节，祝天下妈妈们身体健康！
 03-02 | 更新 | 初步支持龙芯架构loongarch。
 01-23 | 更新 | 优化用户列表的显示。 | ![image](https://github.com/user-attachments/assets/4f703d94-523e-4afa-9e47-66207c3bc182)
@@ -164,7 +168,7 @@ Star us, please!
 01-02 | 更新 | 允许新闻用importance字段排序，允许双击修改importance。| ![image](https://github.com/user-attachments/assets/fb20d0bd-5ef9-4d73-893f-575487d16131)
 01-01 | 预定 | 新年好！| ![image](https://github.com/user-attachments/assets/23d4fb3c-b324-46fa-a482-2cad341e5e1f)
 
-
+</details>
 
 <details>
 
@@ -439,13 +443,11 @@ Star us, please!
 
 ### 基于 Ubuntu 22.04 安装
 
-**各类公有云首选, 最容易，成功率最高，近期部署数量最多，开发者原型机**
-	
-**仅支持原生Ubuntu系统，不支持docker中的Ubuntu系统**
+**各类公有云首选, 最容易，成功率最高，近期部署数量最多，开发者原型机，有用户使用WSL部署成功**
 	
 ### 基于 Ubuntu 24.04 安装	
 	
-**仅支持原生Ubuntu系统，不支持docker中的Ubuntu系统**	
+**有问题在群中反馈，优先解决**	
 
 ### 基于 Debian12  安装	
 

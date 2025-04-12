@@ -64,13 +64,12 @@ if (isset($_GET['cid'])) {
 		isset($_SESSION[$OJ_NAME.'_'."contest_creator"])
 	   ) $noip=false;
     if($noip){
-      $view_errors =  "<h2> $MSG_NOIP_WARNING <a href=\"contest.php?cid=$cid\">返回比赛</a></h2>";
+      $view_errors =  "<h2> $MSG_NOIP_WARNING <a href=\"contest.php?cid=$cid\">$MSG_RETURN_CONTEST</a></h2>";
       $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
+      $top=intval($_GET['top']);
       if($refererUrl['path']=="/submitpage.php") {
-		  $mark = 100;
-		  $view_errors="<h2>提交成功!</h2><a href=\"contest.php?cid=$cid\">返回比赛</a></h2>";
-	  }
-	
+	$view_errors="<h2>$MSG_SUBMIT $MSG_SUCCESS! $top </h2><a href=\"contest.php?cid=$cid\">$MSG_RETURN_CONTEST</a></h2>";
+      }
       require("template/".$OJ_TEMPLATE."/error.php");
       exit(0);
     }
@@ -303,7 +302,7 @@ for ($i=0; $i<$rows_cnt; $i++) {
   if(isset($row['starred']) && $row['starred'] >0 ) {
 	  $view_status[$i][1]="⭐".$view_status[$i][1]."<span title='用同名账户给hustoj项目加星，可以点亮此星' >⭐</span>";	//people who starred us ,we star them
   }
-  $view_status[$i]['nick']=$row['nick'];
+  $view_status[$i]['nick']="<span title='".$row['group_name']."'>".$row['nick']."</span>";
 
   if ($row['contest_id']>0) {
     if (isset($end_time) && time() < $end_time) {

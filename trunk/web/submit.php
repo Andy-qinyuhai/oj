@@ -1,6 +1,7 @@
 <?php 
 @ini_set("display_errors", "Off");
 @session_start();
+@ob_start();
 require_once "include/db_info.inc.php";
 require_once "include/my_func.inc.php";
 require_once "include/email.class.php";
@@ -272,14 +273,14 @@ if ($len > 65536) {
 
 setcookie('lastlang', $language, time()+360000);
 
-$ip = $_SERVER['REMOTE_ADDR'];
-
-if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-  $REMOTE_ADDR = $_SERVER['HTTP_X_FORWARDED_FOR'];
-  $tmp_ip = explode(',', $REMOTE_ADDR);
-  $ip = htmlentities($tmp_ip[0], ENT_QUOTES, "UTF-8");
+if(!isset($ip)){
+	$ip = $_SERVER['REMOTE_ADDR'];
+	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		  $REMOTE_ADDR = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		  $tmp_ip = explode(',', $REMOTE_ADDR);
+		  $ip = htmlentities($tmp_ip[0], ENT_QUOTES, "UTF-8");
+	}
 }
-
 
 
 if (!$OJ_BENCHMARK_MODE) {
@@ -501,7 +502,7 @@ $statusURI = "status.php?user_id=".$_SESSION[$OJ_NAME.'_'.'user_id'];
 if(isset($_GET['spa'])) $statusURI .="&spa";
 
 if (isset($cid)) {
-  $statusURI .= "&cid=$cid&fixed=";
+  $statusURI .= "&cid=$cid&top=$insert_id&fixed=";
 }
 
 if (!$test_run&&!isset($_GET['ajax'])) {
@@ -509,6 +510,7 @@ if (!$test_run&&!isset($_GET['ajax'])) {
 }
 else {
   if (isset($_GET['ajax'])) {
+    ob_clean();
     echo $insert_id;
   }
   else {

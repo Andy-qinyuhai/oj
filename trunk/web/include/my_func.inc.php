@@ -7,6 +7,17 @@ if (!function_exists('str_contains')) {
         return empty($needle) || strpos($haystack, $needle) !== false;
     }
 }
+if (!function_exists('str_starts_with')) {
+    function str_starts_with( $string, $startString ){
+             $len = strlen($startString);
+             return (substr($string, 0, $len) === $startString);
+    }
+}
+if (!function_exists('mb_trim')) {
+	function mb_trim($string, $trim_chars = '\s'){
+	    return preg_replace('/^['.$trim_chars.']*(?U)(.*)['.$trim_chars.']*$/u', '\\1',$string);
+	}
+}
 function myLocation($ip){
         $locations=array(
                         array(ip2long("10.1.48.1"),ip2long("10.1.48.54"),"X504A"),
@@ -371,9 +382,7 @@ grant {
         pdo_query($sql);
 
 }
-function mb_trim($string, $trim_chars = '\s'){
-    return preg_replace('/^['.$trim_chars.']*(?U)(.*)['.$trim_chars.']*$/u', '\\1',$string);
-}
+
 function send_udp_message($host, $port, $message)
 {
     $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);

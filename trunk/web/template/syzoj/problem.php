@@ -582,7 +582,7 @@ function admin_mod(){
                         let ol=$(this).prev("ol");
                         if(ol!=undefined && ol.attr("start")!=undefined) i=ol.attr("start");
                         console.log("id["+i+"]");
-                        if($(ol).html().indexOf("多选")>0|| (ol!=undefined && ol.html()!=undefined && ol.html().indexOf("multiselect")>0)) type="checkbox";
+                        if( ol!=undefined && ol.html()!=undefined &&($(ol).html().indexOf("多选")>0|| ol.html().indexOf("multiselect")>0)) type="checkbox";
                         let j=0;
                         $(this).find("li").each(function(){
                                 let option=options[j];
@@ -633,7 +633,6 @@ function admin_mod(){
 
   <script>
 	  if($('#copyin')[0]!= undefined ){
-
 		    var clipboardin=new Clipboard($('#copyin')[0]);
 		    clipboardin.on('success', function(e){
 		      $("#copyin").text("<?php echo $MSG_COPY.$MSG_SUCCESS; ?>!"); 
@@ -689,6 +688,7 @@ function admin_mod(){
 		    });
 	  }
   </script>
+
 <?php if (isset($OJ_MATHJAX)&&$OJ_MATHJAX){?>
     <!--以下为了加载公式的使用而既加入-->
 <script>

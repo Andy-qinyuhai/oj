@@ -110,7 +110,7 @@ HUSTOJ 是采用 GPL 的自由软件。(仅限原创部分代码，其中使用�
 ## 感谢下述及其他被使用到的开源代码项目贡献者，来自这些项目的代码及衍生代码遵循其原有开源协议，不受本项目的GPL授权影响。
 
 * masteroj uoj loj syzoj zoj qduoj openJudger [scratch-run](https://github.com/VNOI-Admin/scratch-run) [PHPMailer](https://github.com/zhblue/hustoj/tree/PHPMailer)
-* linux apache nginx php mysql mariadb memcached
+* linux apache nginx php mysql mariadb memcached [sqlite](https://sqlite.org/)
 * bootstrap kindeditor ACEeditor blockly codemirror katex phpfilemanager mdui
 * sim gcc clang openjdk freepascal mono docker SyntaxHighlighter
 
@@ -154,6 +154,7 @@ Star us, please!
 	
 日期  | 类型 |  更新内容 | 图
 ------- | :--:  | :--: | :-------
+05-17 | 更新 | 用Wasm版本的SQLite在浏览器中执行SQL语言的测试运行，分散服务器测试运行的压力。
 05-06 | 补丁 | 修复markdown中的选择题选项控件。
 05-05 | 更新 | 比赛禁止补题选项。|![79f8dff90b22d13e8a1fd5f09fc4e96e](https://github.com/user-attachments/assets/2e99ae26-86d0-4b29-8f11-f5109a77d5c5)
 04-25 | 更新 | PHP8.4 兼容。

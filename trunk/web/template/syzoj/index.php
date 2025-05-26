@@ -170,7 +170,7 @@
                     </div>
                 </form>
             </div>
-			<?phpview_month_rank
+			<?php
 /* 本月之星  */
 
 $month_id=mysql_query_cache("select solution_id from solution where  in_date<date_add(curdate(),interval -day(curdate())+1 DAY) order by solution_id desc limit 1;");

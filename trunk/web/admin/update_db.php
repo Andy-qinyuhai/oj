@@ -221,6 +221,22 @@ $tsql[52]="alter table $DB_NAME.users add column starred int default 0 after act
 $csql[52]="alter table $DB_NAME.users add column expiry_date date not null default '2099-01-01' after reg_time;";
 $tsql[53]="alter table $DB_NAME.contest add column contest_type tinyint unsigned default 0 after `password` ";
 $csql[53]="alter table $DB_NAME.contest add column subnet varchar(255) not null default '' after contest_type;";
+$tsql[54]="alter table $DB_NAME.solution add column first_time tinyint(1) default 0 after pass_rate ;";
+$csql[54]="drop trigger if exists $DB_NAME.firstAC;
+create trigger $DB_NAME.firstAC
+before update on $DB_NAME.solution
+for each row
+begin
+ declare acTimes int;
+ if new.result=4 then
+    select count(1) from solution where problem_id=new.problem_id and result=4 and user_id=new.user_id and first_time=1 into acTimes;
+    if acTimes=0 then
+        set new.first_time=1;
+    end if;
+end if;
+end;
+";
+
 
 // 删除6个月以前的非正确源码，优化数据库空间。
 // delete from source_code  where solution_id in (select solution_id from solution where result>4 and  in_date<date_sub(now(),interval 6 month) ); //

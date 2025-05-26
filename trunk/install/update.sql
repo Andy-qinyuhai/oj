@@ -30,6 +30,25 @@ alter table users add column expiry_date date not null default '2099-01-01' afte
 alter table contest add column contest_type tinyint UNSIGNED default 0 after `password`;
 alter table contest add column subnet varchar(255) not null default '' after contest_type;
 alter table online modify refer varchar(4096) DEFAULT NULL;
+alter table solution add column first_time tinyint(1) default 0 after pass_rate ;
+
+delimiter //
+
+drop trigger if exists firstAC//
+UPDATE solution s JOIN (SELECT user_id,problem_id, MIN(solution_id) AS first_solution_id FROM solution WHERE result = 4 GROUP BY user_id, problem_id ) t ON s.solution_id = t.first_solution_id SET s.first_time = 1 //
+create trigger firstAC
+before update on solution
+for each row
+begin
+ declare acTimes int;
+ if new.result=4 then
+    select count(1) from solution where problem_id=new.problem_id and result=4 and first_time=1 and  user_id=new.user_id into acTimes;
+    if acTimes=0 then
+        set new.first_time=1;
+    end if;
+end if;
+end;//
+delimiter ;
 #create fulltext index problem_title_source_index on problem(title,source);
 
                                                                                                          

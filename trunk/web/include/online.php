@@ -213,4 +213,3 @@ class online{
 		pdo_query($sql,(time()-ONLINE_DURATION));
 	}
 }
-

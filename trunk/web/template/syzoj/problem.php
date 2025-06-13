@@ -320,12 +320,12 @@ if(file_exists($solution_file)){
 		main.css("width",width2);
 		main.css("margin-left","10px");
        	 	main.parent().append("<div id='submitPage' class='container' style='opacity:0.95;position:fixed;z-index:2;top:49px;right:-"+width2+"px'></div>");
-		$("#submitPage").html("<iframe src='"+submitURL+"&spa' width='"+width+"px' height='"+height+"px' ></iframe>");
+		$("#submitPage").html("<iframe id='ansFrame' src='"+submitURL+"&spa' width='"+width+"px' height='"+height+"px' ></iframe>");
 	}
 	$("#submit").remove();
 	<?php if ($row['spj']>1 && !isset($_GET['spa']) ){ ?>
-            if($("iframe")[0].contentWindow.$!=undefined ) 
-		    window.setTimeout('$("iframe")[0].contentWindow.$("#TestRun").remove();',1000);
+            if($("#ansFrame")[0].contentWindow.$!=undefined ) 
+		    window.setTimeout('$("#ansFrame")[0].contentWindow.$("#TestRun").remove();',1000);
         <?php }?>
       
 // Add code to place drag button on the left side of the iframe
@@ -448,20 +448,20 @@ function phpfm(pid){
     });
 }
 function selectOne( num, answer){
-          let editor = $("iframe")[0].contentWindow.$("#source");
-          let old=editor.text();
+          let editor = $("#ansFrame")[0].contentWindow.$("#source");
+          let old=editor.val();
           let key= num+".*";
           console.log(key);
           let rep=old.replace(new RegExp(key),num+" "+answer);
-          editor.text(rep);
+          editor.val(rep);
 }
 function selectMulti( num, answer){
-  let editor = $("iframe")[0].contentWindow.$("#source");
-  let old=editor.text();
+  let editor = $("#ansFrame")[0].contentWindow.$("#source");
+  let old=editor.val();
   let key= num+".*";
   console.log(key);
   let rep=old.replace(new RegExp(key),num+" "+answer);
-  editor.text(rep);
+  editor.val(rep);
 }
 
 function db_click_modify(){
@@ -544,14 +544,14 @@ function admin_mod(){
                 let start=0;
                 let next=0;
                 let raw=$(this).html();
-                let options=['A','B','C','D'];
+                let options=['A','B','C','D','E','F','G'];
 		console.log("scanning...");
                 while(start>=0){
                         start=raw.indexOf("\n"+i+".",start);
                         if(start<0) break;
                         let end=start;
                         let type="radio"
-                        for(let j=0;j<4;j++){
+                        for(let j=0;j<options.length;j++){
                                 let option=options[j];
                                 end=raw.indexOf(option+".",start);
                                 next=raw.indexOf("\n"+(i+1)+".",start);

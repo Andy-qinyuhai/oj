@@ -57,7 +57,7 @@ apt-get install -y libmysql++-dev
 apt-get install -y libmariadb-dev libmariadbclient-dev 
 PHP_VER=`apt-cache search php-fpm|grep -e '[[:digit:]]\.[[:digit:]]' -o`
 if [ "$PHP_VER" = "" ] ; then PHP_VER="8.1"; fi
-for pkg in bzip2 flex net-tools make g++ php$PHP_VER-fpm nginx memcached php$PHP_VER-mysql php$PHP_VER-common php$PHP_VER-gd php$PHP_VER-zip php$PHP_VER-mbstring php$PHP_VER-xml php$PHP_VER-curl php$PHP_VER-intl php$PHP_VER-xmlrpc php$PHP_VER-soap php-memcache php-memcached php-yaml php-apcu tzdata
+for pkg in bzip2 fail2ban flex net-tools make g++ php$PHP_VER-fpm nginx memcached php$PHP_VER-mysql php$PHP_VER-common php$PHP_VER-gd php$PHP_VER-zip php$PHP_VER-mbstring php$PHP_VER-xml php$PHP_VER-curl php$PHP_VER-intl php$PHP_VER-xmlrpc php$PHP_VER-soap php-memcache php-memcached php-yaml php-apcu tzdata
 do
         while ! apt-get install -y "$pkg"
         do
@@ -205,6 +205,8 @@ systemctl enable nginx
 systemctl enable mariadb
 systemctl enable php$PHP_VER-fpm
 #systemctl enable judged
+systemctl start fail2ban
+systemctl enable fail2ban
 
 if ps -C memcached; then 
     sed -i 's/static  $OJ_MEMCACHE=false;/static  $OJ_MEMCACHE=true;/g' /home/judge/src/web/include/db_info.inc.php

@@ -11,7 +11,7 @@ RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommen
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends        libmysql++-dev 
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends        build-essential 
 #RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends        flex 
-RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends       g++ 
+RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends        g++ 
 #RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends       python 
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends        python3 
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends	fp-compiler 
@@ -19,7 +19,7 @@ RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommen
 #RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends	mono-devel 
 #RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends	busybox 
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends	dos2unix
-RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends        openjdk-17-jdk
+RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends      openjdk-17-jdk
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends	iptables 
 RUN    	DEBIAN_FRONTEND=noninteractive  apt-get -y install --no-install-recommends	wget
 RUN     apt-get -y install sqlite3

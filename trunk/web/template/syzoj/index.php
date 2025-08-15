@@ -146,14 +146,17 @@
                                     .bbcode_to_html($row["content"])."</td></tr>";
                             }
                         }
-                        ?>
+                        if($NOIP_flag[0]==0){?>
                          <tr><td>
                                 <center> Recent submission :
                                         <?php echo $speed?> .
                                         <div id=submission style="width:80%;height:300px"></div>
-                                </center>
-
+                                </center>                        
                         </td></tr>
+						<?php
+                        }
+                        /* NOIP赛制比赛时，暂时屏蔽  */
+                        ?>	
                     </tbody>
                 </table>
             </div>        

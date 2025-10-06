@@ -29,6 +29,7 @@ if (isset($_GET['cid'])) {
         if(!empty($pids)) $pids=implode(",",$pids);
 	$cnt = 0;
 	$noip = (time()<$end_time) && (stripos($view_title,$OJ_NOIP_KEYWORD)!==false ||contest_locked($cid,16)  );
+	$hide_others=contest_locked($cid,8);
 	if(isset($_SESSION[$OJ_NAME.'_'."administrator"])||
 		isset($_SESSION[$OJ_NAME.'_'."m$cid"])||
 		isset($_SESSION[$OJ_NAME.'_'."source_browser"])||
@@ -74,6 +75,7 @@ if (isset($_GET['cid'])) {
 				$view_problemset[$cnt][2] = "<a href='problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";				
 			}
 		}
+
 		$is_ac = false;
 		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
 			$sql = "SELECT MIN(result) AS `min_result` FROM `solution` WHERE `user_id`=? and `result` >=4 and `problem_id` =?";

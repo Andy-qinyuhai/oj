@@ -1,6 +1,7 @@
 用Docker进行部署可以参考下面的内容
 ==
 
+[yemaster提供的Docker打包](https://github.com/yemaster/hustoj-docker)
 
 Dockerfile
 --
@@ -48,7 +49,7 @@ mkdir hustoj
 cd hustoj
 wget -O Dockerfile http://dl.hustoj.com/Dockerfile.worker
 docker build . -t worker
-docker run -d -p8080:80 --name hustojcontainer worker
+docker run -d -p 8080:80 --name hustojcontainer worker
 docker ps 
 ```
 
